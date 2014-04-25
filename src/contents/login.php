@@ -6,7 +6,7 @@
 			$userid = $_GET["user"];
 			
 			$query = $this->coffee->db()->prepare("SELECT firstname, lastname FROM Users WHERE id = ?");
-			$query->bind_param("i", $id);
+			$query->bind_param("i", $userid);
 			$query->execute();
 			$query->bind_result($first, $last);
 			$query->fetch();
@@ -45,7 +45,7 @@
 							}).done(function(res) {
 								var result = JSON.parse(res);
 								if(result.okay) {
-									
+									location.href = "?action=buy&user=<?php echo($userid); ?>&code=" + code;
 								}
 								else {
 									for(var i in display) {
