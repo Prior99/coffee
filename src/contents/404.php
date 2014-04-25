@@ -5,7 +5,7 @@
 		{
 			?>
 				<h1>Wie bitte?</h1>
-				<p>Der Inhalt "<?php echo($_GET["action"]); ?>", den Sie versuchen aufzurufen, ist dem Server nicht bekannt. Bitte surfen Sie zurück in bekannte Gewässer.</p>
+				<p>Was wollen Sie von mir? Ich weiss nichts von einem "<?php echo($_GET["action"]); ?>" und selbst wenn, würde ich es Ihnen ganz bestimmt nicht verraten.</p>
 			<?php
 		}
 	}

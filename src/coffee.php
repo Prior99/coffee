@@ -4,9 +4,12 @@
 	require_once("contents/userlist.php");
 	require_once("contents/404.php");
 	require_once("contents/login.php");
+	require_once("contents/buy.php");
 	require_once("json/userlist.php");
 	require_once("json/validatecode.php");
 	require_once("json/empty.php");
+	require_once("json/buy.php");
+	require_once("json/products.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
 		public $querys; //Number of query executed by now
@@ -63,6 +66,8 @@
 				$content = new ContentUserlist($this);
 			else if($command == "login")
 				$content = new ContentLogin($this);
+			else if($command == "buy")
+				$content = new ContentBuy($this);
 			else
 				$content = new Content404($this);
 			$content->printHTML();
@@ -76,6 +81,10 @@
 				$json = new JSONUserlist($this);
 			else if($command == "validate")
 				$json = new JSONValidate($this);
+			else if($command == "buy")
+				$json = new JSONBuy($this);
+			else if($command == "products")
+				$json = new JSONProducts($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();
@@ -85,6 +94,15 @@
 		 */
 		public function __destruct() {
 			$this->dba->close();
+		}
+		
+		public function checkPassword($user, $password) {
+			$query = $this->db()->prepare("SELECT id FROM Users WHERE id = ? AND password = ?");
+			$query->bind_param("ii", $user, $password);
+			$query->execute();
+			$f = ($query->fetch() != null);
+			$query->close();
+			return $f;
 		}
 	}
 ?>
