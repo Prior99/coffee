@@ -1,0 +1,50 @@
+<?php
+	/*
+	 */
+	class ContentUserlist extends Content
+	{		
+		/*
+		 * Render the page
+		 */
+		public function printHTML()
+		{
+			?>
+				<div class="username">
+					<input type="text" name="search" value="Suchen">
+				</div>
+				<div id="userlist">
+				</div>
+				<script type="text/javascript">
+					$.ajax({
+						url : "?json=userlist",
+					}).done(function(res) {
+						var userlist = $("#userlist");
+						var response = JSON.parse(res);
+						function generateList(arr) {			
+							userlist.html("");
+							for(var index in arr) {
+								var user = arr[index];
+								userlist.append("<div class='username'>" + user.firstname + " " + user.lastname + "</div>");	
+							}
+						};
+						generateList(response);
+						var search = $("input[name='search']");
+						search.keyup(function() {
+							var value = search.val();
+							var arr = [];
+							for(var index in response) {
+								var user = response[index];
+								if(user.firstname.indexOf(value) !== -1 || user.lastname.indexOf(value) !== -1) {
+									arr.push(user);
+								}
+							}
+							generateList(arr);
+						}).click(function() {
+							search.val("");
+						});
+					});
+				</script>
+			<?php
+		}
+	}
+?>
