@@ -4,14 +4,27 @@
 		public function printHTML()
 		{
 			$userid = $_GET["user"];
+			
+			$query = $this->coffee->db()->prepare("SELECT firstname, lastname FROM Users WHERE id = ?");
+			$query->bind_param("i", $id);
+			$query->execute();
+			$query->bind_result($first, $last);
+			$query->fetch();
+			$name = $first." ".$last;
+			$query->close();
 			?>
+				<p>Als <?php echo($name); ?> anmelden:</p>
 				<div class="codedisplay">
-					<div id="display" class="wrapper">
+					<div id="display" class="wrapper2">
 					</div>
 				</div>
 				<table id="code" class="code">
 				
 				</table>
+				<br />
+				<div style="text-align: center;">
+					<a href="index.php">Abbrechen</a>
+				</div>
 				<script type="text/javascript">
 					var table = $("#code");
 					var display = [];
