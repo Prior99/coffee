@@ -1,11 +1,6 @@
 <?php
-	/*
-	 */
 	class ContentUserlist extends Content
 	{		
-		/*
-		 * Render the page
-		 */
 		public function printHTML()
 		{
 			?>
@@ -24,7 +19,13 @@
 							userlist.html("");
 							for(var index in arr) {
 								var user = arr[index];
-								userlist.append("<div class='username'>" + user.firstname + " " + user.lastname + "</div>");	
+								userlist.append(
+									$("<a></a>")
+										.append("<div class='username'>" + user.firstname + " " + user.lastname + "</div>")
+										.attr({
+											href : "?action=login&user=" + user.id
+										})
+									);	
 							}
 						};
 						generateList(response);

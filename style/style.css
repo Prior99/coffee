@@ -41,7 +41,7 @@ input {
 	font-size: 30px;
 	width: 100%;
 	background-color: rgb(159, 145, 132);
-	color: rgba(106, 86, 71, 0.9);
+	color: rgb(106, 86, 71);
 	padding-bottom: 2px;
 }
 
@@ -55,10 +55,36 @@ div.username {
 	margin-top: 2px;
 }
 
+a{
+	color: rgb(36, 27, 22);
+	text-decoration: none;
+}
+div.username:active{
+	background-color: rgb(159, 145, 132);
+	color: rgb(106, 86, 71);
+}
+
 body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Share Tech', sans-serif;
 	color: rgb(36, 27, 22);
 	background-color: rgba(106, 86, 71, 0.9);
+}
+
+table.code {
+	width: 100%;
+}
+
+table.code tr td {
+	height: 100%;
+	background-color: rgba(77, 57, 42, 0.9);
+	color: white;
+	font-size: 70px;
+	text-align: center;
+}
+
+table.code tr td:active{
+	background-color: rgb(159, 145, 132);
+	color: rgb(106, 86, 71);
 }

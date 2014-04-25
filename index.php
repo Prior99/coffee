@@ -3,7 +3,7 @@
 	require_once("src/coffee.php");
 	$time = microtime(true); //Start of timemeasurement
 	$coffee = new Coffee();
-	if(!$_GET["json"]) {
+	if(!isset($_GET["json"])) {
 ?>
 
 <!DOCTYPE HTML>
@@ -16,11 +16,14 @@
 <body>
 	
 	<div class="title">
-		BENUTEZRWAHL
+		BENUTZERWAHL
 	</div>
 	<div class="content">
 		<?php
-			$coffee->printHTML();
+			if(!isset($_GET["action"])) {
+				$_GET["action"] = "userlist";
+			}
+			$coffee->printHTML($_GET["action"]);
 		?>
 	</div>
 	<div class="footer">

@@ -1,11 +1,6 @@
 <?php
-	/*
-	 */
 	class JSONUserlist extends JSON
 	{		
-		/*
-		 * Render the page
-		 */
 		public function printJSON()
 		{
 			$query = $this->coffee->db()->prepare("SELECT id, firstname, lastname FROM Users");
