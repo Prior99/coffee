@@ -4,9 +4,13 @@
 		public function printHTML()
 		{
 			?>
-				<div class="username">
-					<input type="text" name="search" value="Suchen">
-				</div>
+				<input 
+					type="text" 
+					name="search" 
+					autocomplete="off" 
+					value="Suchen" 
+					style="margin-bottom: 10px;" 
+				/>
 				<div id="userlist">
 				</div>
 				<script type="text/javascript">

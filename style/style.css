@@ -76,7 +76,8 @@ table.code {
 	width: 100%;
 }
 
-table.code tr td {
+table.code tr td,
+table.code tr th {
 	height: 100%;
 	background-color: rgba(77, 57, 42, 0.9);
 	color: white;
@@ -84,7 +85,19 @@ table.code tr td {
 	text-align: center;
 }
 
-table.code tr td:active{
+table.code tr td:active,
+table.code tr th:active {
 	background-color: rgb(159, 145, 132);
 	color: rgb(106, 86, 71);
+}
+
+div.display {
+	text-align: center;
+}
+
+div.display div{
+	background-color: rgb(159, 145, 132);
+	color: rgb(106, 86, 71);
+	display: block;
+	
 }
