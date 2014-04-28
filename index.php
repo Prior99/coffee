@@ -22,6 +22,9 @@
 <body>
 	<div class="wrapper">
 		<div class="title">
+			<a style="left: 0px; position: absolute;" href="?action=<?php echo($_GET["action"]); ?>&help=true">
+				<img src="style/help.svg" />
+			</a>
 			<?php
 				$coffee->printTitle();
 			?>
