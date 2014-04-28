@@ -13,8 +13,8 @@
 				?>
 					<div id="products"></div>
 					<div style="text-align: center;">
-						<a href="index.php">Abbrechen</a> | 
-						<a href="#" id="buy">Okay</a>
+						<a href="index.php">Beenden</a> | 
+						<a href="#" id="buy">Kaufen</a>
 					</div>
 					<script type="text/javascript">
 						$.ajax({
@@ -34,11 +34,45 @@
 									var product = result[i];
 									var counter = $("<div style='float:right;'>" + product.amount + "</div>");
 									product.div = counter;
-									$("<div class='product'></div>").appendTo(products).append(counter).append($("<div>" + product.name + "</div>").click(function() {
-										if(product.bought === undefined) product.bought = 0;
-										product.bought++;
-										updateCounter(counter, product.amount, product.bought);
-									}));
+									var pressTime = 0;
+									var timeout;
+									function down() {
+										pressTime = new Date().getTime();
+										timeout = setTimeout(function() {
+											if(product.bought !== undefined && product.bought > 0) {
+												product.bought--;
+												updateCounter(counter, product.amount, product.bought);
+											}
+										}, 700);
+									}
+									function up() {
+										var time = new Date().getTime() - pressTime;
+										if(time < 700) {
+											clearTimeout(timeout);
+											if(product.bought === undefined) { 
+												product.bought = 0;
+											}
+											product.bought++;
+											updateCounter(counter, product.amount, product.bought);
+											pressTime = 0;
+										}
+									}
+									$("<div class='product'></div>")
+										.attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false)
+										.appendTo(products).append(counter).append($("<div>" + product.name + "</div>")
+										.on("touchstart", function(e) {
+											down();
+											e.stopPropagation();
+											e.preventDefault();
+										})
+										.on("touchend", function(e) {
+											up();
+											e.stopPropagation();
+											e.preventDefault();
+										})
+										.on("mousedown", down)
+										.on("mouseup", up)
+									);
 								})(i);
 							}
 							$("#buy").click(function() {

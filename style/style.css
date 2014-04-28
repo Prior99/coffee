@@ -2,7 +2,6 @@ div.title, div.content {
 }
 
 
-
 div.title {
 	height: 50px;
 	text-align: center;
@@ -84,10 +83,9 @@ div.product:active {
 body {
 	margin: 0;
 	padding: 0;
-	font-family: 'Share Tech', sans-serif;
 	color: rgb(36, 27, 22);
 	height: 100%;
-	background-image: url('../background.png');
+	background-image: url('background.png');
 	background-attachment: fixed;
 }
 
