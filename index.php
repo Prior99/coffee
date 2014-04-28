@@ -8,9 +8,10 @@
 
 <!DOCTYPE HTML>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="style/style.css" />
-	<link href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css' />
+	<!--<link href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css' />-->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body>

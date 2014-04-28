@@ -27,8 +27,8 @@
 									var product = result[i];
 									var counter = $("<div style='float:right;'></div>");
 									$("<div class='product'></div>").appendTo(products).append(counter).append($("<div>" + product.name + "</div>").click(function() {
+										counter.html("... +"+count);
 										count++;
-										counter.html("OK");
 										$.ajax({
 											url:"?json=buy&user=<?php echo($_GET["user"]); ?>&code=<?php echo($_GET["code"]); ?>&product=" + product.id
 										}).done(function() {

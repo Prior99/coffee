@@ -24,7 +24,7 @@
 							for(var index in arr) {
 								var user = arr[index];
 								userlist.append(
-									$("<a></a>")
+									$("<a class='username'></a>")
 										.append("<div class='username'>" + user.firstname + " " + user.lastname + "</div>")
 										.attr({
 											href : "?action=login&user=" + user.id
@@ -35,11 +35,11 @@
 						generateList(response);
 						var search = $("input[name='search']");
 						search.keyup(function() {
-							var value = search.val();
+							var value = search.val().toLowerCase();
 							var arr = [];
 							for(var index in response) {
 								var user = response[index];
-								if(user.firstname.indexOf(value) !== -1 || user.lastname.indexOf(value) !== -1) {
+								if(user.firstname.toLowerCase().indexOf(value) !== -1 || user.lastname.toLowerCase().indexOf(value) !== -1) {
 									arr.push(user);
 								}
 							}

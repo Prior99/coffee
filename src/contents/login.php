@@ -13,7 +13,7 @@
 			$name = $first." ".$last;
 			$query->close();
 			?>
-				<p>Als <?php echo($name); ?> anmelden:</p>
+				<!--<p>Als <?php echo($name); ?> anmelden:</p>-->
 				<div class="codedisplay">
 					<div id="display" class="wrapper2">
 					</div>

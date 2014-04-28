@@ -4,10 +4,10 @@ div.title, div.content {
 
 
 div.title {
-	height: 70px;
+	height: 50px;
 	text-align: center;
 	color: white;
-	font-size: 70px;
+	font-size: 30pt;
 	padding-bottom: 5px;
 	padding-top: 5px;
 	background-color: rgba(77, 57, 42, 0.9);
@@ -19,7 +19,7 @@ div.footer {
 	height: 40px;
 	text-align: center;
 	color: white;
-	font-size: 25px;
+	font-size: 12pt;
 	width: 100%;
 	padding-bottom: 5px;
 	padding-top: 5px;
@@ -32,16 +32,16 @@ div.footer {
 div.content {
 	padding-left: 10px;
 	padding-right: 10px;
-	padding-top: 90px;
+	padding-top: 70px;
 	padding-bottom: 50px;
-	font-size: 30px;
+	font-size: 20pt;
 
 }
 
 input {
 	border: none;
 	height: 35px;
-	font-size: 30px;
+	font-size: 20pt;
 	width: 100%;
 	background-color: rgb(159, 145, 132);
 	color: rgb(106, 86, 71);
@@ -51,12 +51,20 @@ input {
 div.username, 
 div.product {
 	border-bottom: 1px solid rgb(36, 27, 22);
-	height: 50px;
-	font-size: 45px;
+	height: 40px;
+	font-size: 24pt;
 	padding-top:2px;
 	padding-left:10px;
 	padding-right:10px;
+	width: 100%;
 	margin-top: 2px;
+	overflow: hidden;
+}
+
+a.username{
+	width: auto;
+	height: auto;
+	overflow: hidden;
 }
 
 a{
@@ -100,7 +108,7 @@ table.code tr th {
 	height: 100%;
 	background-color: rgba(77, 57, 42, 0.9);
 	color: white;
-	font-size: 70px;
+	font-size: 30pt;
 	text-align: center;
 }
 
@@ -123,7 +131,7 @@ div.codedisplay div.wrapper2 {
 	display: block;
 	height: auto;
 	overflow:auto;
-	width: 255px;
+	width: 195px;
 }
 
 div#userlist a:hover {
@@ -134,11 +142,11 @@ div.codedisplay div.char{
 	background-color: rgb(159, 145, 132);
 	color: rgb(106, 86, 71);
 	display: block;
-	height: 70px;
+	height: 50px;
 	float: left;
 	padding:10px;
-	width: 60px;
-	font-size:70px;
+	width: 40px;
+	font-size:40pt;
 	margin-left: 5px;
 	transition: background-color 0.2s; 
 	transition: color 0.2s; 
