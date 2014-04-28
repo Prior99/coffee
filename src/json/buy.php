@@ -8,7 +8,7 @@
 				$query = $this->coffee->db()->prepare("INSERT INTO Transactions(user, product, date) VALUES(?, ?, ?)");
 				$query->bind_param("iii", $_GET["user"], $_GET["product"], $time);
 				$query->execute();
-				$query->close();
+				$query->close();	
 			}
 		}
 	}

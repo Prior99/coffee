@@ -8,7 +8,7 @@
 
 <!DOCTYPE HTML>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1, user-scalable=0" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="style/style.css" />
 	<!--<link href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css' />-->
