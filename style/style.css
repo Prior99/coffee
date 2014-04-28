@@ -81,6 +81,7 @@ div.product:active {
 }
 
 body {
+	font-family: 'Fantasque Sans Mono';
 	margin: 0;
 	padding: 0;
 	color: rgb(36, 27, 22);

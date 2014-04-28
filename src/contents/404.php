@@ -1,6 +1,10 @@
 <?php
 	class Content404 extends Content
 	{		
+		public function printTitle() {
+			echo("404");
+		}
+		
 		public function printHTML()
 		{
 			?>

@@ -1,6 +1,10 @@
 <?php
 	class ContentUserlist extends Content
 	{		
+		public function printTitle() {
+			echo("Benutzer");
+		}
+		
 		public function printHTML()
 		{
 			?>

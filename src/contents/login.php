@@ -1,17 +1,24 @@
 <?php
 	class ContentLogin extends Content
 	{		
+		public function printTitle() {
+			echo("Anmelden");
+		}
+		
 		public function printHTML()
 		{
 			$userid = $_GET["user"];
 			
-			$query = $this->coffee->db()->prepare("SELECT firstname, lastname FROM Users WHERE id = ?");
+			$query = $this->coffee->db()->prepare("SELECT firstname, lastname, password FROM Users WHERE id = ?");
 			$query->bind_param("i", $userid);
 			$query->execute();
-			$query->bind_result($first, $last);
+			$query->bind_result($first, $last, $password);
 			$query->fetch();
 			$name = $first." ".$last;
 			$query->close();
+			if($password === null) {
+				header("Location: index.php?action=buy&user=".$userid);
+			}
 			?>
 				<!--<p>Als <?php echo($name); ?> anmelden:</p>-->
 				<div class="codedisplay">

@@ -1,12 +1,17 @@
 <?php
 	class ContentBuy extends Content
-	{		
+	{	
+		public function printTitle() {
+			echo("Kaufen");
+		}
+		
 		public function printHTML()
 		{
+			if(!isset($_GET["code"])) $_GET["code"] = -1;
 			if(!$this->coffee->checkPassword($_GET["user"], $_GET["code"])) {
 				?>
 					<h1>Ähem!</h1>
-					<p>Sie sollten nicht hier sein oder? Dürfte ich mal Ihren Ausweis sehen? Und jetzt gehen Sie, bevor ich mich vergesse!</p>
+					<p>Sie sollten nicht hier sein oder? Dürfte ich mal Ihren Ausweis sehen? </p>
 				<?php
 			}
 			else {
