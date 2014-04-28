@@ -31,9 +31,9 @@
 				$coffee->printHTML();
 			?>
 		</div>
-		<div class="footer">
+		<!--<div class="footer">
 			Generated in  <?php echo(number_format((microtime(true)-$time)/1000, 3)); ?>ms | <?php echo($coffee->querys); ?> SQL-Queries
-		</div>
+		</div>-->
 	</div>
 </body>
 

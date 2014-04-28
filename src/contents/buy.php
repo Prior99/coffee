@@ -2,7 +2,12 @@
 	class ContentBuy extends Content
 	{	
 		public function printTitle() {
-			echo("Kaufen");
+			?>
+				Kaufen
+				<a style="right: 0px; position: absolute;" href="?action=settings&user=<?php echo($_GET["user"]); ?>&code=<?php echo($_GET["code"]); ?>">
+					<img src="style/settings.svg" />
+				</a>
+			<?php
 		}
 		
 		public function printHTML()
