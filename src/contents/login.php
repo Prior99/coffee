@@ -74,23 +74,43 @@
 						var tr = $("<tr></tr>").appendTo(table);
 						for(var j = 1; j <= 3; j++) {
 							(function (x) {
-								var td = $("<td>" + x + "</td>").appendTo(tr).click(function() {
-									selected(x);
-								});
+								var td = $("<td>" + x + "</td>").appendTo(tr)
+									.on("mouseup", function() {
+										selected(x);
+									})
+									.on("touchend", function(e) {
+										selected(x);
+										e.stopPropagation();
+										e.preventDefault();
+									});
 							})(j + 3*i);
 							
 						}
 						table.append(tr);
 					}
-					var zero = $("<td>0</td>").click(function() {
-						selected(0);
-					});
-					table.append($("<tr></tr>").append(zero).append($("<th colspan='2'> &larr; </th>").click(function() {
+					var zero = $("<td>0</td>")
+						.on("mouseup", function() {
+							selected(0);
+						})
+						.on("touchend", function(e) {
+							selected(0);
+							e.stopPropagation();
+							e.preventDefault();
+						});
+					function backspace() {
 						if(index == 0) return;
 						selection.pop();
 						display[--index].html("");
 						console.log(selection);
-					})));
+					}
+					table.append($("<tr></tr>").append(zero).append($("<th colspan='2'> &larr; </th>")
+						.on("mouseup", function() {
+							backspace();
+						}).on("touchend", function(e) {
+							backspace();
+							e.stopPropagation();
+							e.preventDefault();
+						})));						
 				</script>
 			<?php
 		}
