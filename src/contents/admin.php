@@ -31,7 +31,21 @@
 				<table id="report">
 				
 				</table>
+				<p>In öffentlichen Geräten werden Benutzer automatisch nach kurzer Zeit der Inaktivität abgemeldet. 
+				Auf privaten Geräten führt ein Aufrufen der Wurzelseite nicht zur Benutzerliste sondern direkt zum Kaufen.</p>
+				<p><input type="checkbox" id="open"/> Dies ist ein öffentliches Gerät</p>
 				<script type="text/javascript">
+					var open = $("#open");
+					if(getCookie("open")) 
+						open.prop({"checked" : true});
+					open.click(function() {
+						if(open.prop("checked")) {
+							setCookie("open", true, 365);
+						}
+						else {
+							deleteCookie("open");	
+						}
+					});
 					$("#import").click(function () {
 						console.log("click");
 						var form = new FormData($("#form")[0]);
