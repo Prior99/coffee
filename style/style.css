@@ -81,14 +81,18 @@ a:hover {
 	text-decoration: underline;
 }
 
+div#products,
+div#userlist {
+	width: 100%;
+	padding: none;
+}
+
 a.username, 
 a.product {
 	border-bottom: 1px solid rgb(36, 27, 22);
 	height: 38px;
 	font-size: 24pt;
 	padding-top:4px;
-	padding-left:10px;
-	padding-right:10px;
 	margin-top: 2px;
 	overflow: hidden;
 	width: 100%;
