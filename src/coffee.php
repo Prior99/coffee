@@ -133,6 +133,20 @@
 			return $f;
 		}
 		
+		public function getUsername() {
+			$id = $this->getUser();
+			if($id == -1) return null;
+			else {
+				$query = $this->db()->prepare("SELECT firstname, lastname FROM Users WHERE id = ?");
+				$query->bind_param("i", $id);
+				$query->execute();
+				$query->bind_result($firstname, $lastname);
+				$query->fetch();
+				$query->close();
+				return $firstname." ".$lastname;
+			}
+		}
+		
 		public function getCode() {
 			if(isset($_GET["code"])) return $_GET["code"];
 			if(!isset($_COOKIE["code"])) return -1;

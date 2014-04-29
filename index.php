@@ -23,9 +23,7 @@
 <body>
 	<div class="wrapper">
 		<div class="title">
-			<a style="left: 0px; position: absolute;" href="?action=<?php echo($_GET["action"]); ?>&help=true">
-				<img src="style/help.svg" />
-			</a>
+			
 			<?php
 				$coffee->printTitle();
 			?>
@@ -35,9 +33,25 @@
 				$coffee->printHTML();
 			?>
 		</div>
-		<!--<div class="footer">
-			Generated in  <?php echo(number_format((microtime(true)-$time)/1000, 3)); ?>ms | <?php echo($coffee->querys); ?> SQL-Queries
-		</div>-->
+		<div class="footer">
+			<a style="left: 0px; position: absolute;" href="?action=<?php echo($_GET["action"]); ?>&help=true">
+				<img src="style/help.svg" height=30/>
+			</a>
+			<?php
+				$username = $coffee->getUsername();
+				if($username === null) {
+					echo("<a href='?action=impressum'>Impressum</a>"); 
+				}
+				else {
+					echo($username);
+					?>
+						<a style="right: 0px; position: absolute;" href="?action=settings">
+							<img src="style/settings.svg" height=30/>
+						</a>
+					<?php
+				}
+			?>
+		</div>
 	</div>
 </body>
 

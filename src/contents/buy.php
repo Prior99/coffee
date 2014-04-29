@@ -4,9 +4,6 @@
 		public function printTitle() {
 			?>
 				Kaufen
-				<a style="right: 0px; position: absolute;" href="?action=settings">
-					<img src="style/settings.svg" />
-				</a>
 			<?php
 		}
 		

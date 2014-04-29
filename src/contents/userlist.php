@@ -7,6 +7,13 @@
 		
 		public function printHTML()
 		{
+			if($this->coffee->getUser() != -1 || $this->coffee->getCode() != -1) {
+				setcookie("user", null, -3600, "/");
+				setcookie("code", null, -3600, "/");
+				unset($_COOKIE["user"]);
+				unset($_COOKIE["code"]);
+				header("Location: index.php");
+			}
 			?>
 				<input 
 					type="text" 
