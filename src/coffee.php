@@ -132,7 +132,7 @@
 		}
 		
 		public function getCode() {
-			if(!isset($_GET["code"])) return null;
+			if(!isset($_GET["code"])) return -1;
 			return $_GET["code"];
 		}
 	}
