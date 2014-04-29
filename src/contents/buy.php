@@ -4,7 +4,7 @@
 		public function printTitle() {
 			?>
 				Kaufen
-				<a style="right: 0px; position: absolute;" href="?action=settings&user=<?php echo($_GET["user"]); ?>&code=<?php echo($_GET["code"]); ?>">
+				<a style="right: 0px; position: absolute;" href="?action=settings&user=<?php echo($_GET["user"]); ?>&code=<?php echo($this->coffee->getCode()); ?>">
 					<img src="style/settings.svg" />
 				</a>
 			<?php

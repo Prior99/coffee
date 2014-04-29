@@ -37,7 +37,20 @@ div.content {
 
 }
 
-input {
+input[type="file"] {
+	border: none;
+	height: 35px;
+	font-size: 20pt;
+	background-color: rgb(159, 145, 132);
+	color: rgb(106, 86, 71);
+	padding-bottom: 2px;
+}
+button {
+	height: 35px;
+	font-size: 20pt;
+}
+
+input[type="text"]  {
 	border: none;
 	height: 35px;
 	font-size: 20pt;
@@ -45,6 +58,14 @@ input {
 	background-color: rgb(159, 145, 132);
 	color: rgb(106, 86, 71);
 	padding-bottom: 2px;
+}
+
+input[type="checkbox"] {
+	height: 35px;
+	width: 35px;
+	background-color: rgb(159, 145, 132);
+	border-bottom: 1px solid rgb(36, 27, 22);
+	vertical-align:middle;
 }
 
 div.username, 
@@ -127,7 +148,7 @@ div.codedisplay {
 div.codedisplay div.wrapper2 {
 	margin: auto;
 	display: block;
-	height: auto;
+	height: 74px;
 	overflow:auto;
 	width: 195px;
 }
@@ -135,6 +156,25 @@ div.codedisplay div.wrapper2 {
 div#userlist a:hover {
 	text-decoration: none;
 }
+
+div#bar{
+	background-color: rgba(77, 57, 42, 0.9);
+	height: 35px;
+	width: 0%;
+	text-align: center;
+	color: white;
+	padding-top: 5px;
+}
+
+div#progress {
+	height: 40px;
+	width: 100%;
+	background-color: rgb(159, 145, 132);
+	padding: 2px;
+	transition: width 0.1s;
+	
+}
+
 
 div.codedisplay div.char{
 	background-color: rgb(159, 145, 132);

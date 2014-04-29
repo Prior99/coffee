@@ -5,11 +5,15 @@
 	require_once("contents/404.php");
 	require_once("contents/login.php");
 	require_once("contents/buy.php");
+	require_once("contents/settings.php");
+	require_once("contents/admin.php");
 	require_once("json/userlist.php");
 	require_once("json/validatecode.php");
 	require_once("json/empty.php");
+	require_once("json/options.php");
 	require_once("json/buy.php");
 	require_once("json/products.php");
+	require_once("json/import.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
 		public $querys; //Number of query executed by now
@@ -87,6 +91,10 @@
 				$json = new JSONBuy($this);
 			else if($command == "products")
 				$json = new JSONProducts($this);
+			else if($command == "options")
+				$json = new JSONOptions($this);
+			else if($command == "import")
+				$json = new JSONImport($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();
@@ -105,6 +113,10 @@
 				$content = new ContentLogin($this);
 			else if($command == "buy")
 				$content = new ContentBuy($this);
+			else if($command == "settings")
+				$content = new ContentSettings($this);
+			else if($command == "admin")
+				$content = new ContentAdmin($this);
 			else
 				$content = new Content404($this);
 			$this->content = $content;
@@ -117,6 +129,11 @@
 			$f = ($query->fetch() != null);
 			$query->close();
 			return $f;
+		}
+		
+		public function getCode() {
+			if(!isset($_GET["code"])) return null;
+			return $_GET["code"];
 		}
 	}
 ?>
