@@ -72,24 +72,6 @@ input[type="checkbox"] {
 	vertical-align:middle;
 }
 
-div.username, 
-div.product {
-	border-bottom: 1px solid rgb(36, 27, 22);
-	height: 38px;
-	font-size: 24pt;
-	padding-top:4px;
-	padding-left:10px;
-	padding-right:10px;
-	margin-top: 2px;
-	overflow: hidden;
-}
-
-a.username{
-	width: auto;
-	height: auto;
-	overflow: hidden;
-}
-
 a{
 	color: rgb(36, 27, 22);
 	text-decoration: none;
@@ -99,12 +81,34 @@ a:hover {
 	text-decoration: underline;
 }
 
-div.username:active,
-div.product:active,
-div.username:click,
-div.product:click,
-div.username:hover,
-div.product:hover {
+a.username, 
+a.product {
+	border-bottom: 1px solid rgb(36, 27, 22);
+	height: 38px;
+	font-size: 24pt;
+	padding-top:4px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-top: 2px;
+	overflow: hidden;
+	width: 100%;
+	display: block;
+}
+
+a.username:hover,
+a.product:hover {
+	text-decoration: none;
+}
+
+a.username{
+	width: auto;
+	height: auto;
+	overflow: hidden;
+}
+
+
+a.username:active,
+a.product:active {
 	background-color: rgb(159, 145, 132);
 	color: rgb(106, 86, 71);
 }

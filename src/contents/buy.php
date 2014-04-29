@@ -63,7 +63,7 @@
 											pressTime = 0;
 										}
 									}
-									$("<div class='product'></div>")
+									$("<a class='product'></a>")
 										.attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false)
 										.appendTo(products).append(counter).append($("<div>" + product.name + "</div>")
 										.on("touchstart", function(e) {
