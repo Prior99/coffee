@@ -5,6 +5,13 @@
 			echo("Anmelden");
 		}
 		
+		public function printHelp() {
+			?>
+				<p>Dieser Benutzer wurde mit einem 3-Stelligen Zahlencode gesichert. Bitte geben Sie den korrekten Code ein, um sich anzumelden.</p>
+				<p>Wenn Sie Ihren Code vergessen haben, so melden Sie sich bitte beim Kaffeebeauftragten.</p>
+			<?php
+		}
+		
 		public function printHTML()
 		{
 			$userid = $this->coffee->getUser();

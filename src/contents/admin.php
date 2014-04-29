@@ -4,6 +4,11 @@
 		public function printTitle() {
 			echo("Admin");
 		}
+		public function printHelp() {
+			?>
+				<p>Administratoren sollten nicht die Hilfe aufrufen müssen!</p>
+			<?php
+		}
 		
 		public function printHTML()
 		{

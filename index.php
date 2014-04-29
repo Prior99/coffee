@@ -34,7 +34,7 @@
 			?>
 		</div>
 		<div class="footer">
-			<a style="left: 0px; position: absolute;" href="?action=<?php echo($_GET["action"]); ?>&help=true">
+			<a style="left: 10px; position: absolute;" href="?action=<?php echo($_GET["action"]); ?>&help=true">
 				<img src="style/help.svg" height=30/>
 			</a>
 			<?php
@@ -45,7 +45,7 @@
 				else {
 					echo($username);
 					?>
-						<a style="right: 0px; position: absolute;" href="?action=settings">
+						<a style="right: 10px; position: absolute;" href="?action=settings">
 							<img src="style/settings.svg" height=30/>
 						</a>
 					<?php

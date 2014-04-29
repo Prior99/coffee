@@ -2,13 +2,20 @@
 	class ContentBuy extends Content
 	{	
 		public function printTitle() {
+			echo("Kaufen");
+		}
+		
+		public function printHelp() {
 			?>
-				Kaufen
+				<p>Auf dieser Seite können Sie "Striche" für Ihre konsumierten Getränke machen.</p>
+				<p>Tippen Sie auf ein Getränk um die Zahl an "Strichen", die gemacht werden soll zu erhöhen.</p>
+				<p>Drücken Sie lange auf ein getränk, um einen Strich wieder rückgängig zu machen.</p>
+				<p>Erst wenn sie auf "Kaufen" tippen, werden Ihre Änderungen unwiederruflich gespeichert.</p>
+				<p>Sie können sich jederzeit von hier aus abmelden und zur Benutzerauswahl zurückkehren.</p>
 			<?php
 		}
 		
-		public function printHTML()
-		{
+		public function printHTML() {
 			if(!$this->coffee->checkPassword()) {
 				?>
 					<h1>Ähem!</h1>

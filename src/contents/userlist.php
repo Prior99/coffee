@@ -5,6 +5,15 @@
 			echo("Benutzer");
 		}
 		
+		public function printHelp() {
+			?>
+				<p>Dies ist eine Liste mit allen registrierten Mitarbeitern.</p>
+				<p>Wählen Sie Ihren Namen aus der Liste um Ihre "Striche" machen zu können.</p>
+				<p>Die Suche agiert Live und die Liste wird während der Eingabe oder bei drücken der Entertaste (Firefox) aktualisiert, so finden Sie Ihren Namen schnell.</p>
+				<p>Sollte Ihr Name fehlen, so wenden Sie sich bitte an den Kaffeebeauftragten.</p>
+			<?php
+		}
+		
 		public function printHTML()
 		{
 			if($this->coffee->getUser() != -1 || $this->coffee->getCode() != -1) {

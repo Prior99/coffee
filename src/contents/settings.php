@@ -6,6 +6,14 @@
 			echo("Optionen");
 		}
 		
+		public function printHelp() {
+			?>
+				<p>Hier können Sie Einstellungen für Ihren Account tätigen.</p>
+				<p>Wenn Sie den Haken bei "Code Benutzen" setzen, so wird Ihr Account durch einen 3-Stelligen Zahlencode gesichert.</p>
+				<p>Bitte stellen Sie dann den entsprechenden gewünschten Code ein und Speichern sie gegebenenfalls Ihre Änderungen.</p>
+			<?php
+		}
+		
 		public function printHTML()
 		{
 			if(!$this->coffee->checkPassword()) {

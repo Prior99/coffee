@@ -148,7 +148,9 @@ table.code tr th {
 }
 
 table.code tr td:active,
-table.code tr th:active {
+table.code tr th:active,
+table.code tr td:hover,
+table.code tr th:hover {
 	background-color: rgb(159, 145, 132);
 	color: rgb(106, 86, 71);
 }
