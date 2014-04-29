@@ -30,6 +30,18 @@
 						<a href="#" id="buy">Kaufen</a>
 					</div>
 					<script type="text/javascript">
+						var _refreshTimeout;
+						function refreshTimeout() {
+							if(getCookie("open")) {
+								clearTimeout(_refreshTimeout);
+								_refreshTimeout = setTimeout(function() {
+									deleteCookie("user");
+									deleteCookie("code");
+									location.href = "index.php";
+								}, 3 * 60* 1000);
+							}
+						}
+						refreshTimeout();
 						$.ajax({
 						url : "?json=products"
 						}).done(function(res) {
@@ -50,6 +62,7 @@
 									var pressTime = 0;
 									var timeout;
 									function down() {
+										refreshTimeout();
 										pressTime = new Date().getTime();
 										timeout = setTimeout(function() {
 											if(product.bought !== undefined && product.bought > 0) {
@@ -59,6 +72,7 @@
 										}, 700);
 									}
 									function up() {
+										refreshTimeout();
 										var time = new Date().getTime() - pressTime;
 										if(time < 700) {
 											clearTimeout(timeout);
@@ -94,6 +108,7 @@
 								location.href = "index.php";
 							});
 							$("#buy").click(function() {
+								refreshTimeout();
 								for(var i in result) {
 									var product = result[i];
 									if(product.bought !== undefined && product.bought > 0) {
