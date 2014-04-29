@@ -18,6 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="style/fantasque_sans_mono/stylesheet.css" />
 	<link rel="stylesheet" type="text/css" href="style/style.css" />
 	<script src="lib/jquery.min.js"></script>
+	<script src="lib/cookies.js"></script>
 </head>
 <body>
 	<div class="wrapper">

@@ -3,9 +3,10 @@
 	{		
 		public function printJSON()
 		{
-			if($query = $this->coffee->checkPassword($_GET["user"], $_GET["code"])) {
+			if($query = $this->coffee->checkPassword()) {
+				$user = $this->coffee->getUser();
 				$query = $this->coffee->db()->prepare("SELECT p.name AS name, p.id AS id, COUNT(t.id) AS amount FROM Products p LEFT JOIN Transactions t ON t.product = p.id AND t.user = ? GROUP BY p.id");
-				$query->bind_param("i", $_GET["user"]);
+				$query->bind_param("i", $user);
 				$query->execute();
 				$query->bind_result($name, $id, $amount);
 				$arr = array();

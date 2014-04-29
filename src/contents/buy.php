@@ -4,7 +4,7 @@
 		public function printTitle() {
 			?>
 				Kaufen
-				<a style="right: 0px; position: absolute;" href="?action=settings&user=<?php echo($_GET["user"]); ?>&code=<?php echo($this->coffee->getCode()); ?>">
+				<a style="right: 0px; position: absolute;" href="?action=settings">
 					<img src="style/settings.svg" />
 				</a>
 			<?php
@@ -12,8 +12,7 @@
 		
 		public function printHTML()
 		{
-			if(!isset($_GET["code"])) $_GET["code"] = -1;
-			if(!$this->coffee->checkPassword($_GET["user"], $_GET["code"])) {
+			if(!$this->coffee->checkPassword()) {
 				?>
 					<h1>Ähem!</h1>
 					<p>Sie sollten nicht hier sein oder? Dürfte ich mal Ihren Ausweis sehen? </p>
@@ -23,12 +22,12 @@
 				?>
 					<div id="products"></div>
 					<div style="text-align: center;">
-						<a href="index.php">Beenden</a> | 
+						<a href="#" id="logout">Abmelden</a> | 
 						<a href="#" id="buy">Kaufen</a>
 					</div>
 					<script type="text/javascript">
 						$.ajax({
-						url : "?json=products&user=<?php echo($_GET["user"]); ?>&code=<?php echo($_GET["code"]); ?>"
+						url : "?json=products"
 						}).done(function(res) {
 							function updateCounter(counter, real, pending) {
 								if(pending > 0)
@@ -85,6 +84,11 @@
 									);
 								})(i);
 							}
+							$("#logout").click(function() {
+								deleteCookie("user");
+								deleteCookie("code");
+								location.href = "index.php";
+							});
 							$("#buy").click(function() {
 								for(var i in result) {
 									var product = result[i];
@@ -92,7 +96,7 @@
 										(function(p) {
 											var f = function() {
 												$.ajax({
-													url:"?json=buy&user=<?php echo($_GET["user"]); ?>&code=<?php echo($_GET["code"]); ?>&product=" + p.id
+													url:"?json=buy&product=" + p.id
 												}).done(function() {
 													updateCounter(p.div, ++p.amount, --p.bought);
 													if(p.bought > 0)

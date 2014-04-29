@@ -8,7 +8,7 @@
 		
 		public function printHTML()
 		{
-			if(!$this->coffee->checkPassword($_GET["user"], $this->coffee->getCode())) {
+			if(!$this->coffee->checkPassword()) {
 				?>
 					<h1>Ähem!</h1>
 					<p>Sie sollten nicht hier sein oder? Dürfte ich mal Ihren Ausweis sehen? </p>
@@ -28,7 +28,7 @@
 					</div>
 					<br />
 					<a href="#" id="okay">Speichern</a> | 
-					<a href="#" id="back">Zurück</a>
+					<a href="?action=buy" id="back">Zurück</a>
 					<script type="text/javascript">
 						var check = $("#check");
 						var wrapper = $("#codewrapper");
@@ -147,17 +147,18 @@
 								else {
 									var code = selection[0] * 100 + selection[1] * 10 + selection[2];
 									$.ajax({
-										url: "index.php?json=options&user=<?php echo($_GET["user"]); ?>&code=<?php echo($this->coffee->getCode()); ?>&password=" + code
+										url: "index.php?json=options&password=" + code
 									}).done(function() {
-										location.href = "index.php?action=buy&user=<?php echo($_GET["user"]); ?>"
+										setCookie("code", code, 1);
+										location.href = "index.php?action=buy";
 									});
 								}
 							}
 							else {
 								$.ajax({
-									url: "index.php?json=options&user=<?php echo($_GET["user"]); ?>&code=<?php echo($this->coffee->getCode()); ?>&password=deactivated"
+									url: "index.php?json=options&password=deactivated"
 								}).done(function() {
-									location.href = "index.php?action=buy&user=<?php echo($_GET["user"]); ?>"
+									location.href = "index.php?action=buy";
 								});
 							}
 						});					

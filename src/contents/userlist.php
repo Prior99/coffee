@@ -27,13 +27,15 @@
 							userlist.html("");
 							for(var index in arr) {
 								var user = arr[index];
-								userlist.append(
-									$("<a class='username'></a>")
+								(function(user) {
+									userlist.append($("<a class='username'></a>")
 										.append("<div class='username'>" + user.firstname + " " + user.lastname + "</div>")
-										.attr({
-											href : "?action=login&user=" + user.id
+										.click(function () {
+											setCookie("user", user.id, 1);
+											location.href = "?action=login";
 										})
-									);	
+									);
+								})(user);	
 							}
 						};
 						generateList(response);

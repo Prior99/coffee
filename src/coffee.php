@@ -122,7 +122,9 @@
 			$this->content = $content;
 		}
 		
-		public function checkPassword($user, $password) {
+		public function checkPassword() {
+			$user = $this->getUser();
+			$password = $this->getCode();
 			$query = $this->db()->prepare("SELECT id FROM Users WHERE id = ? AND (password = ? OR password IS NULL)");
 			$query->bind_param("ii", $user, $password);
 			$query->execute();
@@ -132,8 +134,14 @@
 		}
 		
 		public function getCode() {
-			if(!isset($_GET["code"])) return -1;
-			return $_GET["code"];
+			if(isset($_GET["code"])) return $_GET["code"];
+			if(!isset($_COOKIE["code"])) return -1;
+			return $_COOKIE["code"];
+		}
+		public function getUser() {
+			if(isset($_GET["user"])) return $_GET["user"];
+			if(!isset($_COOKIE["user"])) return -1;
+			return $_COOKIE["user"];
 		}
 	}
 ?>

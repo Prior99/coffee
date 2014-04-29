@@ -7,7 +7,7 @@
 		
 		public function printHTML()
 		{
-			$userid = $_GET["user"];
+			$userid = $this->coffee->getUser();
 			
 			$query = $this->coffee->db()->prepare("SELECT firstname, lastname, password FROM Users WHERE id = ?");
 			$query->bind_param("i", $userid);
@@ -20,7 +20,6 @@
 				header("Location: index.php?action=buy&user=".$userid);
 			}
 			?>
-				<!--<p>Als <?php echo($name); ?> anmelden:</p>-->
 				<div class="codedisplay">
 					<div id="display" class="wrapper2">
 					</div>
@@ -48,11 +47,12 @@
 						if(index == 3) {
 							var code = selection[0] * 100 + selection[1] * 10 + selection[2];
 							$.ajax({
-								url : "?json=validate&user=<?php echo($userid); ?>&code=" + code
+								url : "?json=validate&user=" + getCookie("user") + "&code=" + code
 							}).done(function(res) {
 								var result = JSON.parse(res);
 								if(result.okay) {
-									location.href = "?action=buy&user=<?php echo($userid); ?>&code=" + code;
+									setCookie("code", code, 1); 
+									location.href = "?action=buy";
 								}
 								else {
 									for(var i in display) {
