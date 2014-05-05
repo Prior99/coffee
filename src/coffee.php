@@ -14,6 +14,7 @@
 	require_once("json/buy.php");
 	require_once("json/products.php");
 	require_once("json/import.php");
+	require_once("json/export.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
 		public $querys; //Number of query executed by now
@@ -24,8 +25,8 @@
 		 */
 		public function __construct() {
 			session_start(); //Start the session holding the logininformation (possibly)
-			$this->dba = new mysqli($GLOBALS["databaseConfig"]["URL"],$GLOBALS["databaseConfig"]["User"],$GLOBALS["databaseConfig"]["Password"]); //And setup the databaseconnection
-			$this->dba -> select_db($GLOBALS["databaseConfig"]["Database"]); //Select the database to read from
+			$this->dba = new mysqli($GLOBALS["config"]["Host"],$GLOBALS["config"]["User"],$GLOBALS["config"]["Password"]); //And setup the databaseconnection
+			$this->dba -> select_db($GLOBALS["config"]["Database"]); //Select the database to read from
 			echo($this->dba->error); //Echo any errors belonging to the databasesetup
 			$this->checkAndInstallDatabase(); //If neccessary, generate all tables for the database
 		}
@@ -47,19 +48,21 @@
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"firstname		TEXT," . 
 					"lastname		TEXT," .
-					"password		INT)"
+					"password		INT," .
+					"deleted		BOOLEAN DEFAULT FALSE) CHARACTER SET utf8"
 			);
 			$this->db()->query(
-				"CREATE TABLE IF NOT EXISTS Products (" .
+				"CREATE TABLE IF NOT EXISTS Products(" .
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
-					"name			TEXT)"
+					"name			TEXT,".
+					"deleted		BOOLEAN DEFAULT FALSE) CHARACTER SET utf8"
 			);
 			$this->db()->query(
-				"CREATE TABLE IF NOT EXISTS Transactions (" .
+				"CREATE TABLE IF NOT EXISTS Transactions(" .
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"user			INT," .
 					"product		INT," .
-					"date			INT)"
+					"date			INT) CHARACTER SET utf8"
 			);
 		}
 		
@@ -70,6 +73,7 @@
 			if(isset($_GET["help"]) && $_GET["help"] == true) {
 				echo("<h1>Hilfe</h1>");
 				$this->content->printHelp();
+				echo("<br /><a href='?action=" . $_GET["action"] ."'>Zurück</a>");
 			}
 			else {
 				$this->content->printHTML();
@@ -100,6 +104,8 @@
 				$json = new JSONOptions($this);
 			else if($command == "import")
 				$json = new JSONImport($this);
+			else if($command == "export")
+				$json = new JSONExport($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();

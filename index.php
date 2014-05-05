@@ -41,6 +41,7 @@
 				$username = $coffee->getUsername();
 				if($username === null) {
 					echo("<a href='?action=impressum'>Impressum</a>"); 
+					echo(" | <a href='?action=admin'>Admin</a>"); 
 				}
 				else {
 					echo($username);

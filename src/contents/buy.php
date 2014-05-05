@@ -21,6 +21,10 @@
 					<h1>Ähem!</h1>
 					<p>Sie sollten nicht hier sein oder? Dürfte ich mal Ihren Ausweis sehen? </p>
 				<?php
+				setcookie("user", null, -3600, "/");
+				setcookie("code", null, -3600, "/");
+				unset($_COOKIE["user"]);
+				unset($_COOKIE["code"]);
 			}
 			else {
 				?>
@@ -38,7 +42,7 @@
 									deleteCookie("user");
 									deleteCookie("code");
 									location.href = "index.php";
-								}, 3 * 60* 1000);
+								}, 2 * 60* 1000);
 							}
 						}
 						refreshTimeout();

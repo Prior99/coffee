@@ -41,7 +41,7 @@ div.content {
 
 }
 
-input[type="file"] {
+input[type="file"],  input[type="password"] {
 	border: none;
 	height: 35px;
 	font-size: 20pt;
@@ -49,12 +49,13 @@ input[type="file"] {
 	color: rgb(106, 86, 71);
 	padding-bottom: 2px;
 }
-button {
+button,
+select {
 	height: 35px;
 	font-size: 20pt;
 }
 
-input[type="text"]  {
+input[type="text"] {
 	border: none;
 	height: 35px;
 	font-size: 20pt;
@@ -125,10 +126,13 @@ body {
 	height: 100%;
 	background-image: url('background.png');
 	background-attachment: fixed;
+	background-size: 100%;
+	background-repeat:no-repeat;
+	background-position: center center;
 }
 
 div.wrapper {
-	background-color: rgba(106, 86, 71, 0.9);
+	background-color: rgba(106, 86, 71, 0.75);
 	width: 100%;
 	min-height: 100%;
 	position: absolute;
