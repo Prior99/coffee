@@ -31,10 +31,10 @@
 				}
 				echo("\r\n");
 				foreach($ids as $id) {
-					$query = $this->coffee->db()->prepare("SELECT firstname, lastname FROM Users WHERE id = ?");
+					$query = $this->coffee->db()->prepare("SELECT firstname, lastname, deleted FROM Users WHERE id = ?");
 					$query->bind_param("i", $id);
 					$query->execute();
-					$query->bind_result($first, $last);
+					$query->bind_result($first, $last, $deleted);
 					$query->fetch();
 					$query->close();
 					echo($last . ", " . $first);
@@ -42,14 +42,22 @@
 					$query->bind_param("iii", $id, $timestart, $timeend);
 					$query->execute();
 					$query->bind_result($amount);
+					$sum = 0;
+					$amounts = Array();
 					while($query->fetch()) {
-						echo(";".$amount);
+						array_push($amounts, $amount);
+						$sum++;
 					}
 					$query->close();
+					if($sum != 0 || !$deleted) {
+						foreach($amounts as $amount) {
+							echo($amount.";");
+						}
+					}
 					echo("\r\n");
 				}
 				header('Content-type: text/csv; charset=utf-8');
-				//header('Content-Disposition: attachment; filename="coffeeconsumption_' . $year . '_' . $month . '.csv"');
+				header('Content-Disposition: attachment; filename="coffeeconsumption_' . $year . '_' . $month . '.csv"');
 			}
 		}
 	}

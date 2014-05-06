@@ -1,4 +1,3 @@
-
 <?php
 	/*
 	 * Prototype for all JSON

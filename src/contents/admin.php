@@ -73,17 +73,26 @@
 				
 				<a href="#" id="delete_a"><h2>Benutzer löschen</h2></a>
 				<div id="delete_div">
-					<p>Bitte geben Sie einen Benutzer an, der gelöscht werden soll. Bitte überprüfen Sie Ihre Eingaben vor dem Bestätigen, da einmal gelöschte Benutzer nicht wiederhergestellt werden können.</p>
+					<p>Bitte geben Sie einen Benutzer an, der gelöscht werden soll. </p>
+					<p><label>Vorname:</label><input name="delete_firstname" type="text" /></p>
+					<p><label>Nachname:</label><input name="delete_lastname" type="text" /></p>
+					<p><button id="delete_perform">Okay!</button><span id="delete_response"></span></p>
 				</div>
 				
 				<a href="#" id="code_a"><h2>Code Zurücksetzen</h2></a>
 				<div id="code_div">
 					<p>Hat ein Benutzer seinen 3-Stelligen Code vergessen, können Sie hier den Code für diesen Benutzer entfernen.</p>
+					<p><label>Vorname:</label><input name="code_firstname" type="text" /></p>
+					<p><label>Nachname:</label><input name="code_lastname" type="text" /></p>
+					<p><button id="code_perform">Okay!</button><span id="code_response"></span></p>
 				</div>
 				
 				<a href="#" id="add_a"><h2>Benutzer ergänzen</h2></a>
 				<div id="add_div">
-					<p>Hier können Sie ohne großen Aufwand einen einzelnen Benutzer hinzufügen.</p>	
+					<p>Hier können Sie ohne großen Aufwand einen einzelnen Benutzer hinzufügen.</p>
+					<p><label>Vorname:</label><input name="add_firstname" type="text" /></p>
+					<p><label>Nachname:</label><input name="add_lastname" type="text" /></p>
+					<p><button id="add_perform">Okay!</button><span id="add_response"></span></p>
 				</div>
 				<a href="#" id="logout">Als Admin abmelden</a>
 				<script type="text/javascript">
@@ -181,6 +190,75 @@
 								if(str == "") str = "Keine"
 								$("#invalid").html("Folgende zeilen waren ungültig: " + str);
 							}
+						});
+					});
+					
+					/*
+					 * Delete User
+					 */
+					$("#delete_perform").click(function() {
+						var first, last;
+						first = $("input[name='delete_firstname']").val();
+						last =  $("input[name='delete_lastname']").val();
+						$.ajax({
+							url : "?json=delete&firstname=" + first + "&lastname=" + last
+						}).done(function(html) {
+							var response = JSON.parse(html);
+							if(response.okay) {
+								$("#delete_response").html("Benutzer gelöscht!");
+							}
+							else {
+								$("#delete_response").html("Benutzer nicht vorhanden.");
+							}
+							setTimeout(function() {
+								$("#delete_response").html("");
+							}, 2000);
+						});
+					});
+					
+					/*
+					 * Reset code
+					 */
+					$("#code_perform").click(function() {
+						var first, last;
+						first = $("input[name='code_firstname']").val();
+						last =  $("input[name='code_lastname']").val();
+						$.ajax({
+							url : "?json=codereset&firstname=" + first + "&lastname=" + last
+						}).done(function(html) {
+							var response = JSON.parse(html);
+							if(response.okay) {
+								$("#code_response").html("Code zurückgesetzt!");
+							}
+							else {
+								$("#code_response").html("Benutzer nicht vorhanden.");
+							}
+							setTimeout(function() {
+								$("#code_response").html("");
+							}, 2000);
+						});
+					});
+					
+					/*
+					 * Add user
+					 */
+					$("#add_perform").click(function() {
+						var first, last;
+						first = $("input[name='add_firstname']").val();
+						last =  $("input[name='add_lastname']").val();
+						$.ajax({
+							url : "?json=add&firstname=" + first + "&lastname=" + last
+						}).done(function(html) {
+							var response = JSON.parse(html);
+							if(response.okay) {
+								$("#add_response").html("Benutzer ergänzt.");
+							}
+							else {
+								$("#add_response").html("Ein Fehler ist aufgetreten.");
+							}
+							setTimeout(function() {
+								$("#add_response").html("");
+							}, 2000);
 						});
 					});
 				</script>

@@ -3,7 +3,7 @@
 	{		
 		public function printJSON()
 		{
-			$query = $this->coffee->db()->prepare("SELECT id, firstname, lastname FROM Users");
+			$query = $this->coffee->db()->prepare("SELECT id, firstname, lastname FROM Users WHERE deleted = FALSE ORDER BY lastname, FIRSTNAME");
 			$query->execute();
 			$query->bind_result($id, $first, $last);
 			$arr = array();

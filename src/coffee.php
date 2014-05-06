@@ -15,6 +15,9 @@
 	require_once("json/products.php");
 	require_once("json/import.php");
 	require_once("json/export.php");
+	require_once("json/delete.php");
+	require_once("json/add.php");
+	require_once("json/codereset.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
 		public $querys; //Number of query executed by now
@@ -106,6 +109,12 @@
 				$json = new JSONImport($this);
 			else if($command == "export")
 				$json = new JSONExport($this);
+			else if($command == "delete")
+				$json = new JSONDelete($this);
+			else if($command == "add")
+				$json = new JSONAdd($this);
+			else if($command == "codereset")
+				$json = new JSONCodeReset($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();
@@ -156,6 +165,17 @@
 				$query->close();
 				return $firstname." ".$lastname;
 			}
+		}
+		
+		public function getUserIDOf($first, $last) {
+			
+			$query = $this->db()->prepare("SELECT id FROM Users WHERE firstname = ? AND lastname = ?");
+			$query->bind_param("ss", $first, $last);
+			$query->execute();
+			$query->bind_result($id);
+			if(!$query->fetch()) $id = -1;
+			$query->close();
+			return $id;
 		}
 		
 		public function getCode() {

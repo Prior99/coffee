@@ -35,7 +35,7 @@
 					name="search" 
 					autocomplete="off" 
 					value="Suchen" 
-					style="margin-bottom: 10px;" 
+					style="margin-bottom: 10px; width: 100%;" 
 				/>
 				<div id="userlist">
 				</div>
