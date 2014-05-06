@@ -17,6 +17,8 @@
 	require_once("json/export.php");
 	require_once("json/delete.php");
 	require_once("json/add.php");
+	require_once("json/product_add.php");
+	require_once("json/product_delete.php");
 	require_once("json/codereset.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
@@ -58,7 +60,7 @@
 				"CREATE TABLE IF NOT EXISTS Products(" .
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"name			TEXT,".
-					"deleted		BOOLEAN DEFAULT FALSE) CHARACTER SET utf8"
+					"deleted		INT DEFAULT 0) CHARACTER SET utf8"
 			);
 			$this->db()->query(
 				"CREATE TABLE IF NOT EXISTS Transactions(" .
@@ -115,6 +117,10 @@
 				$json = new JSONAdd($this);
 			else if($command == "codereset")
 				$json = new JSONCodeReset($this);
+			else if($command == "product_add")
+				$json = new JSONProductAdd($this);
+			else if($command == "product_delete")
+				$json = new JSONProductDelete($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();

@@ -16,7 +16,7 @@
 			?>
 				<p>Einstellungen, die Sie vornehmen werden sofort automatisch per XHTML-Request vorgenommen. Sie müssen nicht auf einen "Speichern"-Button klicken o.Ä.
 				Bitte achten Sie entsprechend auf Ihre Änderungen, da diese also unwiederruflich sofort durchgeführt werden.</p>
-				<a href="#" id="export_a"><h2>Exportieren</h2></a>
+				<a href="#" id="export_a"><h3>Exportieren</h3></a>
 				<div id="export_div">
 					<p>Sie können sich für jeden Monat eine Liste des Getränkeverbrauchs aller Benutzer als mit Semikolon getrennte CSV-Datei (Microsoft Excel) exportieren.</p>
 					<select size="1" id="month">
@@ -39,7 +39,7 @@
 					<button id="export">Exportieren</button>
 				</div>
 				
-				<a href="#" id="import_a"><h2>Importieren</h2></a>
+				<a href="#" id="import_a"><h3>Importieren</h3></a>
 				<div id="import_div">
 					<p>Sie können eine Liste mit Mitarbeitern aus einer CSV-Datei Importieren. 
 						Die Datei muss mit Semikolon getrennt sein (Microsoft Excel) und exakt 2 Spalten besitzen. 
@@ -64,22 +64,22 @@
 					</div>
 				</div>
 				
-				<a href="#" id="open_a"><h2>Öffentliches Gerät</h2></a>
+				<a href="#" id="open_a"><h3>Öffentliches Gerät</h3></a>
 				<div id="open_div">
 					<p>In öffentlichen Geräten werden Benutzer automatisch nach kurzer Zeit der Inaktivität abgemeldet. 
 					Auf privaten Geräten führt ein Aufrufen der Wurzelseite nicht zur Benutzerliste sondern direkt zum Kaufen.</p>
 					<p><input type="checkbox" id="open"/> Dies ist ein öffentliches Gerät</p>
 				</div>
 				
-				<a href="#" id="delete_a"><h2>Benutzer löschen</h2></a>
+				<a href="#" id="delete_a"><h3>Benutzer löschen</h3></a>
 				<div id="delete_div">
-					<p>Bitte geben Sie einen Benutzer an, der gelöscht werden soll. </p>
+					<p>Bitte beachten Sie, dass der Benutzer nach dem Löschen zwar nicht mehr in der Lage sein wird, sich anzumelden, aber dennoch in den Monaten in den exportierten Tabellen auftauchen wird, in denen er Getränke konsumiert hat. </p>
 					<p><label>Vorname:</label><input name="delete_firstname" type="text" /></p>
 					<p><label>Nachname:</label><input name="delete_lastname" type="text" /></p>
 					<p><button id="delete_perform">Okay!</button><span id="delete_response"></span></p>
 				</div>
 				
-				<a href="#" id="code_a"><h2>Code Zurücksetzen</h2></a>
+				<a href="#" id="code_a"><h3>Code Zurücksetzen</h3></a>
 				<div id="code_div">
 					<p>Hat ein Benutzer seinen 3-Stelligen Code vergessen, können Sie hier den Code für diesen Benutzer entfernen.</p>
 					<p><label>Vorname:</label><input name="code_firstname" type="text" /></p>
@@ -87,13 +87,28 @@
 					<p><button id="code_perform">Okay!</button><span id="code_response"></span></p>
 				</div>
 				
-				<a href="#" id="add_a"><h2>Benutzer ergänzen</h2></a>
+				<a href="#" id="add_a"><h3>Benutzer ergänzen</h3></a>
 				<div id="add_div">
 					<p>Hier können Sie ohne großen Aufwand einen einzelnen Benutzer hinzufügen.</p>
 					<p><label>Vorname:</label><input name="add_firstname" type="text" /></p>
 					<p><label>Nachname:</label><input name="add_lastname" type="text" /></p>
 					<p><button id="add_perform">Okay!</button><span id="add_response"></span></p>
 				</div>
+				
+				<a href="#" id="product_add_a"><h3>Produkt ergänzen</h3></a>
+				<div id="product_add_div">
+					<p>Geben Sie den Namen des Produktes ein, das Sie verfügbar machen wollen:</p>
+					<p><label>Produktname:</label><input name="product_add_name" type="text" /></p>
+					<p><button id="product_add_perform">Okay!</button><span id="product_add_response"></span></p>
+				</div>
+				
+				<a href="#" id="product_delete_a"><h3>Produkt löschen</h3></a>
+				<div id="product_delete_div">
+					<p>Bitte beachten Sie, dass das Produkt in den Monaten in denen es noch verkauft wurde weiterhin angezeigt wird. Es wird nicht mehr möglich sein, dieses Produkt zukünftig zu kaufen.</p>
+					<p><label>Produktname:</label><input name="product_delete_name" type="text" /></p>
+					<p><button id="product_delete_perform">Okay!</button><span id="product_delete_response"></span></p>
+				</div>
+				
 				<a href="#" id="logout">Als Admin abmelden</a>
 				<script type="text/javascript">
 					$("#export_div").hide();
@@ -108,6 +123,10 @@
 					$("#code_a").click(function() { $("#code_div").toggle(); });
 					$("#add_div").hide();
 					$("#add_a").click(function() { $("#add_div").toggle(); });
+					$("#product_add_div").hide();
+					$("#product_add_a").click(function() { $("#product_add_div").toggle(); });
+					$("#product_delete_div").hide();
+					$("#product_delete_a").click(function() { $("#product_delete_div").toggle(); });
 					$("#logout").click(function() {
 						deleteCookie("admin");
 						location.href="index.php";
@@ -258,6 +277,47 @@
 							}
 							setTimeout(function() {
 								$("#add_response").html("");
+							}, 2000);
+						});
+					});
+					
+					/*
+					 * Add product
+					 */
+					$("#product_add_perform").click(function() {
+						var name = $("input[name='product_add_name']").val();
+						$.ajax({
+							url : "?json=product_add&name=" + name
+						}).done(function(html) {
+							var response = JSON.parse(html);
+							if(response.okay) {
+								$("#product_add_response").html("Produkt ergänzt.");
+							}
+							else {
+								$("#product_add_response").html("Ein Fehler ist aufgetreten.");
+							}
+							setTimeout(function() {
+								$("#product_add_response").html("");
+							}, 2000);
+						});
+					});
+					/*
+					 * Delete product
+					 */
+					$("#product_delete_perform").click(function() {
+						var name = $("input[name='product_delete_name']").val();
+						$.ajax({
+							url : "?json=product_delete&name=" + name
+						}).done(function(html) {
+							var response = JSON.parse(html);
+							if(response.okay) {
+								$("#product_delete_response").html("Produkt gelöscht.");
+							}
+							else {
+								$("#product_delete_response").html("Ein Fehler ist aufgetreten.");
+							}
+							setTimeout(function() {
+								$("#product_delete_response").html("");
 							}, 2000);
 						});
 					});

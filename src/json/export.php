@@ -22,7 +22,8 @@
 					array_push($ids, $id);
 				}
 				$query->close();
-				$query = $this->coffee->db()->prepare("SELECT name FROM Products ORDER BY name");
+				$query = $this->coffee->db()->prepare("SELECT name FROM Products WHERE deleted = 0 OR deleted >= ? ORDER BY name");
+				$query->bind_param("i", $timeend);
 				$query->execute();
 				$query->bind_result($product);
 				echo("Mitarbeiter");
@@ -37,24 +38,24 @@
 					$query->bind_result($first, $last, $deleted);
 					$query->fetch();
 					$query->close();
-					echo($last . ", " . $first);
-					$query = $this->coffee->db()->prepare("SELECT COUNT(t.id) AS amount FROM Products p LEFT JOIN Transactions t ON p.id = t.product AND t.user = ? AND t.date >= ? AND t.date <= ? GROUP BY p.id ORDER BY p.name");
-					$query->bind_param("iii", $id, $timestart, $timeend);
+					$query = $this->coffee->db()->prepare("SELECT COUNT(t.id) AS amount FROM Products p LEFT JOIN Transactions t ON p.id = t.product AND t.user = ? AND t.date >= ? AND t.date <= ? WHERE p.deleted = 0 OR p.deleted >= ? GROUP BY p.id ORDER BY p.name");
+					$query->bind_param("iiii", $id, $timestart, $timeend, $timeend);
 					$query->execute();
 					$query->bind_result($amount);
 					$sum = 0;
 					$amounts = Array();
 					while($query->fetch()) {
 						array_push($amounts, $amount);
-						$sum++;
+						$sum+=$amount;
 					}
 					$query->close();
-					if($sum != 0 || !$deleted) {
+					if($sum != 0 || $deleted < 1) {
+						echo($last . ", " . $first);
 						foreach($amounts as $amount) {
-							echo($amount.";");
+							echo(";".$amount);
 						}
+						echo("\r\n");
 					}
-					echo("\r\n");
 				}
 				header('Content-type: text/csv; charset=utf-8');
 				header('Content-Disposition: attachment; filename="coffeeconsumption_' . $year . '_' . $month . '.csv"');
