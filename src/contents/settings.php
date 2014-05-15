@@ -76,7 +76,7 @@
 						for(var i = 0; i < 3; i++) {
 							var t = parseInt(c/pot);
 							c -= t * pot;
-							if(t <= 0) t = "";
+							if(t < 0) t = "";
 							display.push($("<div class='char'>" + t + "</div>").appendTo($("#display")));
 							pot /= 10;
 						}
