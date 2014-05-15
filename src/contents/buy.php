@@ -114,11 +114,15 @@
 								})(i);
 							}
 							$("#logout").click(function() {
+								for(var i in localStorage) {
+									localStorage.removeItem(i);
+								}
 								deleteCookie("user");
 								deleteCookie("code");
 								location.href = "index.php";
 							});
-							$("#buy").click(function() {
+							$("#buy").click(function(e) {
+								e.preventDefault();
 								refreshTimeout();
 								for(var i in result) {
 									var product = result[i];
