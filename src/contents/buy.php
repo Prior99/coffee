@@ -63,6 +63,10 @@
 									var product = result[i];
 									var counter = $("<div style='float:right;'>" + product.amount + "</div>");
 									product.div = counter;
+									if(localStorage[product.name] !== undefined)  {
+										product.bought = localStorage[product.name];
+										updateCounter(counter, product.amount, product.bought);
+									}
 									var pressTime = 0;
 									var timeout;
 									function down() {
@@ -71,6 +75,7 @@
 										timeout = setTimeout(function() {
 											if(product.bought !== undefined && product.bought > 0) {
 												product.bought--;
+												localStorage[product.name] = product.bought;
 												updateCounter(counter, product.amount, product.bought);
 											}
 										}, 700);
@@ -84,8 +89,10 @@
 												product.bought = 0;
 											}
 											product.bought++;
+											localStorage[product.name] = product.bought;
 											updateCounter(counter, product.amount, product.bought);
 											pressTime = 0;
+											console.log(result);
 										}
 									}
 									$("<a class='product'></a>")
@@ -122,6 +129,7 @@
 													url:"?json=buy&product=" + p.id
 												}).done(function() {
 													updateCounter(p.div, ++p.amount, --p.bought);
+													localStorage[p.name] = p.bought;
 													if(p.bought > 0)
 														f();
 												});

@@ -30,8 +30,7 @@
 		 */
 		public function __construct() {
 			session_start(); //Start the session holding the logininformation (possibly)
-			$this->dba = new mysqli($GLOBALS["config"]["Host"],$GLOBALS["config"]["User"],$GLOBALS["config"]["Password"]); //And setup the databaseconnection
-			$this->dba -> select_db($GLOBALS["config"]["Database"]); //Select the database to read from
+			$this->dba = new mysqli($GLOBALS["config"]["Host"],$GLOBALS["config"]["User"],$GLOBALS["config"]["Password"], $GLOBALS["config"]["Database"], $GLOBALS["config"]["Port"]); //And setup the databaseconnection
 			echo($this->dba->error); //Echo any errors belonging to the databasesetup
 			$this->checkAndInstallDatabase(); //If neccessary, generate all tables for the database
 		}
@@ -54,7 +53,9 @@
 					"firstname		TEXT," . 
 					"lastname		TEXT," .
 					"password		INT," .
-					"deleted		BOOLEAN DEFAULT FALSE) CHARACTER SET utf8"
+					"deleted		BOOLEAN DEFAULT FALSE,".
+					"locked			INT,".
+					"login_failures INT) CHARACTER SET utf8"
 			);
 			$this->db()->query(
 				"CREATE TABLE IF NOT EXISTS Products(" .
