@@ -35,15 +35,16 @@
 						</table>
 					</div>
 					<br />
-					<a href="#" id="okay">Speichern</a> | 
-					<a href="?action=buy" id="back">Zurück</a>
+					<a href="#" class="button" id="okay">Speichern</a>
+					<a href="?action=buy" class="button" id="back">Zurück</a>
 					<script type="text/javascript">
 						var check = $("#check");
 						var wrapper = $("#codewrapper");
 						var code = <?php echo($this->coffee->getCode()); ?>;
-						if(code == null) {
+						if(code == null || code == -1) {
 							check.prop({"checked": false});
 							wrapper.hide();
+							code = 0;
 						}
 						else {
 							check.prop({"checked": true});

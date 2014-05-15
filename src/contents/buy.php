@@ -30,8 +30,8 @@
 				?>
 					<div id="products"></div>
 					<div style="text-align: center;">
-						<a href="#" id="logout">Abmelden</a> | 
-						<a href="#" id="buy">Kaufen</a>
+						<a href="#" class="button" id="buy">Kaufen</a>
+						<a href="#" class="button" id="logout">Abmelden</a>
 					</div>
 					<script type="text/javascript">
 						var _refreshTimeout;
