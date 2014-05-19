@@ -1,5 +1,6 @@
 <?php
 	ob_start();
+	date_default_timezone_set("Europe/Berlin");
 	require_once("config.php");
 	require_once("src/coffee.php");
 	$time = microtime(true); //Start of timemeasurement
