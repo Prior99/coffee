@@ -227,7 +227,7 @@
 								$("#delete_response").html("Benutzer gelöscht!");
 							}
 							else {
-								$("#delete_response").html("Benutzer nicht vorhanden.");
+								$("#delete_response").html("Benutzer nicht vorhanden oder kann nicht gelöscht werden.");
 							}
 							setTimeout(function() {
 								$("#delete_response").html("");
