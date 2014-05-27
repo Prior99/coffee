@@ -73,23 +73,22 @@
 				
 				<a href="#" id="delete_a"><h3>Benutzer löschen</h3></a>
 				<div id="delete_div">
-					<p>Bitte beachten Sie, dass der Benutzer nach dem Löschen zwar nicht mehr in der Lage sein wird, sich anzumelden, aber dennoch in den Monaten in den exportierten Tabellen auftauchen wird, in denen er Getränke konsumiert hat. </p>
-					<p><label>Vorname:</label><input name="delete_firstname" type="text" /></p>
-					<p><label>Nachname:</label><input name="delete_lastname" type="text" /></p>
+					<p>Bitte beachten Sie, dass der Benutzer unwiederruflich gelöscht wird.</p>
+					<p><label>Kürzel:</label><input name="delete_short" type="text" /></p>
 					<p><button id="delete_perform">Okay!</button><span id="delete_response"></span></p>
 				</div>
 				
 				<a href="#" id="code_a"><h3>Code Zurücksetzen</h3></a>
 				<div id="code_div">
 					<p>Hat ein Benutzer seinen 3-Stelligen Code vergessen, können Sie hier den Code für diesen Benutzer entfernen.</p>
-					<p><label>Vorname:</label><input name="code_firstname" type="text" /></p>
-					<p><label>Nachname:</label><input name="code_lastname" type="text" /></p>
+					<p><label>Kürzel:</label><input name="code_short" type="text" /></p>
 					<p><button id="code_perform">Okay!</button><span id="code_response"></span></p>
 				</div>
 				
 				<a href="#" id="add_a"><h3>Benutzer ergänzen</h3></a>
 				<div id="add_div">
 					<p>Hier können Sie ohne großen Aufwand einen einzelnen Benutzer hinzufügen.</p>
+					<p><label>Kürzel:</label><input name="add_short" type="text" /></p>
 					<p><label>Vorname:</label><input name="add_firstname" type="text" /></p>
 					<p><label>Nachname:</label><input name="add_lastname" type="text" /></p>
 					<p><button id="add_perform">Okay!</button><span id="add_response"></span></p>
@@ -99,6 +98,7 @@
 				<div id="product_add_div">
 					<p>Geben Sie den Namen des Produktes ein, das Sie verfügbar machen wollen:</p>
 					<p><label>Produktname:</label><input name="product_add_name" type="text" /></p>
+					<p><label>Preis:</label><input name="product_add_price" type="text" /></p>
 					<p><button id="product_add_perform">Okay!</button><span id="product_add_response"></span></p>
 				</div>
 				
@@ -216,11 +216,10 @@
 					 * Delete User
 					 */
 					$("#delete_perform").click(function() {
-						var first, last;
-						first = $("input[name='delete_firstname']").val();
-						last =  $("input[name='delete_lastname']").val();
+						var short;
+						short = $("input[name='delete_short']").val();
 						$.ajax({
-							url : "?json=delete&firstname=" + first + "&lastname=" + last
+							url : "?json=delete&short=" + short
 						}).done(function(html) {
 							var response = JSON.parse(html);
 							if(response.okay) {
@@ -239,11 +238,10 @@
 					 * Reset code
 					 */
 					$("#code_perform").click(function() {
-						var first, last;
-						first = $("input[name='code_firstname']").val();
-						last =  $("input[name='code_lastname']").val();
+						var short;
+						short = $("input[name='code_short']").val();
 						$.ajax({
-							url : "?json=codereset&firstname=" + first + "&lastname=" + last
+							url : "?json=codereset&short=" + short
 						}).done(function(html) {
 							var response = JSON.parse(html);
 							if(response.okay) {
@@ -262,11 +260,12 @@
 					 * Add user
 					 */
 					$("#add_perform").click(function() {
-						var first, last;
+						var first, last, short;
 						first = $("input[name='add_firstname']").val();
+						short = $("input[name='add_short']").val();
 						last =  $("input[name='add_lastname']").val();
 						$.ajax({
-							url : "?json=add&firstname=" + first + "&lastname=" + last
+							url : "?json=add&firstname=" + first + "&lastname=" + last + "&short=" + short
 						}).done(function(html) {
 							var response = JSON.parse(html);
 							if(response.okay) {
@@ -286,8 +285,9 @@
 					 */
 					$("#product_add_perform").click(function() {
 						var name = $("input[name='product_add_name']").val();
+						var price = $("input[name='product_add_price']").val();
 						$.ajax({
-							url : "?json=product_add&name=" + name
+							url : "?json=product_add&name=" + name + "&price=" + price.replace(",", ".")
 						}).done(function(html) {
 							var response = JSON.parse(html);
 							if(response.okay) {

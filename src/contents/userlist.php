@@ -51,7 +51,7 @@
 								var user = arr[index];
 								(function(user) {
 									userlist
-										.append($("<a class='username'>" + user.firstname + " " + user.lastname + "</a>")
+										.append($("<a class='username'>" + user.firstname + " " + user.lastname + " (" + user.short + ")" + "</a>")
 										.click(function () {
 											setCookie("user", user.id, 1);
 											location.href = "?action=login";

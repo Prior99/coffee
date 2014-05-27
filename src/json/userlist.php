@@ -3,12 +3,12 @@
 	{		
 		public function printJSON()
 		{
-			$query = $this->coffee->db()->prepare("SELECT id, firstname, lastname FROM Users WHERE deleted = FALSE ORDER BY lastname, FIRSTNAME");
+			$query = $this->coffee->db()->prepare("SELECT id, firstname, lastname, short FROM Users ORDER BY lastname, FIRSTNAME");
 			$query->execute();
-			$query->bind_result($id, $first, $last);
+			$query->bind_result($id, $first, $last, $short);
 			$arr = array();
 			while($query->fetch()) {
-				array_push($arr, array("firstname" => $first, "lastname" => $last, "id" => $id));
+				array_push($arr, array("firstname" => $first, "lastname" => $last, "id" => $id, "short" => $short));
 			}
 			$query->close();
 			echo(json_encode($arr));

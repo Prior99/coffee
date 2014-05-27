@@ -97,7 +97,7 @@
 									}
 									$("<a class='product'></a>")
 										.attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false)
-										.appendTo(products).append(counter).append($("<div>" + product.name + "</div>")
+										.appendTo(products).append(counter).append($("<div>" + product.price.toFixed(2) + "€ " + product.name + "</div>")
 										.on("touchstart", function(e) {
 											down();
 											e.stopPropagation();

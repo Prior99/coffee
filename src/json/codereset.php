@@ -4,7 +4,7 @@
 		public function printJSON()
 		{
 			if(isset($_COOKIE["admin"]) && $_COOKIE["admin"] == $GLOBALS["config"]["Masterpassword"]) {
-				$id = $this->coffee->getUserIDOf($_GET["firstname"], $_GET["lastname"]);
+				$id = $this->coffee->getUserIDOfShort($_GET["short"]);
 				if($id == -1) {
 					$answer = Array("okay" => false);
 					echo(json_encode($answer));

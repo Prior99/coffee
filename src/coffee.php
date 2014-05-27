@@ -50,10 +50,10 @@
 			$this->db()->query(
 				"CREATE TABLE IF NOT EXISTS Users(" .
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
+					"short			TEXT,".
 					"firstname		TEXT," . 
 					"lastname		TEXT," .
 					"password		INT," .
-					"deleted		BOOLEAN DEFAULT FALSE,".
 					"locked			INT,".
 					"login_failures INT) CHARACTER SET utf8"
 			);
@@ -61,6 +61,7 @@
 				"CREATE TABLE IF NOT EXISTS Products(" .
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"name			TEXT,".
+					"price			FLOAT,".
 					"deleted		INT DEFAULT 0) CHARACTER SET utf8"
 			);
 			$this->db()->query(
@@ -178,6 +179,17 @@
 			
 			$query = $this->db()->prepare("SELECT id FROM Users WHERE firstname = ? AND lastname = ?");
 			$query->bind_param("ss", $first, $last);
+			$query->execute();
+			$query->bind_result($id);
+			if(!$query->fetch()) $id = -1;
+			$query->close();
+			return $id;
+		}
+		
+		public function getUserIDOfShort($short) {
+			
+			$query = $this->db()->prepare("SELECT id FROM Users WHERE short = ?");
+			$query->bind_param("s", $short);
 			$query->execute();
 			$query->bind_result($id);
 			if(!$query->fetch()) $id = -1;
