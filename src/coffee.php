@@ -21,6 +21,7 @@
 	require_once("json/product_delete.php");
 	require_once("json/codereset.php");
 	require_once("json/stats.php");
+	require_once("json/pay.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
 		public $querys; //Number of query executed by now
@@ -126,6 +127,8 @@
 				$json = new JSONProductDelete($this);
 			else if($command == "stats")
 				$json = new JSONStats($this);
+			else if($command == "pay")
+				$json = new JSONPay($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();

@@ -22,7 +22,7 @@
 					$query->execute();
 					$query->bind_result($money);
 					while($query->fetch()) {
-						$arr[date("F Y", $lower)] = $money;
+						$arr[date("F Y", $lower)] = array("money" =>$money , "lower" => $lower, "upper" => $upper);
 					}
 					$query->close();
 					if(--$curMonth < 1) {

@@ -18,74 +18,91 @@
 <body>
 	<div class="blocker"></div>
 	<table id="tbl">
-		<tr class="head">
-			<td style="width: 200px;">Vorname</td>
-			<td style="width: 200px;">Nachname</td>
-			<td style="width: 50px;">Krzl.</td>
-			<td style="width: 100px;">Ausstehend</td>
-			<td style="width: 200px;">Abrechnen</td>
-		</tr>
 	</table>
 	<script type="text/javascript">
-		$.ajax({
-			url : "?json=stats"
-		}).done(function(result) {
-			var arr = JSON.parse(result);
-			function showPopup(id, select) {
-				$("div.blocker").show();
-				var popup = $("<div class='popup'></div>").appendTo("div.blocker");
-				$.ajax({
-					url : "?json=stats&user=" + id + "&month=" + select.val()
-				}).done(function(json) {
-					var table = $("<table></table>").append($("<tr class='head'></tr>")
-						.append("<td style='width: 200px;'>Monat</td>")
-						.append("<td style='width: 100px;'>Ausstehend</td>")
-						.append("<td style='width: 100px;'>Tilgen</td>"));
-					popup.append(table);
-					var arr = JSON.parse(json);
-					for(var key in arr) {
-						var betrag = arr[key];
-						if(betrag == null || betrag == undefined || betrag == "null") betrag = 0;
-						table.append($("<tr></tr>")
-							.append("<td>" + key + "</td>")
-							.append("<td>" + betrag.toFixed(2) + "€</td>")
+		function init() {
+			$.ajax({
+				url : "?json=stats"
+			}).done(function(result) {
+				var arr = JSON.parse(result);
+				$('<tr class="head"></tr>')
+					.append('<td style="width: 200px;">Vorname</td>')
+					.append('<td style="width: 200px;">Nachname</td>')
+					.append('<td style="width: 50px;">Krzl.</td>')
+					.append('<td style="width: 100px;">Ausstehend</td>')
+					.append('<td style="width: 200px;">Abrechnen</td>')
+				.appendTo($("#tbl"));
+				function showPopup(id, select) {
+					var popup = $("<div class='popup'></div>").appendTo("div.blocker").click(function(e){e.stopPropagation();});
+					$("div.blocker").show().click(function() {
+						popup.remove();
+						$("div.blocker").hide();
+					});
+					$.ajax({
+						url : "?json=stats&user=" + id + "&month=" + select
+					}).done(function(json) {
+						var table = $("<table></table>").append($("<tr class='head'></tr>")
+							.append("<td style='width: 200px;'>Monat</td>")
+							.append("<td style='width: 100px;'>Ausstehend</td>")
+							.append("<td style='width: 100px;'>Tilgen</td>"));
+						popup.append(table);
+						var arr = JSON.parse(json);
+						for(var key in arr) {
+							(function(obj) {
+								var betrag = obj.money;
+								if(betrag == null || betrag == undefined || betrag == "null") betrag = 0;
+								table.append($("<tr></tr>")
+									.append("<td>" + key + "</td>")
+									.append("<td>" + betrag.toFixed(2) + "€</td>")
+									.append($("<td></td>")
+										.append($("<button>Tilgen</button>").click(function() {
+											$.ajax({
+												url : "?json=pay&user=" + id + "&lower=" + obj.lower + "&upper=" + obj.upper
+											}).done(function(e) {
+												$("#tbl").html("");
+												popup.remove();
+												init();
+												showPopup(id, select);
+												/*******/
+											});
+										}))
+									));
+							})(arr[key]);
+						}
+					});
+				}
+				
+				for(var key in arr) {
+					var obj = arr[key];
+					(function(obj, index) {
+						if(obj.pending == null || obj.pending == undefined || obj.pending == "null") obj.pending = 0;
+						var select = $("<select size=1></select>")
+							.append("<option value='1'>1 Monat</option>")
+							.append("<option value='2'>2 Monate</option>")
+							.append("<option value='3' selected='true'>3 Monate</option>")
+							.append("<option value='4'>4 Monate</option>")
+							.append("<option value='5'>5 Monate</option>")
+							.append("<option value='6'>6 Monate</option>")
+							.append("<option value='7'>7 Monate</option>")
+							.append("<option value='8'>8 Monate</option>")
+							.append("<option value='9'>9 Monate</option>")
+							.append("<option value='10'>10 Monate</option>");
+						var row = $("<tr></tr>")
+							.append("<td>" + obj.firstname + "</td>")
+							.append("<td>" + obj.lastname + "</td>")
+							.append("<td>" + obj.short + "</td>")
+							.append("<td>" + obj.pending.toFixed(2) + "€</td>")
 							.append($("<td></td>")
-								.append($("<button>Tilgen</button>").click(function() {
-									
+								.append(select).append($("<button>Abrechnen</button>").click(function() {
+									showPopup(obj.id, select.val());
 								}))
-							));
-					}
-				});
-			}
-			for(var key in arr) {
-				var obj = arr[key];
-				(function(obj, index) {
-					var select = $("<select size=1></select>")
-						.append("<option value='1'>1 Monat</option>")
-						.append("<option value='2'>2 Monate</option>")
-						.append("<option value='3' selected='true'>3 Monate</option>")
-						.append("<option value='4'>4 Monate</option>")
-						.append("<option value='5'>5 Monate</option>")
-						.append("<option value='6'>6 Monate</option>")
-						.append("<option value='7'>7 Monate</option>")
-						.append("<option value='8'>8 Monate</option>")
-						.append("<option value='9'>9 Monate</option>")
-						.append("<option value='10'>10 Monate</option>");
-					var row = $("<tr></tr>")
-						.append("<td>" + obj.firstname + "</td>")
-						.append("<td>" + obj.lastname + "</td>")
-						.append("<td>" + obj.short + "</td>")
-						.append("<td>" + obj.pending.toFixed(2) + "€</td>")
-						.append($("<td></td>")
-							.append(select).append($("<button>Abrechnen</button>").click(function() {
-								showPopup(obj.id, select);
-							}))
-						);
-					$("#tbl").append(row);
-				})(obj, key);
-			}
-		});
-	
+							);
+						$("#tbl").append(row);
+					})(obj, key);
+				}
+			});
+		}
+		init();
 	</script>
 </body>
 <?php
