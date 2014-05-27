@@ -33,7 +33,7 @@
 				echo(json_encode($arr));
 			}
 			else {
-				$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY u.lastname, u.firstname");
+				$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY SUM(p.price) DESC");
 				$query->execute();
 				$query->bind_result($id, $first, $last, $short, $money);
 				$arr = array();

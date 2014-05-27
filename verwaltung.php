@@ -59,8 +59,8 @@
 											$.ajax({
 												url : "?json=pay&user=" + id + "&lower=" + obj.lower + "&upper=" + obj.upper
 											}).done(function(e) {
-												$("#tbl").html("");
 												popup.remove();
+												$("#tbl").html("");
 												init();
 												showPopup(id, select);
 												/*******/
