@@ -16,11 +16,21 @@
 	<script src="lib/cookies.js"></script>
 </head>
 <body>
-	<div class="blocker"></div>
+<div class="blocker"></div>
+<div class="container">
+<?php
+	if(isset($_COOKIE["control"]) && $_COOKIE["control"] == $GLOBALS["config"]["Controlpassword"]) {
+?>
+	<h1>Verwaltung</h1>
 	<table id="tbl">
 	</table>
+	<p>Klicken Sie hier um die Sitzung zu beenden und den Zugang zu sperren: <button id="logout">Abmelden</button></p>
 	<script type="text/javascript">
 		function init() {
+			$("#logout").click(function() {
+				deleteCookie("control");
+				window.location.href = window.location.href;
+			});
 			$.ajax({
 				url : "?json=stats"
 			}).done(function(result) {
@@ -97,6 +107,30 @@
 		}
 		init();
 	</script>
+<?php
+	}
+	else {
+?>
+	<h1>Zugang gesperrt!</h1>
+	<p>Sie müssen angemeldet sein um auf diese Seite Zugriff zu erlangen.</p>
+	<input name="password" type="password" />
+	<button>Anmelden</button>
+	<script type="text/javascript">
+		function login() {
+			setCookie("control", $("input[name='password']").val());
+			window.location.href = window.location.href;
+		}
+		$("input[name='password']").keyup(function(e) {
+			if(e.which == 13) {
+				login();
+			}
+		});
+		$("button").click(login);
+	</script>
+<?php
+	}
+?>
+</div>
 </body>
 <?php
 	}

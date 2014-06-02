@@ -42,6 +42,7 @@
 				if($username === null) {
 					echo("<a href='?action=impressum'>Impressum</a>"); 
 					echo(" | <a href='?action=admin'>Admin</a>"); 
+					echo(" | <a href='verwaltung.php'>Verwaltung</a>"); 
 				}
 				else {
 					echo($username);

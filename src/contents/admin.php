@@ -330,10 +330,16 @@
 					<input name="password" type="password" />
 					<button>Anmelden</button>
 					<script type="text/javascript">
-						$("button").click(function() {
+						function login(){
 							setCookie("admin", $("input[name='password']").val());
 							location.reload();
+						}
+						$("input[name='password']").keyup(function(e) {
+							if(e.which == 13) {
+								login();
+							}
 						});
+						$("button").click(login);
 					</script>
 				<?php
 			}
