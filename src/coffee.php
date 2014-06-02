@@ -22,6 +22,7 @@
 	require_once("json/codereset.php");
 	require_once("json/stats.php");
 	require_once("json/pay.php");
+	require_once("json/saldo.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
 		public $querys; //Number of query executed by now
@@ -129,6 +130,8 @@
 				$json = new JSONStats($this);
 			else if($command == "pay")
 				$json = new JSONPay($this);
+			else if($command == "saldo")
+				$json = new JSONSaldo($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();

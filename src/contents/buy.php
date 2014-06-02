@@ -28,6 +28,7 @@
 			}
 			else {
 				?>
+					<div id="saldo"></div>
 					<div id="products"></div>
 					<div style="text-align: center;">
 						<a href="#" class="button" id="buy">Kaufen</a>
@@ -46,6 +47,15 @@
 							}
 						}
 						refreshTimeout();
+						function refreshSaldo() {
+							$.ajax({
+								url: "?json=saldo"
+							}).done(function(res) {
+								var obj = JSON.parse(res);
+								$("#saldo").html("Ausstehend: " +obj.sum.toFixed(2) + "€")
+							});
+						}
+						refreshSaldo();
 						$.ajax({
 						url : "?json=products"
 						}).done(function(res) {
@@ -136,6 +146,8 @@
 													localStorage[p.name] = p.bought;
 													if(p.bought > 0)
 														f();
+													else
+														refreshSaldo();
 												});
 											};
 											f();

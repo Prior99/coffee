@@ -1,6 +1,10 @@
 div.title, div.content {
 }
 
+div#saldo {
+	text-align: center;
+	font-size: 30pt;
+}
 
 div.title {
 	height: 50px;
