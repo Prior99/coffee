@@ -76,17 +76,10 @@
 					var obj = arr[key];
 					(function(obj, index) {
 						if(obj.pending == null || obj.pending == undefined || obj.pending == "null") obj.pending = 0;
-						var select = $("<select size=1></select>")
-							.append("<option value='1'>1 Monat</option>")
-							.append("<option value='2'>2 Monate</option>")
-							.append("<option value='3' selected='true'>3 Monate</option>")
-							.append("<option value='4'>4 Monate</option>")
-							.append("<option value='5'>5 Monate</option>")
-							.append("<option value='6'>6 Monate</option>")
-							.append("<option value='7'>7 Monate</option>")
-							.append("<option value='8'>8 Monate</option>")
-							.append("<option value='9'>9 Monate</option>")
-							.append("<option value='10'>10 Monate</option>");
+						var select = $("<select size=1></select>");
+						for(var i = 1; i <= 12; i++) {
+							select.append("<option value='" + i + "' " + (i == 3 ? "selected='true'" : "") + ">" + i + " Monate</option>")
+						}
 						var row = $("<tr></tr>")
 							.append("<td>" + obj.firstname + "</td>")
 							.append("<td>" + obj.lastname + "</td>")
