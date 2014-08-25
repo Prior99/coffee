@@ -1,11 +1,11 @@
 <?php
 	class ContentSettings extends Content
-	{		
-		public function printTitle() 
+	{
+		public function printTitle()
 		{
 			echo("Optionen");
 		}
-		
+
 		public function printHelp() {
 			?>
 				<p>Hier können Sie Einstellungen für Ihren Account tätigen.</p>
@@ -13,17 +13,18 @@
 				<p>Bitte stellen Sie dann den entsprechenden gewünschten Code ein und Speichern sie gegebenenfalls Ihre Änderungen.</p>
 			<?php
 		}
-		
+
 		public function printHTML()
 		{
 			if(!$this->coffee->checkPassword()) {
 				?>
-					<h1>Ähem!</h1>
-					<p>Sie sollten nicht hier sein oder? Dürfte ich mal Ihren Ausweis sehen? </p>
+					<h1>Zugang nicht möglich</h1>
+					<p>Die Benutzerauthentifizierung ist fehlgeschlagen. Bitte loggen Sie sich erneut ein.</p>
 				<?php
 			}
 			else {
 				?>
+					<p><input type="checkbox" id="mails"/> Bestätigungs-Mails nach Bestellung versenden</p>
 					<p><input type="checkbox" id="check"/> Code benutzen</p>
 						<div id="codewrapper">
 						<div class="codedisplay">
@@ -31,7 +32,7 @@
 							</div>
 						</div>
 						<table id="code" class="code">
-						
+
 						</table>
 					</div>
 					<br />
@@ -57,7 +58,7 @@
 							else {
 								wrapper.hide();
 							}
-						})
+						});
 						var table = $("#code");
 						var display = [];
 						var index = 0;
@@ -82,7 +83,7 @@
 							pot /= 10;
 						}
 						markSelected(display[0]);
-						
+
 						function selected(x) {
 							if(index >= 3) return;
 							selection.push(x);
@@ -91,7 +92,7 @@
 							markSelected(display[index]);
 							console.log(selection);
 						}
-						
+
 						for(var i = 0; i < 3; i++) {
 							var tr = $("<tr></tr>").appendTo(table);
 							for(var j = 1; j <= 3; j++) {
@@ -106,7 +107,7 @@
 											e.preventDefault();
 										});
 								})(j + 3*i);
-								
+
 							}
 							table.append(tr);
 						}
@@ -134,7 +135,7 @@
 								backspace();
 								e.stopPropagation();
 								e.preventDefault();
-							})));	
+							})));
 						$("#okay").click(function() {
 							var code = selection[0] * 100 + selection[1] * 10 + selection[2];
 							if(check.prop("checked")) {
@@ -170,7 +171,33 @@
 									location.href = "index.php?action=buy";
 								});
 							}
-						});					
+						});
+						/*
+						 * Mails
+						 */
+						var mailsc = $("#mails");
+						$.ajax({
+							url: "index.php?json=send_mails"
+						}).done(function(res) {
+							if(res == "true") {
+								mailsc.prop({"checked": true});
+							}
+							else {
+								mailsc.prop({"checked": false});
+							}
+						});
+						mailsc.click(function() {
+							if(mailsc.prop("checked")) {
+								$.ajax({
+									url: "index.php?json=send_mails&set=true"
+								});
+							}
+							else {
+								$.ajax({
+									url: "index.php?json=send_mails&set=false"
+								});
+							}
+						})
 					</script>
 				<?php
 			}

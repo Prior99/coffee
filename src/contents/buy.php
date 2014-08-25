@@ -1,10 +1,10 @@
 <?php
 	class ContentBuy extends Content
-	{	
+	{
 		public function printTitle() {
 			echo("Kaufen");
 		}
-		
+
 		public function printHelp() {
 			?>
 				<p>Auf dieser Seite können Sie "Striche" für Ihre konsumierten Getränke machen.</p>
@@ -14,12 +14,12 @@
 				<p>Sie können sich jederzeit von hier aus abmelden und zur Benutzerauswahl zurückkehren.</p>
 			<?php
 		}
-		
+
 		public function printHTML() {
 			if(!$this->coffee->checkPassword()) {
 				?>
-					<h1>Ähem!</h1>
-					<p>Sie sollten nicht hier sein oder? Dürfte ich mal Ihren Ausweis sehen? </p>
+					<h1>Zugang nicht möglich</h1>
+					<p>Die Benutzerauthentifizierung ist fehlgeschlagen. Bitte loggen Sie sich erneut ein.</p>
 				<?php
 				setcookie("user", null, -3600, "/");
 				setcookie("code", null, -3600, "/");
@@ -61,7 +61,7 @@
 						}).done(function(res) {
 							function updateCounter(counter, real, pending) {
 								if(pending > 0)
-									counter.html(real + " <span style='font-size:16pt;'>+" + pending + "</span> ");	
+									counter.html(real + " <span style='font-size:16pt;'>+" + pending + "</span> ");
 								else
 									counter.html(real);
 							}
@@ -95,7 +95,7 @@
 										var time = new Date().getTime() - pressTime;
 										if(time < 700) {
 											clearTimeout(timeout);
-											if(product.bought === undefined) { 
+											if(product.bought === undefined) {
 												product.bought = 0;
 											}
 											product.bought++;
@@ -134,26 +134,28 @@
 							$("#buy").click(function(e) {
 								e.preventDefault();
 								refreshTimeout();
+								var objs = [];
 								for(var i in result) {
 									var product = result[i];
 									if(product.bought !== undefined && product.bought > 0) {
-										(function(p) {
-											var f = function() {
-												$.ajax({
-													url:"?json=buy&product=" + p.id
-												}).done(function() {
-													updateCounter(p.div, ++p.amount, --p.bought);
-													localStorage[p.name] = p.bought;
-													if(p.bought > 0)
-														f();
-													else
-														refreshSaldo();
-												});
-											};
-											f();
-										})(product);
+										var obj = {};
+										obj.bought = product.bought;
+										obj.id = product.id;
+										obj.name = product.name;
+										objs.push(obj);
 									}
 								}
+								$.ajax({
+									url:"?json=buy&info=" + JSON.stringify(objs)
+								}).done(function() {
+									for(var i in result) {
+										var p = result[i];
+										updateCounter(p.div, p.amount += parseInt(p.bought), p.bought = 0);
+										localStorage[p.name] = 0;
+										refreshSaldo();
+									}
+								});
+								console.log(objs);
 							});
 						});
 					</script>
