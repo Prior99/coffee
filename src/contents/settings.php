@@ -61,7 +61,7 @@
 						});
 						var table = $("#code");
 						var display = [];
-						var index = 0;
+						var index = 3;
 						var selection = [];
 						var pot = 100;
 						var c = code;
@@ -80,9 +80,10 @@
 							c -= t * pot;
 							if(t < 0) t = "";
 							display.push($("<div class='char'>" + t + "</div>").appendTo($("#display")));
+							selection.push(t);
 							pot /= 10;
 						}
-						markSelected(display[0]);
+						markSelected(display[3]);
 
 						function selected(x) {
 							if(index >= 3) return;
@@ -139,9 +140,10 @@
 						$("#okay").click(function() {
 							var code = selection[0] * 100 + selection[1] * 10 + selection[2];
 							if(check.prop("checked")) {
-								if(index != 3) {
-									for(var i in display) {
-										(function() {
+								var okay = true;
+								for(var i = 0; i < 3; i++) {
+									(function() {
+										if(selection[i] == null || selection[i] == undefined || !(selection[i] >= 0 && selection[i] <= 9)) {
 											var elem = display[i];
 											var bcolor = elem.css("background-color");
 											var color = elem.css("color");
@@ -151,10 +153,11 @@
 												elem.css({"background-color" : bcolor});
 												elem.css({"color" : color});
 											}, 200);
-										})(i);
-									}
+											okay = false;
+										}
+									})(i);
 								}
-								else {
+								if(okay){
 									var code = selection[0] * 100 + selection[1] * 10 + selection[2];
 									$.ajax({
 										url: "index.php?json=options&password=" + code
@@ -169,6 +172,16 @@
 									url: "index.php?json=options&password=deactivated"
 								}).done(function() {
 									location.href = "index.php?action=buy";
+								});
+							}
+							if(mailsc.prop("checked")) {
+								$.ajax({
+									url: "index.php?json=send_mails&set=true"
+								});
+							}
+							else {
+								$.ajax({
+									url: "index.php?json=send_mails&set=false"
 								});
 							}
 						});
@@ -186,18 +199,6 @@
 								mailsc.prop({"checked": false});
 							}
 						});
-						mailsc.click(function() {
-							if(mailsc.prop("checked")) {
-								$.ajax({
-									url: "index.php?json=send_mails&set=true"
-								});
-							}
-							else {
-								$.ajax({
-									url: "index.php?json=send_mails&set=false"
-								});
-							}
-						})
 					</script>
 				<?php
 			}
