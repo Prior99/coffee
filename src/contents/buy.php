@@ -150,9 +150,11 @@
 								}).done(function() {
 									for(var i in result) {
 										var p = result[i];
-										updateCounter(p.div, p.amount += parseInt(p.bought), p.bought = 0);
-										localStorage[p.name] = 0;
-										refreshSaldo();
+										if(p.bought !== undefined && p.bought > 0) {
+											updateCounter(p.div, p.amount += parseInt(p.bought), p.bought = 0);
+											localStorage[p.name] = 0;
+											refreshSaldo();
+										}
 									}
 								});
 								console.log(objs);
