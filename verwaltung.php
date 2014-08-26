@@ -1,11 +1,15 @@
 <?php
-	ob_start();
-	date_default_timezone_set("Europe/Berlin");
-	require_once("config.php");
+	/*
+	 * See index.php first for more in-detail documentation
+	 * As this pages functions quiet similiar but is not as well documented as index.php
+	 */
+	ob_start(); //Init outputbuffering
+	date_default_timezone_set("Europe/Berlin"); //Prevent any timezonebugs/misconfigurations on productionenvironement
+	require_once("config.php"); //Load configuration for databaseaccess
 	require_once("src/coffee.php");
 	$time = microtime(true); //Start of timemeasurement
-	$coffee = new Coffee();
-	if(!isset($_GET["json"])) {
+	$coffee = new Coffee(); //Also the Verwaltung needs an instance of the Pagegenerator
+	if(!isset($_GET["json"])) { //As well the Verwaltung has an API-Request-Option and should only print HTML when this is non API-request
 ?>
 <!DOCTYPE HTML>
 <head>
@@ -19,57 +23,69 @@
 <div class="blocker"></div>
 <div class="container">
 <?php
-	if(isset($_COOKIE["control"]) && $_COOKIE["control"] == $GLOBALS["config"]["Controlpassword"]) {
+	if(isset($_COOKIE["control"]) && $_COOKIE["control"] == $GLOBALS["config"]["Controlpassword"]) { //Check whether the user is logged in
+	//By checking if the password stored in the cookies (Please note, this makes stealing of the password possible by pages
+	//from the same domain or an subdomain but this is not an highest-security-system and we are the only services on this domain
+	//after all)
 ?>
 	<h1>Verwaltung</h1>
 	<table id="tbl">
 	</table>
 	<p>Klicken Sie hier um die Sitzung zu beenden und den Zugang zu sperren: <button id="logout">Abmelden</button></p>
 	<script type="text/javascript">
-		function init() {
-			$("#logout").click(function() {
-				deleteCookie("control");
-				window.location.href = window.location.href;
+		function init() { //Called when page has fully loaded
+			$("#logout").click(function() { //If the logoutbutton is clicked,
+				deleteCookie("control"); //Delete the cookie (this is the action necessary to log a user out)
+				window.location.href = window.location.href; //And reload the page
 			});
-			$.ajax({
+			$.ajax({ //Do an API-Request to load the global statistics and generate the initial list
 				url : "?json=stats"
 			}).done(function(result) {
-				var arr = JSON.parse(result);
+				//List is loaded
+				var arr = JSON.parse(result); //arr now contains a list of all users and their statistics
 				$('<tr class="head"></tr>')
 					.append('<td style="width: 200px;">Vorname</td>')
 					.append('<td style="width: 200px;">Nachname</td>')
 					.append('<td style="width: 50px;">Krzl.</td>')
 					.append('<td style="width: 100px;">Ausstehend</td>')
 					.append('<td style="width: 200px;">Abrechnen</td>')
-				.appendTo($("#tbl"));
+				.appendTo($("#tbl")); //Head-line of the table
+				/*
+				 * Displays the popup that opens if you click on a user
+				 * Blurs the background out and makes all other elements inaccessible
+				 * Then loads their detailed statistics per month per API-Request and displays corresponding the table
+				 */
 				function showPopup(id, select) {
 					var popup = $("<div class='popup'></div>").appendTo("div.blocker").click(function(e){e.stopPropagation();});
 					$("div.blocker").show().click(function() {
-						popup.remove();
+						popup.remove(); //If clicked anywhere in the background, close the popup
 						$("div.blocker").hide();
 					});
-					$.ajax({
+					$.ajax({ //Load detailed per-month-statistics
 						url : "?json=stats&user=" + id + "&month=" + select
 					}).done(function(json) {
 						var table = $("<table></table>").append($("<tr class='head'></tr>")
 							.append("<td style='width: 200px;'>Monat</td>")
 							.append("<td style='width: 100px;'>Ausstehend</td>")
 							.append("<td style='width: 100px;'>Tilgen</td>"));
-						popup.append(table);
-						var arr = JSON.parse(json);
-						for(var key in arr) {
-							(function(obj) {
+						popup.append(table); //Create table and headline
+						var arr = JSON.parse(json); //Array of all months and their saldos
+						for(var key in arr) { //Key is now the name of each month
+							(function(obj) { //Scope out
 								var betrag = obj.money;
-								if(betrag == null || betrag == undefined || betrag == "null") betrag = 0;
-								table.append($("<tr></tr>")
-									.append("<td>" + key + "</td>")
-									.append("<td>" + betrag.toFixed(2) + "€</td>")
-									.append($("<td></td>")
+								if(betrag == null || betrag == undefined || betrag == "null") betrag = 0; //To ensure an integer
+								table.append($("<tr></tr>") //Add a new line to the table
+									.append("<td>" + key + "</td>") //Key is the name of the month
+									.append("<td>" + betrag.toFixed(2) + "€</td>") //Display the saldo properly formatted
+									.append($("<td></td>") //Another column for the button
 										.append($("<button>Tilgen</button>").click(function() {
-											$.ajax({
+											$.ajax({ //Tell the API to delete saldo
 												url : "?json=pay&user=" + id + "&lower=" + obj.lower + "&upper=" + obj.upper
 											}).done(function(e) {
-												popup.remove();
+												popup.remove(); //Remove the popup
+												/*
+												 * Refresh the table
+												 */
 												$("#tbl").html("");
 												init();
 												showPopup(id, select);
@@ -81,23 +97,25 @@
 						}
 					});
 				}
-				
-				for(var key in arr) {
-					var obj = arr[key];
+
+				for(var key in arr) { //Iterate over each and every user in the system
+					var obj = arr[key]; //arr was previously loaded from the API (look above) and contains each user as an object
 					(function(obj, index) {
-						if(obj.pending == null || obj.pending == undefined || obj.pending == "null") obj.pending = 0;
-						var select = $("<select size=1></select>");
+						if(obj.pending == null || obj.pending == undefined || obj.pending == "null") obj.pending = 0; //Ensure integer on null
+						var select = $("<select size=1></select>");//The select as a dropdown
 						for(var i = 1; i <= 12; i++) {
+							//Add options for 1 to 12 months to review
+							//Make 3 selected by default
 							select.append("<option value='" + i + "' " + (i == 3 ? "selected='true'" : "") + ">" + i + " Monate</option>")
 						}
-						var row = $("<tr></tr>")
-							.append("<td>" + obj.firstname + "</td>")
+						var row = $("<tr></tr>") //Create new row for each user
+							.append("<td>" + obj.firstname + "</td>") //This should be self-explanary
 							.append("<td>" + obj.lastname + "</td>")
 							.append("<td>" + obj.short + "</td>")
 							.append("<td>" + obj.pending.toFixed(2) + "€</td>")
 							.append($("<td></td>")
 								.append(select).append($("<button>Abrechnen</button>").click(function() {
-									showPopup(obj.id, select.val());
+									showPopup(obj.id, select.val()); //On click display corresponding popup
 								}))
 							);
 						$("#tbl").append(row);
@@ -109,7 +127,7 @@
 	</script>
 <?php
 	}
-	else {
+	else { //If not logged in, display loginmask
 ?>
 	<h1>Zugang gesperrt!</h1>
 	<p>Sie müssen angemeldet sein um auf diese Seite Zugriff zu erlangen.</p>
@@ -117,15 +135,16 @@
 	<button>Anmelden</button>
 	<script type="text/javascript">
 		function login() {
-			setCookie("control", $("input[name='password']").val());
-			window.location.href = window.location.href;
+			setCookie("control", $("input[name='password']").val()); //Just set the cookie,
+			//regardless if it is correct or not. The page will check and verify itself on reload
+			window.location.href = window.location.href; //Then reload to either display loginmask again or display verwaltung
 		}
 		$("input[name='password']").keyup(function(e) {
 			if(e.which == 13) {
-				login();
+				login(); //Emulate send-on-enter in js-only mask
 			}
 		});
-		$("button").click(login);
+		$("button").click(login); //Also send-on-click
 	</script>
 <?php
 	}
@@ -135,7 +154,7 @@
 <?php
 	}
 	else {
-		$coffee->printJSON($_GET["json"]);
+		$coffee->printJSON($_GET["json"]); //On API-Request, display response
 	}
-	ob_end_flush();
+	ob_end_flush(); //End buffering
 ?>
