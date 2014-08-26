@@ -18,7 +18,6 @@
 				$answer = Array("okay" => true);
 				echo(json_encode($answer));//Return as an json-object to be more consistent
 				//And verbose, even though this creates ~250% overhead
-				//How evil is this shit!?
 				//Performance-loving-coders would have just returned "0" or "1"
 				//But this way it is more human-readable
 			}

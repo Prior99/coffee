@@ -31,7 +31,9 @@
 					$arr = array("sum" => $sum); //In order to create a json-object-wrapper
 				}
 				/* I don't know why I did this, I could just have returned the raw-value
-				 * But I liked to do it, it is more consistent :D
+				 * But I liked to do it, it is more consistent and verbose for future developers :D
+				 * (Looking at the produced packets and seeing a {"sum":12.37} is easier to understand
+				 * than a simple 12.37)
 				 *
 				 * Please Note:
 				 * It creates additional 8 bytes of overhead which is approx. 200% to 300% overhead
