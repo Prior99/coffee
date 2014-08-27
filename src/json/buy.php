@@ -52,8 +52,9 @@
 				}
 				//Nice greetings at end of mail
 				$string .= "\n".
-				"Lieber Gruss,\n".
-				"Ihre Kaffeemaschine";
+				"Liebe Grüße,\n".
+				"Ihre Kaffeemaschine\n".
+				"und gerne bis bald.";
 				//Look, if the user wants to receive mails
 				$query = $this->coffee->db()->prepare("SELECT send_mails FROM Users WHERE id = ?");
 				$query->bind_param("i", $user);
