@@ -6,7 +6,7 @@
 	{
 		public function printJSON()
 		{
-			if($query = $this->coffee->checkPassword()) { //Security: Only execute if password matches
+			if($this->coffee->checkPassword()) { //Security: Only execute if password matches
 				$now = new DateTime();
 				$user = $this->coffee->getUser();
 				/*

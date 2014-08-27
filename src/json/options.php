@@ -7,7 +7,7 @@
 	{
 		public function printJSON()
 		{
-			if($query = $this->coffee->checkPassword()) { //Handle security (If user is logged in etc.)
+			if($this->coffee->checkPassword()) { //Handle security (If user is logged in etc.)
 				$user = $this->coffee->getUser(); //Get current user
 				if(isset($_GET["password"])) {
 					if($_GET["password"] == "deactivated") { //If password is "deactivate" then deactivate it

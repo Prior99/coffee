@@ -6,7 +6,7 @@
 	{
 		public function printJSON()
 		{
-			if($query = $this->coffee->checkPassword()) { //Check if the users login is valid
+			if($this->coffee->checkPassword()) { //Check if the users login is valid
 				$user = $this->coffee->getUser();
 				$array = json_decode($_GET["info"]); //Info is a array of objects containing the name, id and amount of the product bought
 				$string = "Hallo,\n\n".

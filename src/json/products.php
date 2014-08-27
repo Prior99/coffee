@@ -8,7 +8,7 @@
 	{
 		public function printJSON()
 		{
-			if($query = $this->coffee->checkPassword()) { //Check whether the password matches
+			if($this->coffee->checkPassword()) { //Check whether the password matches
 				$now = new DateTime(); //new timestamp to gather the current month
 				$time = mktime(0, 0, 0, $now->format("m"), 1, $now->format("Y")); //Get corresponding unixtimestamp
 				$user = $this->coffee->getUser();
