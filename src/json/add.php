@@ -11,8 +11,8 @@
 				//TODO: Add mail also
 				//TODO: Check whether user already exists
 				//Insert new user to database
-				$query = $this->coffee->db()->prepare("INSERT INTO Users(firstname, lastname, short) VALUES(?, ?, ?)");
-				$query->bind_param("sss", $_GET["firstname"], $_GET["lastname"], $_GET["short"]);
+				$query = $this->coffee->db()->prepare("INSERT INTO Users(firstname, lastname, short, mailato) VALUES(?, ?, ?, ?)");
+				$query->bind_param("sss", $_GET["firstname"], $_GET["lastname"], $_GET["short"], $_GET["mail"]);
 				$query->execute();
 				$query->close();
 				//return true

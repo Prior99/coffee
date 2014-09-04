@@ -129,6 +129,7 @@
 				$json = new JSONBuy($this);
 			else if($command == "products")
 				$json = new JSONProducts($this);
+
 			else if($command == "options")
 				$json = new JSONOptions($this);
 			else if($command == "import")

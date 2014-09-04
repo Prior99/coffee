@@ -22,10 +22,12 @@
 					}
 					$line = trim(str_replace("\r", "", str_replace("\n", "", $line))); //Trim the line (remove linebreaks and trailing spaces)
 					$cols = explode(";", $line);//Now convert the ;-seperated file to an array
-					if(count($cols) == 2) { //Must be exact 2 lines
+					if(count($cols) == 4) { //Must be exact 2 columns
 						//TODO: Add parsing of shoartage and mail
 						$firstname = trim($cols[1]);
 						$lastname = trim($cols[0]);
+						$shortage = trim($cols[2]);
+						$mail = trim($cols[3]);
 						//Look if this user already exists
 						$query = $this->coffee->db()->prepare("SELECT id FROM Users WHERE firstname = ? AND lastname = ?");
 						$query->bind_param("ss", $firstname, $lastname);
@@ -36,8 +38,8 @@
 						if(!$f) {
 							$inserted++; //If not, we inserted it
 							//Insert it
-							$query = $this->coffee->db()->prepare("INSERT INTO Users(firstname, lastname, password) VALUES(?, ?, NULL)");
-							$query->bind_param("ss", $firstname, $lastname);
+							$query = $this->coffee->db()->prepare("INSERT INTO Users(firstname, lastname, password, mail, short) VALUES(?, ?, NULL, ?, ?)");
+							$query->bind_param("ssss", $firstname, $lastname, $mail, $shortage);
 							$query->execute();
 							$query->close();
 						}

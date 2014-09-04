@@ -52,7 +52,7 @@
 				}
 				//Nice greetings at end of mail
 				$string .= "\n".
-				"Liebe Grüße,\n".
+				"Ciao,\n".
 				"Ihre Kaffeemaschine\n".
 				"und gerne bis bald.";
 				//Look, if the user wants to receive mails

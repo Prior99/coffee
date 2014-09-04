@@ -10,7 +10,7 @@
 			if(isset($_COOKIE["admin"]) && $_COOKIE["admin"] == $GLOBALS["config"]["Masterpassword"]) { //Verify this is the admin
 				/*
 				 * So. You forgot your... 3-digit... numeric... code -_-
-				 * Are you kidding me? How did you even survive this far?
+				 * Are you kidding me?
 				 */
 				$id = $this->coffee->getUserIDOfShort($_GET["short"]); //As admin enters the users unique ITC-intern shortage
 				//we identify the users real database-id using this method

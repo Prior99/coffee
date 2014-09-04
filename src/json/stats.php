@@ -79,9 +79,9 @@
 					 * 		LEFT JOIN Products p
 					 * 			ON t.product = p.id
 					 * 		GROUP BY(u.id)
-					 * 		ORDER BY SUM(p.price) DESC
+					 * 		ORDER BY u.lastname, u.firstname ASC
 					 */
-					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY SUM(p.price) DESC");
+					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY u.lastname, u.firstname ASC");
 					$query->execute();
 					$query->bind_result($id, $first, $last, $short, $money);
 					$arr = array();

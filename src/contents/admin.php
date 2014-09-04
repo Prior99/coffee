@@ -62,8 +62,8 @@
 				<a href="#" id="import_a"><h3>Importieren</h3></a>
 				<div id="import_div">
 					<p>Sie können eine Liste mit Mitarbeitern aus einer CSV-Datei Importieren.
-						Die Datei muss mit Semikolon getrennt sein (Microsoft Excel) und exakt 2 Spalten besitzen.
-						Die erste Spalte enthält den Nach-, die zweite Spalte den Vornamen.
+						Die Datei muss mit Semikolon getrennt sein (Microsoft Excel) und exakt 4 Spalten besitzen.
+						Die erste Spalte enthält den Nach-, die zweite Spalte den Vornamen. Danach folgen Kürzel und E-Mail.
 						Bereits vorhandene Mitarbeiter werden <b>nicht</b> überschrieben.
 						Die erste Zeile wird als Kopfzeile betrachtet und ignoriert (nicht Importiert).</p>
 					<form enctype="multipart/form-data" id="form" style="float: left;">
@@ -243,6 +243,7 @@
 				<a href="#" id="add_a"><h3>Benutzer ergänzen</h3></a>
 				<div id="add_div">
 					<p>Hier können Sie ohne großen Aufwand einen einzelnen Benutzer hinzufügen.</p>
+					<p><label>E-Mail:</label><input name="add_mail" type="text" /></p>
 					<p><label>Kürzel:</label><input name="add_short" type="text" /></p>
 					<p><label>Vorname:</label><input name="add_firstname" type="text" /></p>
 					<p><label>Nachname:</label><input name="add_lastname" type="text" /></p>
@@ -253,12 +254,13 @@
 					 * Add user
 					 */
 					$("#add_perform").click(function() {
-						var first, last, short; //Get all entered values from the inputfields...
+						var first, last, short, mail; //Get all entered values from the inputfields...
 						first = $("input[name='add_firstname']").val();
 						short = $("input[name='add_short']").val();
 						last =  $("input[name='add_lastname']").val();
+						mail =  $("input[name='add_mail']").val();
 						$.ajax({ //...And send them to the API...
-							url : "?json=add&firstname=" + first + "&lastname=" + last + "&short=" + short
+							url : "?json=add&firstname=" + first + "&lastname=" + last + "&short=" + short + "&mail=" + mail
 						}).done(function(html) {
 							var response = JSON.parse(html);//...display the response...
 							if(response.okay) {
