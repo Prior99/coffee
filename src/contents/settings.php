@@ -24,6 +24,7 @@
 				?>
 					<h1>Zugang nicht möglich</h1>
 					<p>Die Benutzerauthentifizierung ist fehlgeschlagen. Bitte loggen Sie sich erneut ein.</p>
+					<a href="index.php">Zurück</a>
 				<?php
 			}
 			else {

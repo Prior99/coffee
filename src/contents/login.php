@@ -28,6 +28,7 @@
 				?>
 					<h1>Gesperrt</h1>
 					<p>Dieses Konto wurde gesperrt. Bitte wenden Sie sich an einen Vertreter der Kaffee-AG.</p>
+					<a href="index.php">Zurück</a>
 				<?php
 				return;
 			}

@@ -25,6 +25,7 @@
 				?>
 					<h1>Zugang nicht möglich</h1>
 					<p>Die Benutzerauthentifizierung ist fehlgeschlagen. Bitte loggen Sie sich erneut ein.</p>
+					<a href="index.php">Zurück</a>
 				<?php
 				//Also delete everything he entered
 				setcookie("user", null, -3600, "/"); //Delete the cookies in HTTP
