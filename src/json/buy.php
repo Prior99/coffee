@@ -11,6 +11,7 @@
 				$array = json_decode($_GET["info"]); //Info is a array of objects containing the name, id and amount of the product bought
 				$string = "Hallo,\n\n".
 					"Soeben wurde folgende Kaffee-Bestellung entgegengenommen:\n"; //Prepare the string for the mail to send
+				$amount = 0;
 				foreach($array as $p) { //Iterate over each product the user wants to buy
 					$string .= $p->name . " x" . $p->bought."\n"; //Append line to mail
 					/*
@@ -48,21 +49,24 @@
 						$query->bind_param("iii", $user, $p->id, $time);
 						$query->execute();
 						$query->close();
+						$amount++;
 					}
 				}
 				//Nice greetings at end of mail
-				$string .= "\n".
-				"Bis bald,\n".
-				"Ihre Kaffeemaschine\n";
-				//Look, if the user wants to receive mails
-				$query = $this->coffee->db()->prepare("SELECT send_mails FROM Users WHERE id = ?");
-				$query->bind_param("i", $user);
-				$query->execute();
-				$query->bind_result($send);
-				$query->fetch();
-				$query->close();
-				if($send) { //If so, send it.
-					$this->coffee->mail($this->coffee->getMail($user), "Ihr Kaffee-Kauf", $string);
+				if($amount > 0) {
+					$string .= "\n".
+					"Bis bald,\n".
+					"Ihre Kaffeemaschine\n";
+					//Look, if the user wants to receive mails
+					$query = $this->coffee->db()->prepare("SELECT send_mails FROM Users WHERE id = ?");
+					$query->bind_param("i", $user);
+					$query->execute();
+					$query->bind_result($send);
+					$query->fetch();
+					$query->close();
+					if($send) { //If so, send it.
+						$this->coffee->mail($this->coffee->getMail($user), "Ihr Kaffee-Kauf", $string);
+					}
 				}
 			}
 		}
