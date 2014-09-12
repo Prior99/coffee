@@ -62,7 +62,7 @@
 				$query->fetch();
 				$query->close();
 				if($send) { //If so, send it.
-					mail($this->coffee->getMail($user), "Ihr Kaffee-Kauf", $string);
+					$this->coffee->mail($this->coffee->getMail($user), "Ihr Kaffee-Kauf", $string);
 				}
 			}
 		}

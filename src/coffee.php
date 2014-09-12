@@ -31,6 +31,7 @@
 	require_once("json/lock.php");
 	require_once("json/unlock.php");
 	require_once("json/locked_users.php");
+	require_once("json/code_everyone.php");
 	require_once("json/send_mails.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
@@ -162,6 +163,8 @@
 				$json = new JSONLock($this);
 			else if($command == "unlock")
 				$json = new JSONUnlock($this);
+			else if($command == "code_everyone")
+				$json = new JSONCodeEveryone($this);
 			else if($command == "get_locked")
 				$json = new JSONLockedUsers($this);
 			else
@@ -246,6 +249,13 @@
 			return $fails;
 		}
 		
+		public function mail($to, $head, $body) {
+			mail($to, $head, $body, 
+				"Content-type: text/plain; charset=utf-8\r\n".
+				"From: Kaffee-Maschine <".$GLOBALS["config"]["Mastermail"].">"
+			);
+		}
+		
 		/*
 		 * Will lock a user so he can no longer access his account
 		 */
@@ -254,13 +264,13 @@
 			$query->bind_param("i", $id);
 			$query->execute();
 			$query->close();
-			mail($this->getMail($id), "Kaffee-Konto gesperrt", 
+			$this->mail($this->getMail($id), "Kaffee-Konto gesperrt", 
 				"Hallo,\n\n".
 				"Ihr Kaffee-Konto wurde gesperrt.\n".
 				"Bitte kontaktieren Sie ein Mitglied der Kaffee-AG.\n\n".
 				"Bis bald,\n".
 				"Ihre Kaffee-Maschine");
-			mail($GLOBALS["config"]["Mastermail"], "Kaffee-Konto gesperrt", 
+			$this->mail($GLOBALS["config"]["Mastermail"], "Kaffee-Konto gesperrt", 
 				"Hallo,\n\n".
 				"Soeben wurde das folgende Kaffee-Konto gesperrt:\n".
 				"Datenbank-ID:".$id."\n".
@@ -292,7 +302,7 @@
 			$query->bind_param("i", $id);
 			$query->execute();
 			$query->close();
-			mail($this->getMail($id), "Kaffee-Konto entsperrt", 
+			$this->mail($this->getMail($id), "Kaffee-Konto entsperrt", 
 				"Hallo,\n\n".
 				"Ihr Kaffee-Konto wurde reaktiviert.\n".
 				"Ihr Konto ist nun wieder verwendbar.\n\n".

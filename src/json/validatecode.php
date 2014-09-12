@@ -15,12 +15,12 @@
 				$b = $this->coffee->checkPassword();
 				if(!$b) {
 					$fails = $this->coffee->increaseLoginFailures();
-					mail($this->coffee->getMail($user), "Kaffee-Pin Falsch eingegeben", 
+					$this->coffee->mail($this->coffee->getMail($user), "Kaffee-Pin Falsch eingegeben", 
 						"Hallo,\n\n".
 						"Soeben wurde versucht, sich in Ihr Konto mit einer falschen Pin anzumelden.\n".
 						"Der Pin wurde bereits ".$fails."x falsch eingegeben.\n".
 						"Nach der 4. falschen Eingabe wird ihr Konto gesperrt.\n".
-						"Sie müssen Ihr Konto dann bei einem Mitglied der Kaffee-AG freischalten lassen.\n\n".
+						"Ihr Konto muss dann von einem Mitglied der Kaffee-AG freigeschaltet werden.\n\n".
 						"Bis bald,\n".
 						"Ihre Kaffee-Maschine");
 				}
