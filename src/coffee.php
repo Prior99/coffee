@@ -28,6 +28,9 @@
 	require_once("json/stats.php");
 	require_once("json/pay.php");
 	require_once("json/saldo.php");
+	require_once("json/lock.php");
+	require_once("json/unlock.php");
+	require_once("json/locked_users.php");
 	require_once("json/send_mails.php");
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
@@ -67,9 +70,9 @@
 					"lastname		TEXT," .
 					"password		INT," .
 					"mail			TEXT," .
-					"send_mails		BOOLEAN," .
-					"locked			INT,".
-					"login_failures INT) CHARACTER SET utf8"
+					"send_mails		BOOLEAN DEFAULT TRUE," .
+					"locked			BOOLEAN DEFAULT FALSE,".
+					"login_failures INT DEFAULT 0) CHARACTER SET utf8"
 			);
 			$this->db()->query(
 				"CREATE TABLE IF NOT EXISTS Products(" .
@@ -108,6 +111,7 @@
 
 			$this->content->printTitle();
 		}
+		
 
 		/*
 		 * Prints the generated JSON
@@ -154,6 +158,12 @@
 				$json = new JSONSaldo($this);
 			else if($command == "send_mails")
 				$json = new JSONSendMails($this);
+			else if($command == "lock")
+				$json = new JSONLock($this);
+			else if($command == "unlock")
+				$json = new JSONUnlock($this);
+			else if($command == "get_locked")
+				$json = new JSONLockedUsers($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();
@@ -191,10 +201,114 @@
 			$user = $this->getUser(); //Get userid cookie
 			$password = $this->getCode(); //Get password cookie
 			//Check if a user with this id and password is present
-			$query = $this->db()->prepare("SELECT id FROM Users WHERE id = ? AND (password = ? OR password IS NULL)");
+			$query = $this->db()->prepare("SELECT id FROM Users WHERE id = ? AND (password = ? OR password IS NULL) AND locked = false");
 			$query->bind_param("ii", $user, $password);
 			$query->execute();
 			$f = ($query->fetch() != null);
+			$query->close();
+			return $f;
+		}
+		
+		/*
+		 * Will reset the amount of failed logins
+		 */
+		public function resetLoginFailures() {
+			$user = $this->getUser(); //Get userid cookie
+			//Reset failed loginattempts
+			$query = $this->db()->prepare("UPDATE Users SET login_failures = 0 WHERE id = ?");
+			$query->bind_param("i", $user);
+			$query->execute();
+			$query->close();
+		}
+		
+		/*
+		 * Called each time a user logs in with a wrong pin
+		 */
+		public function increaseLoginFailures() {
+			$user = $this->getUser(); //Get userid cookie
+			//Increase failed loginattempts by one
+			$query = $this->db()->prepare("UPDATE Users SET login_failures = login_failures + 1 WHERE id = ?");
+			$query->bind_param("i", $user);
+			$query->execute();
+			$query->close();
+			//Check how often the login was attempted by now
+			$query = $this->db()->prepare("SELECT login_failures FROM Users WHERE id = ?");
+			$query->bind_param("i", $user);
+			$query->execute();
+			$query->bind_result($fails);
+			$query->fetch();
+			$query->close();
+			//If greater than 3, lock the account
+			if($fails >= 3) {
+				$this->resetLoginFailures();
+				$this->lockUser($this->getUser());
+			}
+			return $fails;
+		}
+		
+		/*
+		 * Will lock a user so he can no longer access his account
+		 */
+		public function lockUser($id) {
+			$query = $this->db()->prepare("UPDATE Users SET locked = true WHERE id = ?");
+			$query->bind_param("i", $id);
+			$query->execute();
+			$query->close();
+			mail($this->getMail($id), "Kaffee-Konto gesperrt", 
+				"Hallo,\n\n".
+				"Ihr Kaffee-Konto wurde gesperrt.\n".
+				"Bitte kontaktieren Sie ein Mitglied der Kaffee-AG.\n\n".
+				"Bis bald,\n".
+				"Ihre Kaffee-Maschine");
+			mail($GLOBALS["config"]["Mastermail"], "Kaffee-Konto gesperrt", 
+				"Hallo,\n\n".
+				"Soeben wurde das folgende Kaffee-Konto gesperrt:\n".
+				"Datenbank-ID:".$id."\n".
+				"E-Mail:".$this->getMail($id)."\n".
+				"Kuerzel:".$this->getShortageOf($id)."\n".
+				"Name:".$this->getUsernameOf($id)."\n\n".
+				"Bis bald,\n".
+				"Ihre Kaffee-Maschine");
+		}
+		
+		/*
+		 * Returns the respect shortage to a users id
+		 */
+		public function getShortageOf($id) {
+			$query = $this->db()->prepare("SELECT short FROM Users WHERE id = ?");
+			$query->bind_param("i", $id);
+			$query->execute();
+			$query->bind_result($short);
+			$query->fetch();
+			$query->close();
+			return $short;
+		}
+		
+		/*
+		 * Will unlock a user that was previously locked
+		 */
+		public function unlockUser($id) {
+			$query = $this->db()->prepare("UPDATE Users SET locked = false WHERE id = ?");
+			$query->bind_param("i", $id);
+			$query->execute();
+			$query->close();
+			mail($this->getMail($id), "Kaffee-Konto entsperrt", 
+				"Hallo,\n\n".
+				"Ihr Kaffee-Konto wurde reaktiviert.\n".
+				"Ihr Konto ist nun wieder verwendbar.\n\n".
+				"Bis bald,\n".
+				"Ihre Kaffee-Maschine");
+		}
+		
+		/*
+		 * Will check whether a user is currently locked or not 
+		 */
+		public function isUserLocked($id) {
+			$query = $this->db()->prepare("SELECT locked FROM Users WHERE id = ?");
+			$query->bind_param("i", $id);
+			$query->execute();
+			$query->bind_result($f);
+			$query->fetch();
 			$query->close();
 			return $f;
 		}
@@ -215,6 +329,19 @@
 				$query->close();
 				return $firstname." ".$lastname;
 			}
+		}
+		/*
+		 * Returns the phoneticalname to a given database userid 
+		 */
+		public function getUsernameOf($id) {
+			//Select name corresponding to id
+			$query = $this->db()->prepare("SELECT firstname, lastname FROM Users WHERE id = ?");
+			$query->bind_param("i", $id);
+			$query->execute();
+			$query->bind_result($firstname, $lastname);
+			$query->fetch();
+			$query->close();
+			return $firstname." ".$lastname;
 		}
 
 		/*

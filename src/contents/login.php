@@ -24,6 +24,13 @@
 			/*
 			 * Now check if this account is secured at all by grabbing it's password
 			 */
+			if($this->coffee->isUserLocked($userid)) {
+				?>
+					<h1>Gesperrt</h1>
+					<p>Dieses Konto wurde gesperrt. Bitte wenden Sie sich an einen Vertreter der Kaffee-AG.</p>
+				<?php
+				return;
+			}
 			$query = $this->coffee->db()->prepare("SELECT firstname, lastname, password FROM Users WHERE id = ?");
 			$query->bind_param("i", $userid);
 			$query->execute();
@@ -72,6 +79,10 @@
 									setCookie("code", code, 1); //...set the cookie...
 									location.href = "?action=buy";//...and redirect to buy.php
 								}
+								else 
+								if(result.locked) { //Account was locked
+									location.href=location.href;
+								}
 								else { //If not, reset the pinpad and flash it red
 									for(var i in display) {
 										(function(i) { //Scope out
@@ -115,7 +126,9 @@
 										selected(x);
 										//Again, stop nasty browsers from calling everything twice by passing touchevents to mousevents.
 										//Look at buy.php for more detailed grumbling about this problem
-										e.stopPropagation();
+										if(e.stopPropagation) e.stopPropagation();
+										e.cancelBubble = true;
+										e.stopImmediatePropagation();
 										e.preventDefault();
 									});
 							})(j + 3*i);
@@ -130,7 +143,9 @@
 						})
 						.on("touchend", function(e) {
 							selected(0);
-							e.stopPropagation();
+							if(e.stopPropagation) e.stopPropagation();
+							e.cancelBubble = true;
+							e.stopImmediatePropagation();
 							e.preventDefault();
 						});
 					/*
@@ -149,7 +164,9 @@
 							backspace();
 						}).on("touchend", function(e) {
 							backspace();
-							e.stopPropagation();
+							if(e.stopPropagation) e.stopPropagation();
+							e.cancelBubble = true;
+							e.stopImmediatePropagation();
 							e.preventDefault();
 						})));
 				</script>

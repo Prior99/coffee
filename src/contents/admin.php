@@ -337,6 +337,36 @@
 						});
 					});
 				</script>
+				<!-- unlock users -->
+				<a href="#" id="unlock_a"><h3>Benutzer entsperren</h3></a>
+				<div id="unlock_div">
+					<ul></ul>
+				</div>
+				<script type="text/javascript">
+					/*
+					 * Retrieve List of locked users
+					 */
+					(function reloadLocked() {
+						$.ajax({
+							url : "?json=get_locked"
+						}).done(function(res) {
+							var list = JSON.parse(res);
+							var table = $("#unlock_div").find("ul");
+							table.html("");
+							for(var i = 0; i < list.length; i++) {
+								(function(user) {
+									$("<a href='#'>" + user.firstname + " " + user.lastname + " (" + user.short + ")</a>").appendTo($("<li></li>").appendTo(table)).click(function() {
+										$.ajax({
+											url : "?json=unlock&short=" + user.short
+										}).done(function() {
+											reloadLocked();
+										});
+									});
+								})(list[i]);
+							}
+						});
+					})();
+				</script>
 				<!-- logout as admin -->
 				<a href="#" id="logout">Als Admin abmelden</a>
 				<script type="text/javascript">
@@ -362,6 +392,8 @@
 					$("#code_a").click(function() { $("#code_div").toggle(); });
 					$("#add_div").hide();
 					$("#add_a").click(function() { $("#add_div").toggle(); });
+					$("#unlock_div").hide();
+					$("#unlock_a").click(function() { $("#unlock_div").toggle(); });
 					$("#product_add_div").hide();
 					$("#product_add_a").click(function() { $("#product_add_div").toggle(); });
 					$("#product_delete_div").hide();
