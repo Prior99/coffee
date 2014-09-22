@@ -29,7 +29,7 @@
 					echo("Set password of user with id ".$user["id"]. " to ".$password."<br>\n");
 					$this->coffee->mail($user["mail"], "Kaffee-Konto wurde gesichert", 
 					"Hallo,\n\n".
-					"um dem öffentlichen Ausruf nach mehr Sicherheit in der Kaffee-Verwaltung nachzukommen, wurden alle Konten automatisch mit einer zufälligen Pin gesichert.\n".
+					"um die Sicherheit der Web-App zu erhöhen, wurden alle Konten automatisch mit einer zufälligen Pin gesichert.\n".
 					"Sie haben die Möglichkeit, diese in den Optionen wieder zu entfernen oder eine andere Pin einzustellen.\n\n".
 					"Ihre automatisch generierte Pin lautet: ".$password."\n\n".
 					"Bis bald,\n".

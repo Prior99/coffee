@@ -8,7 +8,7 @@
 		public function printJSON()
 		{
 			//Note: No security, invokable from global
-			$query = $this->coffee->db()->prepare("SELECT id, firstname, lastname, short FROM Users ORDER BY lastname, FIRSTNAME");
+			$query = $this->coffee->db()->prepare("SELECT id, firstname, lastname, short FROM Users ORDER BY lastname, firstname");
 			$query->execute();
 			$query->bind_result($id, $first, $last, $short);
 			$arr = array(); //Create array for all users

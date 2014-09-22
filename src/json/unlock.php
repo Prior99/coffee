@@ -15,11 +15,7 @@
 					echo(json_encode($answer));
 				}
 				else { //Okay, the user existed!
-					//Now check if he has any debts left
-					$query = $this->coffee->db()->prepare("UPDATE Users SET locked = FALSE WHERE id = ?");
-					$query->bind_param("i", $id);
-					$query->execute();
-					$query->close();
+					$query = $this->coffee->unlockUser($id);
 					$answer = Array("okay" => true);
 					echo(json_encode($answer));
 				}

@@ -1,0 +1,17 @@
+# ALLOW USER BY IP
+<Limit GET POST>
+	order deny,allow
+	deny from all
+	allow from 134.130.0.0/23
+	allow from 134.130.70.0/24
+	allow from 137.226.48.0/24
+	allow from 134.61.128.0/18
+	allow from 134.61.193.0/24
+	allow from 134.61.0.0/16
+</Limit>
+
+# PREVENT VIEWING OF .HTACCESS
+<Files .htaccess>
+	order allow,deny
+	deny from all
+</Files>

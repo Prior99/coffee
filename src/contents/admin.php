@@ -367,6 +367,56 @@
 						});
 					})();
 				</script>
+				<!-- backups -->
+				<a href="#" id="backups_a"><h3>Backups</h3></a>
+				<div id="backups_div">
+					<ul></ul>
+					<form enctype="multipart/form-data" id="backupupload" style="float: left;">
+						<input type="file" name="file" />
+					</form>
+					<button id="backupuploadbutton" style="float: left;">Laden</button>
+					<br style="clear: both;"/>
+					<div id="backupupload_success"></div>
+					<br />
+				</div>
+				<script type="text/javascript">
+					$("#backupuploadbutton").click(function () { //When the Import-Button is clicked
+						var form = new FormData($("#backupupload")[0]);
+						$.ajax({
+							url: "?json=backup_load",
+							type: "POST", //To enable sending data as content
+							xhr: function() { //Only if XML-HTTP-Rrequest is available Handle the progressbar (Sorry, IE-users...)
+								var xhr = $.ajaxSettings.xhr();
+								return xhr;
+							},
+							cache: false,
+							contentType: false, //No specific contenttype (To prevent jQuery from fucking up our CSV)
+							data: form, //Data comes from the previously created FromData element
+							processData: false, //Do not do anything with the data, just send it!
+							success : function(html) { //And it is finally done
+								$("#backupupload_success").html("Upload done!");
+							}
+						});
+					});
+					/*
+					 * Retrieve List of backups
+					 */
+					(function reloadLocked() {
+						$.ajax({
+							url : "?json=get_backups"
+						}).done(function(res) {
+							var list = JSON.parse(res);
+							var table = $("#backups_div").find("ul");
+							table.html("");
+							for(var i = 0; i < list.length; i++) {
+								(function(backup) {
+									var d = new Date(backup.created*1000);
+									$("<a href='?json=download_backup&id=" + backup.id + "'>" + d.toString() + "</a>").appendTo($("<li></li>").appendTo(table));
+								})(list[i]);
+							}
+						});
+					})();
+				</script>
 				<!-- logout as admin -->
 				<a href="#" id="logout">Als Admin abmelden</a>
 				<script type="text/javascript">
@@ -398,6 +448,8 @@
 					$("#product_add_a").click(function() { $("#product_add_div").toggle(); });
 					$("#product_delete_div").hide();
 					$("#product_delete_a").click(function() { $("#product_delete_div").toggle(); });
+					$("#backups_div").hide();
+					$("#backups_a").click(function() { $("#backups_div").toggle(); });
 				</script>
 			<?php
 			}

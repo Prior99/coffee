@@ -53,7 +53,7 @@
 					}
 				}
 				$hour = date("H");
-				if($hour < 7 || $hour >= 18) {
+				if($hour < 6 || $hour >= 18) {
 					$this->coffee->mail($GLOBALS["config"]["Mastermail"], "Kaffee-Kauf außerhalb Betriebszeiten", 
 					"Hallo,\n\n".
 					"Soeben wurde ein Kaffee-Kauf außerhalb der Betriebszeiten der Kaffee-Maschine (vor 07:00 oder nach 18:00) getätigt.\n".
