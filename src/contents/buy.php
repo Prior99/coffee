@@ -223,6 +223,7 @@
 											refreshSaldo(); //Refresh the saldo
 										}
 									}
+									displayPopup("Kauf erfolgreich", "Ihr Kaffee wurde erfolgreich gekauft. Bitte kaufen Sie bald wieder einen Kaffee.");
 								});
 								//console.log(objs); //Nasty debugoutput
 							});

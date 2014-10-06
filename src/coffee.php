@@ -362,7 +362,7 @@
 
 		public function mail($to, $head, $body) {
 			mail($to, $head, $body,
-				"Content-type: text/plain; charset=utf-8\r\n".
+				"Content-type: text/plain; charset=utf-8\n".
 				"From: Kaffee-Maschine <".$GLOBALS["config"]["Mastermail"].">"
 			);
 		}

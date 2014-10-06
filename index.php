@@ -23,6 +23,7 @@
 	<link rel="stylesheet" type="text/css" href="style/style.css" />
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/cookies.js"></script>
+	<script src="lib/popup.js"></script>
 </head>
 <body>
 	<div class="wrapper">
