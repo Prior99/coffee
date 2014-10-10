@@ -1,8 +1,8 @@
 <?php
 	ob_start(); //Initialize Outputbuffering to prevent sending headers on startup. This way I can manipulate Cookies and redirect
 	date_default_timezone_set("Europe/Berlin"); //Force timezone to circumvent possible bug/missconfiguration on productionenvironement
-	require_once("config.php"); //Load configuration as php-file containing info about passwords and database
-	require_once("src/coffee.php"); //Import Main class which will load any other necessary classes
+	require_once("./config.php"); //Load configuration as php-file containing info about passwords and database
+	require_once("./src/coffee.php"); //Import Main class which will load any other necessary classes
 	$time = microtime(true); //Start of timemeasurement for performance measurements
 	$coffee = new Coffee(); //Init instance of main pagegenerating class
 	if(!isset($_GET["json"])) { //If json is set, we have an API-Request instead of a normal HTML-Request an thous we skip all HTML-output

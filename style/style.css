@@ -2,20 +2,29 @@ div.title, div.content {
 }
 
 div#saldo {
-	text-align: center;
-	font-size: 30pt;
 }
 
 div.title {
-	height: 50px;
+	height: 35px;
 	text-align: center;
 	color: white;
-	font-size: 30pt;
+	font-size: 25pt;
 	padding-bottom: 5px;
 	padding-top: 5px;
-	background-color: rgba(77, 57, 42, 0.9);
+	background-color: rgba(77, 57, 42, 1);
 	position: fixed;
 	width: 100%;
+}
+
+div.title a.button {
+	margin: 5px 10px 5px 10px;
+	height: 45px;
+	width: 150px;
+	background-color: rgba(159, 145, 132, 0.9);
+	padding: 0;
+	float: left;
+	font-size: 30px;
+
 }
 
 div.popup {
@@ -34,7 +43,7 @@ div.popup {
 div.popup p {
 	background-color: rgba(106, 86, 71, 0.75);
 	padding: 5px;
-	
+
 }
 
 div.popup h1{
@@ -53,7 +62,7 @@ div.footer {
 	width: 100%;
 	padding-bottom: 5px;
 	padding-top: 5px;
-	background-color: rgba(77, 57, 42, 0.9);
+	background-color: rgba(77, 57, 42, 1);
 	position: fixed;
 	bottom: 0px;
 	color: rgb(159, 145, 132);
@@ -122,7 +131,7 @@ div#products {
 	padding: none;
 }
 
-a.username, 
+a.username,
 a.product {
 	border-bottom: 1px solid rgb(36, 27, 22);
 	/*height: 38px;*/
@@ -229,21 +238,31 @@ div#progress {
 	background-color: rgb(159, 145, 132);
 	padding: 2px;
 	transition: width 0.1s;
-	
+
+}
+
+div.awrapper {
+	width: 50%;
+	float: left;
+	margin: 0;
 }
 
 a.button {
-	 background-color: rgba(77, 57, 42, 0.9);
-	 padding: 20px;
-	 margin-top: 10px;
-	 display: block;
-	 text-align: center;
-	 
+	background-color: rgba(77, 57, 42, 0.9);
+	padding: 10px;
+	display: block;
+	text-align: center;
+	margin: 10px;
+	margin-top: 0;
+	color: rgb(159, 145, 132);
+
 }
 
 a.button:hover,
 a.button:active {
 	 background-color: rgba(159, 145, 132, 0.9);
+	text-decoration: none;
+	color: rgb(106, 86, 71);
 }
 
 div.codedisplay div.char{
@@ -256,6 +275,6 @@ div.codedisplay div.char{
 	width: 40px;
 	font-size:40pt;
 	margin-left: 5px;
-	transition: background-color 0.2s; 
-	transition: color 0.2s; 
+	transition: background-color 0.2s;
+	transition: color 0.2s;
 }

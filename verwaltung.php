@@ -33,22 +33,33 @@
 	</table>
 	<p>Klicken Sie hier um die Sitzung zu beenden und den Zugang zu sperren: <button id="logout">Abmelden</button></p>
 	<script type="text/javascript">
+		var sorting = "lastname";
+		if(getCookie("sorting")) {
+			sorting = getCookie("sorting");
+		}
 		function init() { //Called when page has fully loaded
 			$("#logout").click(function() { //If the logoutbutton is clicked,
 				deleteCookie("control"); //Delete the cookie (this is the action necessary to log a user out)
 				window.location.href = window.location.href; //And reload the page
 			});
+			
 			$.ajax({ //Do an API-Request to load the global statistics and generate the initial list
-				url : "?json=stats"
+				url : "?json=stats&order=" + sorting
 			}).done(function(result) {
 				//List is loaded
 				var arr = JSON.parse(result); //arr now contains a list of all users and their statistics
+				function changeSorting(sort) {
+					setCookie("sorting", sort);
+					sorting = sort;
+					$("#tbl").html("");
+					init();
+				}
 				$('<tr class="head"></tr>')
-					.append('<td style="width: 200px;">Vorname</td>')
-					.append('<td style="width: 200px;">Nachname</td>')
-					.append('<td style="width: 50px;">Krzl.</td>')
-					.append('<td style="width: 100px;">Ausstehend</td>')
-					.append('<td style="width: 200px;">Abrechnen</td>')
+					.append($('<td style="width: 200px;">Vorname </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("firstname"); })))
+					.append($('<td style="width: 200px;">Nachname </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("lastname"); })))
+					.append($('<td style="width: 55px;">Krzl. </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("short"); })))
+					.append($('<td style="width: 100px;">Ausstehend </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("sum"); })))
+					.append('<td style="width: 200px;">Abrechnen </td>')
 				.appendTo($("#tbl")); //Head-line of the table
 				/*
 				 * Displays the popup that opens if you click on a user

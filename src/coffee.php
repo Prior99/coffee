@@ -4,38 +4,10 @@
 	 * This might look quiet dirty, but it is more secure then a glob()-include
 	 * As only those modules we really know
 	 */
-	require_once("content.php");
-	require_once("json.php");
-	require_once("contents/userlist.php");
-	require_once("contents/404.php");
-	require_once("contents/login.php");
-	require_once("contents/buy.php");
-	require_once("contents/settings.php");
-	require_once("contents/admin.php");
-	require_once("json/userlist.php");
-	require_once("json/validatecode.php");
-	require_once("json/empty.php");
-	require_once("json/options.php");
-	require_once("json/buy.php");
-	require_once("json/products.php");
-	require_once("json/import.php");
-	require_once("json/export.php");
-	require_once("json/delete.php");
-	require_once("json/add.php");
-	require_once("json/product_add.php");
-	require_once("json/product_delete.php");
-	require_once("json/codereset.php");
-	require_once("json/stats.php");
-	require_once("json/pay.php");
-	require_once("json/saldo.php");
-	require_once("json/lock.php");
-	require_once("json/unlock.php");
-	require_once("json/locked_users.php");
-	require_once("json/code_everyone.php");
-	require_once("json/send_mails.php");
-	require_once("json/backups.php");
-	require_once("json/download_backup.php");
-	require_once("json/backup_load.php");
+	require_once(__DIR__."/content.php");
+	require_once(__DIR__."/json.php");
+	$files = glob(__DIR__."/contents/*.php"); foreach($files as $file) require_once($file);
+	$files = glob(__DIR__."/json/*.php"); foreach($files as $file) require_once($file);
 	class Coffee {
 		private $dba; //Object to communicate with the database, please use Matse::db() instead for statistics!
 		public $querys; //Number of query executed by now

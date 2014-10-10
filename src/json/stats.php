@@ -81,7 +81,24 @@
 					 * 		GROUP BY(u.id)
 					 * 		ORDER BY u.lastname, u.firstname ASC
 					 */
-					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY u.lastname, u.firstname ASC");
+					$order = "u.lastname, u.firstname";
+					if(isset($_GET["order"])) {
+						switch($_GET["order"]) {
+							case "lastname": default:
+								$order = "u.lastname, u.firstname ASC";
+								break;
+							case "firstname": default:
+								$order = "u.firstname, u.lastname ASC";
+								break;
+							case "short":
+								$order = "u.short ASC";
+								break;
+							case "sum":
+								$order = "SUM(p.price) DESC";
+								break;
+						}
+					}
+					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY $order");
 					$query->execute();
 					$query->bind_result($id, $first, $last, $short, $money);
 					$arr = array();

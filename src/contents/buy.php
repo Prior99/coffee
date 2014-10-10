@@ -7,7 +7,9 @@
 	{
 		//See content.php for documentation of printTitle(), printHTML() and printHelp()
 		public function printTitle() {
-			echo("Kaufen");
+			?>
+				<div id="saldo"></div>
+			<?php
 		}
 
 		public function printHelp() {
@@ -35,12 +37,13 @@
 			}
 			else { //If he did login correctly, display him the page.
 				?>
-					<div id="saldo"></div>
-					<div id="products"></div>
-					<div style="text-align: center;">
+					<div class="awrapper">
 						<a href="#" class="button" id="buy">Kaufen</a>
+					</div>
+					<div class="awrapper">
 						<a href="#" class="button" id="logout">Abmelden</a>
 					</div>
+					<div id="products"></div>
 					<script type="text/javascript">
 						/*
 						 * This is actually pretty basic and simple javascript
@@ -84,7 +87,7 @@
 								url: "?json=saldo" //Ask the API
 							}).done(function(res) {
 								var obj = JSON.parse(res);
-								$("#saldo").html("Ausstehend: " +obj.sum.toFixed(2) + "€"); //Update the div
+								$("#saldo").html("Saldo: -" +obj.sum.toFixed(2) + "€"); //Update the div
 							});
 						}
 						refreshSaldo();//Initially refresh the saldo
@@ -196,6 +199,7 @@
 								doLogout();
 							});
 							$("#buy").click(function(e) { //Here comes the real stuff!
+								var loading = displayPopup("Bitte warten", "Ihr Kaffee wird gebucht...");
 								//First of all, stop IE and FF Mobile from screwing up!
 								e.preventDefault();
 								refreshTimeout(); //The user did something
@@ -223,7 +227,11 @@
 											refreshSaldo(); //Refresh the saldo
 										}
 									}
-									displayPopup("Kauf erfolgreich", "Ihr Kaffee wurde erfolgreich gekauft. Bitte kaufen Sie bald wieder einen Kaffee.");
+									loading.remove();
+									var success = displayPopup("Kauf erfolgreich", "Vielen Dank! Bitte kaufen Sie bald wieder einen Kaffee.");
+									setTimeout(function() {
+										success.remove();
+									}, 3000);
 								});
 								//console.log(objs); //Nasty debugoutput
 							});

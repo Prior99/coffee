@@ -80,7 +80,7 @@
 									setCookie("code", code, 1); //...set the cookie...
 									location.href = "?action=buy";//...and redirect to buy.php
 								}
-								else 
+								else
 								if(result.locked) { //Account was locked
 									location.href=location.href;
 								}
@@ -120,10 +120,10 @@
 							(function (x) { //Scope out because of asynchroneous events
 								//x is the number the user pressed
 								var td = $("<td>" + x + "</td>").appendTo(tr) //And 3 columns
-									.on("mouseup", function() {
+									.on("click", function() {
 										selected(x); //Call selected with the number entered
-									})
-									.on("touchend", function(e) {
+									});
+									/*.on("touchend", function(e) {
 										selected(x);
 										//Again, stop nasty browsers from calling everything twice by passing touchevents to mousevents.
 										//Look at buy.php for more detailed grumbling about this problem
@@ -131,7 +131,7 @@
 										e.cancelBubble = true;
 										e.stopImmediatePropagation();
 										e.preventDefault();
-									});
+									});*/
 							})(j + 3*i);
 						}
 						table.append(tr); //Attach to table
@@ -139,16 +139,16 @@
 					//The zero and the backspace need to be created seperatly because the backspace spans two columns
 					//I want explain this, just look in the loop above
 					var zero = $("<td>0</td>")
-						.on("mouseup", function() {
+						.on("click", function() {
 							selected(0);
-						})
-						.on("touchend", function(e) {
+						});
+						/*.on("touchend", function(e) {
 							selected(0);
 							if(e.stopPropagation) e.stopPropagation();
 							e.cancelBubble = true;
 							e.stopImmediatePropagation();
 							e.preventDefault();
-						});
+						});*/
 					/*
 					 * This method is called when backspace is pressed
 					 */
@@ -161,15 +161,16 @@
 					//Create the backspace, it's the same as for 1-9 and 0,
 					//the only differences are, that it calls backspace() and spans two columns
 					table.append($("<tr></tr>").append(zero).append($("<th colspan='2'> &larr; </th>")
-						.on("mouseup", function() {
+						.on("click", function() {
 							backspace();
-						}).on("touchend", function(e) {
+						})));
+						/*.on("touchend", function(e) {
 							backspace();
 							if(e.stopPropagation) e.stopPropagation();
 							e.cancelBubble = true;
 							e.stopImmediatePropagation();
 							e.preventDefault();
-						})));
+						})));*/
 				</script>
 			<?php
 		}
