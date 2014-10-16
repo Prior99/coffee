@@ -250,6 +250,8 @@
 				$json = new JSONDownloadBackup($this);
 			else if($command == "backup_load")
 				$json = new JSONBackupLoad($this);
+			else if($command == "nudge")
+				$json = new JSONNudge($this);
 			else
 				$json = new JSONEmpty($this);
 			$json->printJSON();

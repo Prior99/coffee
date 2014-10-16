@@ -98,13 +98,13 @@
 								break;
 						}
 					}
-					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY $order");
+					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, u.mail, SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id GROUP BY(u.id) ORDER BY $order");
 					$query->execute();
-					$query->bind_result($id, $first, $last, $short, $money);
+					$query->bind_result($id, $first, $last, $short, $mail, $money);
 					$arr = array();
 					while($query->fetch()) {
 						//Now store amount in assoc-array to convert into json-objects lateron
-						array_push($arr, array("id" => $id, "firstname" => $first, "lastname" => $last, "short" => $short, "pending" => $money));
+						array_push($arr, array("id" => $id, "firstname" => $first, "lastname" => $last, "short" => $short, "pending" => $money, "mail" => $mail));
 					}
 					$query->close();
 					echo(json_encode($arr));

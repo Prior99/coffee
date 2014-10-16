@@ -55,11 +55,13 @@
 					init();
 				}
 				$('<tr class="head"></tr>')
-					.append($('<td style="width: 200px;">Vorname </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("firstname"); })))
-					.append($('<td style="width: 200px;">Nachname </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("lastname"); })))
-					.append($('<td style="width: 55px;">Krzl. </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("short"); })))
-					.append($('<td style="width: 100px;">Ausstehend </td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("sum"); })))
-					.append('<td style="width: 200px;">Abrechnen </td>')
+					.append($('<td style="width: 200px;">Vorname</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("firstname"); })))
+					.append($('<td style="width: 200px;">Nachname</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("lastname"); })))
+					.append($('<td style="width: 55px;">Krzl.</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("short"); })))
+					.append('<td style="width: 100px;">E-Mail</td>')
+					.append($('<td style="width: 100px;">Ausstehend</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("sum"); })))
+					.append('<td style="width: 200px;">Abrechnen</td>')
+					.append('<td style="width: 110px;">Erinnern</td>')
 				.appendTo($("#tbl")); //Head-line of the table
 				/*
 				 * Displays the popup that opens if you click on a user
@@ -119,16 +121,28 @@
 							//Make 3 selected by default
 							select.append("<option value='" + i + "' " + (i == 3 ? "selected='true'" : "") + ">" + i + " Monate</option>")
 						}
+						var nudge = $("<button>E-Mail senden</button>").click(function() {
+							nudge.attr("disabled", "disabled");
+							nudge.html("Senden...");
+							$.ajax({
+								url : "?json=nudge&user=" + obj.id,
+								success : function() {
+									nudge.html("Versandt!");
+								}
+							})
+						});
 						var row = $("<tr></tr>") //Create new row for each user
 							.append("<td>" + obj.firstname + "</td>") //This should be self-explanary
 							.append("<td>" + obj.lastname + "</td>")
 							.append("<td>" + obj.short + "</td>")
+							.append("<td>" + obj.mail + "</td>")
 							.append("<td>" + obj.pending.toFixed(2) + "€</td>")
 							.append($("<td></td>")
 								.append(select).append($("<button>Abrechnen</button>").click(function() {
 									showPopup(obj.id, select.val()); //On click display corresponding popup
 								}))
-							);
+							)
+							.append($("<td></td>").append(nudge));
 						$("#tbl").append(row);
 					})(obj, key);
 				}

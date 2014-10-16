@@ -129,6 +129,7 @@ div#userlist {
 div#products {
 	margin-right: 20px;
 	padding: none;
+	margin-bottom: 10px;
 }
 
 a.username,
@@ -245,6 +246,15 @@ div.awrapper {
 	width: 50%;
 	float: left;
 	margin: 0;
+}
+
+div.buttonswrapper {
+	height: 55px;
+	width: 100%;
+}
+
+div#products {
+	display: block;
 }
 
 a.button {

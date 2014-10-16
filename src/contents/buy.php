@@ -37,13 +37,23 @@
 			}
 			else { //If he did login correctly, display him the page.
 				?>
-					<div class="awrapper">
-						<a href="#" class="button" id="buy">Kaufen</a>
-					</div>
-					<div class="awrapper">
-						<a href="#" class="button" id="logout">Abmelden</a>
+					<div class="buttonswrapper">
+						<div class="awrapper">
+							<a href="#" class="button buy">Kaufen</a>
+						</div>
+						<div class="awrapper">
+							<a href="#" class="button logout">Abmelden</a>
+						</div>
 					</div>
 					<div id="products"></div>
+					<div class="buttonswrapper">
+						<div class="awrapper">
+							<a href="#" class="button buy">Kaufen</a>
+						</div>
+						<div class="awrapper">
+							<a href="#" class="button logout">Abmelden</a>
+						</div>
+					</div>
 					<script type="text/javascript">
 						/*
 						 * This is actually pretty basic and simple javascript
@@ -87,7 +97,7 @@
 								url: "?json=saldo" //Ask the API
 							}).done(function(res) {
 								var obj = JSON.parse(res);
-								$("#saldo").html("Saldo: -" +obj.sum.toFixed(2) + "€"); //Update the div
+								$("#saldo").html(obj.sum.toFixed(2) + "€"); //Update the div
 							});
 						}
 						refreshSaldo();//Initially refresh the saldo
@@ -195,10 +205,10 @@
 										.on("mouseup", up);
 								})(i);
 							}
-							$("#logout").click(function() {//If the user clicked "Abmelden", log them out (obvious, isn't it?)
+							$(".logout").click(function() {//If the user clicked "Abmelden", log them out (obvious, isn't it?)
 								doLogout();
 							});
-							$("#buy").click(function(e) { //Here comes the real stuff!
+							$(".buy").click(function(e) { //Here comes the real stuff!
 								var loading = displayPopup("Bitte warten", "Ihr Kaffee wird gebucht...");
 								//First of all, stop IE and FF Mobile from screwing up!
 								e.preventDefault();
