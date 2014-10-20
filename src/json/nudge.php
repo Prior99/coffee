@@ -20,8 +20,8 @@
 					}
 					$query->close();
 					$this->coffee->mail($mail, "Zahlungserinnerung Kaffee", "Hallo,\n\n".
-						"Wir müssen neuen Kaffee nachbestellen:\n"
-						"Bitte bezahlen Sie die ausstehende Summe von ".number_format($sum, 2)."€ in der Verwaltung.\n\n".
+						"Wir müssen neuen Kaffee nachbestellen:\n".
+						"Bitte bezahlen Sie möglichst bald die ausstehende Summe von ".number_format($sum, 2)."€ an der Anmeldung.\n\n".
 						"Vielen Dank,\n".
 						"Ihre Kaffeemaschine"
 					);

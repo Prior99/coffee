@@ -29,6 +29,7 @@
 	//after all)
 ?>
 	<h1>Verwaltung</h1>
+	<div id="sum"></div>
 	<table id="tbl">
 	</table>
 	<p>Klicken Sie hier um die Sitzung zu beenden und den Zugang zu sperren: <button id="logout">Abmelden</button></p>
@@ -42,7 +43,7 @@
 				deleteCookie("control"); //Delete the cookie (this is the action necessary to log a user out)
 				window.location.href = window.location.href; //And reload the page
 			});
-			
+
 			$.ajax({ //Do an API-Request to load the global statistics and generate the initial list
 				url : "?json=stats&order=" + sorting
 			}).done(function(result) {
@@ -110,7 +111,7 @@
 						}
 					});
 				}
-
+				var sum = 0;
 				for(var key in arr) { //Iterate over each and every user in the system
 					var obj = arr[key]; //arr was previously loaded from the API (look above) and contains each user as an object
 					(function(obj, index) {
@@ -131,6 +132,7 @@
 								}
 							})
 						});
+						sum += obj.pending;
 						var row = $("<tr></tr>") //Create new row for each user
 							.append("<td>" + obj.firstname + "</td>") //This should be self-explanary
 							.append("<td>" + obj.lastname + "</td>")
@@ -146,6 +148,7 @@
 						$("#tbl").append(row);
 					})(obj, key);
 				}
+				$("#sum").html("Gesamter ausstehender Betrag: " + sum.toFixed(2) + "€<br />");
 			});
 		}
 		init();
