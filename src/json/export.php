@@ -10,10 +10,13 @@
 			if(isset($_COOKIE["admin"]) && $_COOKIE["admin"] == $GLOBALS["config"]["Masterpassword"]) { //Security
 				date_default_timezone_set("Europe/Berlin"); //Prevent timezone-bugs
 				if(isset($_GET["startmonth"]) && isset($_GET["startday"]) && isset($_GET["startyear"]) &&
-					isset($_GET["endmonth"]) && isset($_GET["endday"]) && isset($_GET["endyear"])) {
-					$timestart = mktime(0, 0, 0, $_GET["startmonth"], $_GET["startday"], $_GET["startyear"]);
-					$timeend = mktime(0, 0, 0, $_GET["endmonth"], $_GET["endday"], $_GET["endyear"]);
-					$query = $this->coffee->db()->prepare("SELECT p.name AS name, COUNT(t.id) AS result FROM Transactions t LEFT JOIN Products p ON p.id = t.product WHERE t.date >= ? AND t.date <= ? GROUP BY p.id");
+					isset($_GET["endmonth"]) && isset($_GET["endday"]) && isset($_GET["endyear"]) &&
+					isset($_GET["endhour"]) && isset($_GET["endminute"]) && isset($_GET["startminute"]) && isset($_GET["starthour"])) {
+					$timestart = mktime($_GET["starthour"], $_GET["startminute"], 0,
+						$_GET["startmonth"], $_GET["startday"], $_GET["startyear"]);
+					$timeend = mktime($_GET["endhour"], $_GET["endminute"], 0,
+						$_GET["endmonth"], $_GET["endday"], $_GET["endyear"]);
+					$query = $this->coffee->db()->prepare("SELECT p.name AS name, COUNT(t.id) FROM Products p LEFT JOIN Transactions t ON p.id = t.product AND t.date >= ? AND t.date <= ? GROUP BY p.id");
 					$query->bind_param("ii", $timestart, $timeend);
 					$query->execute();
 					$query->bind_result($name, $result);

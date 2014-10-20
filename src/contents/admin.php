@@ -25,22 +25,39 @@
 				<a href="#" id="export_a"><h3>Exportieren</h3></a>
 				<div id="export_div">
 					<p>Sie können sich für jeden Monat eine Liste des Getränkeverbrauchs aller Benutzer als mit Semikolon getrennte CSV-Datei (Microsoft Excel) exportieren.</p>
-					Vom: <input size="1" type="text" id="startday" value="1">.
-					<input size="1" type="text" id="startmonth" value="1">.
-					<input size="2" type="text" id="startyear" value="1970"><br /><br />
-					Bis zum: <input size="1" type="text" id="endday" value="31">.
-					<input size="1" type="text" id="endmonth" value="12">.
-					<input size="2" type="text" id="endyear" value="2130"><br /><br />
+					Vom:
+					<p>
+						<input style="width: 50px;" type="text" id="startday" value="1">.
+						<input style="width: 50px;" type="text" id="startmonth" value="1">.
+						<input style="width: 100px;" type="text" id="startyear" value="1970"> um
+						<input style="width: 50px;" type="text" id="starthour" value="12"> :
+						<input style="width: 50px;" type="text" id="startminute" value="00">
+					</p>
+					Bis zum:
+					<p>
+						<input style="width: 50px;" type="text" id="endday" value="31">.
+						<input style="width: 50px;" type="text" id="endmonth" value="12">.
+						<input style="width: 100px;" type="text" id="endyear" value="2130"> um
+						<input style="width: 50px;" type="text" id="endhour" value="12"> :
+						<input style="width: 50px;" type="text" id="endminute" value="00">
+					</p>
 
 					<button id="export">Exportieren</button>
 				</div>
 				<script type="text/javascript">
+					var now = new Date();
+					$("#endday").val(now.getDate());
+					$("#endyear").val(now.getFullYear());
+					$("#endmonth").val(now.getMonth() + 1);
+					$("#endhour").val(now.getHours());
+					$("#endminute").val(now.getMinutes());
 					/*
 					 * Export
 					 */
 					$("#export").click(function() { //If the corresponding button is pressed, call the API which will do the remaining work
 						location.href = "?json=export&startmonth=" + $("#startmonth").val() + "&startyear=" + $("#startyear").val() + "&startday=" + $("#startday").val()
-							+ "&endmonth=" + $("#endmonth").val() + "&endyear=" + $("#endyear").val() + "&endday=" + $("#endday").val() ;
+							+ "&endmonth=" + $("#endmonth").val() + "&endyear=" + $("#endyear").val() + "&endday=" + $("#endday").val()
+							+ "&starthour=" + $("#starthour").val() + "&startminute=" + $("#startminute").val()+ "&endhour=" + $("#endhour").val() + "&endminute=" + $("#endminute").val();
 					});
 				</script>
 				<!-- Import users from CSV -->
