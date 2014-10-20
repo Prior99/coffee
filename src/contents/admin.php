@@ -25,37 +25,22 @@
 				<a href="#" id="export_a"><h3>Exportieren</h3></a>
 				<div id="export_div">
 					<p>Sie können sich für jeden Monat eine Liste des Getränkeverbrauchs aller Benutzer als mit Semikolon getrennte CSV-Datei (Microsoft Excel) exportieren.</p>
-					<select size="1" id="month">
-						<option value="1">Januar</option>
-						<option value="2">Februar</option>
-						<option value="3">März</option>
-						<option value="4">April</option>
-						<option value="5">Mai</option>
-						<option value="6">Juni</option>
-						<option value="7">Juli</option>
-						<option value="8">August</option>
-						<option value="9">September</option>
-						<option value="10">Oktober</option>
-						<option value="11">November</option>
-						<option value="12">Dezember</option>
-					</select>
-					<select size="1" id="year">
+					Vom: <input size="1" type="text" id="startday" value="1">.
+					<input size="1" type="text" id="startmonth" value="1">.
+					<input size="2" type="text" id="startyear" value="1970"><br /><br />
+					Bis zum: <input size="1" type="text" id="endday" value="31">.
+					<input size="1" type="text" id="endmonth" value="12">.
+					<input size="2" type="text" id="endyear" value="2130"><br /><br />
 
-					</select>
 					<button id="export">Exportieren</button>
 				</div>
 				<script type="text/javascript">
 					/*
 					 * Export
 					 */
-					var year = $("#year"); //This is the HTML-Element the user selects the year from
-					var now = new Date();
-					for(var i = 0; i < 5; i++) {
-						year.append("<option value=\"" + (now.getFullYear() - i) + "\">" + (now.getFullYear() - i) + "</option>");
-						//Lets generate 5 years from this year in the past and append it to the dropdown
-					}
 					$("#export").click(function() { //If the corresponding button is pressed, call the API which will do the remaining work
-						location.href = "?json=export&month=" + $("#month").val() + "&year=" + $("#year").val();
+						location.href = "?json=export&startmonth=" + $("#startmonth").val() + "&startyear=" + $("#startyear").val() + "&startday=" + $("#startday").val()
+							+ "&endmonth=" + $("#endmonth").val() + "&endyear=" + $("#endyear").val() + "&endday=" + $("#endday").val() ;
 					});
 				</script>
 				<!-- Import users from CSV -->
