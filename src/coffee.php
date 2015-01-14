@@ -63,6 +63,7 @@
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"user			INT," .
 					"product		INT," .
+					"price			FLOAT NOT NULL," .
 					"date			INT) CHARACTER SET utf8"
 			);
 			$this->db()->query(
@@ -211,7 +212,6 @@
 				$json = new JSONBuy($this);
 			else if($command == "products")
 				$json = new JSONProducts($this);
-
 			else if($command == "options")
 				$json = new JSONOptions($this);
 			else if($command == "import")
@@ -280,6 +280,16 @@
 			else
 				$content = new Content404($this);
 			$this->content = $content;
+		}
+
+		public function getProduct($id) {
+			$query = $this->db()->prepare("SELECT price, name, deleted FROM Products WHERE id = ?");
+			$query->bind_param("i", $id);
+			$query->execute();
+			$query->bind_result($price, $name, $deleted);
+			$query->fetch();
+			$query->close();
+			return array("price" => $price, "name" => $name, "deleted" => $deleted);
 		}
 
 		/*

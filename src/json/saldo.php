@@ -16,12 +16,10 @@
 				 * FROM Users u
 				 * LEFT JOIN Transactions t
 				 * 		ON t.user = u.id
-				 * LEFT JOIN Products p
-				 * 		ON t.product = p.id
 				 * WHERE u.id = ?
 				 * GROUP BY(u.id)
 				 */
-				$query = $this->coffee->db()->prepare("SELECT SUM(p.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id LEFT JOIN Products p ON t.product = p.id WHERE u.id = ? GROUP BY(u.id)");
+				$query = $this->coffee->db()->prepare("SELECT SUM(t.price) FROM Users u LEFT JOIN Transactions t ON t.user = u.id WHERE u.id = ? GROUP BY(u.id)");
 				$query->bind_param("i", $user);
 				$query->execute();
 				$query->bind_result($sum);

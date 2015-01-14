@@ -44,9 +44,10 @@
 					 * It is gross. I know. And I feel guilty about it.
 					 */
 					for($i = 0; $i < $p->bought; $i++) {
-						$query = $this->coffee->db()->prepare("INSERT INTO Transactions(user, product, date) VALUES(?, ?, ?)");
+						$product = $this->coffee->getProduct($p->id);
+						$query = $this->coffee->db()->prepare("INSERT INTO Transactions(user, product, date, price) VALUES(?, ?, ?, ?)");
 						$time = time();
-						$query->bind_param("iii", $user, $p->id, $time);
+						$query->bind_param("iii", $user, $p->id, $time, -$product->price);
 						$query->execute();
 						$query->close();
 						$amount++;
@@ -54,7 +55,7 @@
 				}
 				$hour = date("H");
 				if($hour < 6 || $hour >= 18) {
-					$this->coffee->mail($GLOBALS["config"]["Mastermail"], "Kaffee-Kauf außerhalb Betriebszeiten", 
+					$this->coffee->mail($GLOBALS["config"]["Mastermail"], "Kaffee-Kauf außerhalb Betriebszeiten",
 					"Hallo,\n\n".
 					"Soeben wurde ein Kaffee-Kauf außerhalb der Betriebszeiten der Kaffee-Maschine (vor 07:00 oder nach 18:00) getätigt.\n".
 					"Der Käufer war: ".$this->coffee->getUsername()."\n\n".

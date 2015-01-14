@@ -69,46 +69,37 @@
 				 * Blurs the background out and makes all other elements inaccessible
 				 * Then loads their detailed statistics per month per API-Request and displays corresponding the table
 				 */
-				function showPopup(id, select) {
+				function showPopup(id) {
 					var popup = $("<div class='popup'></div>").appendTo("div.blocker").click(function(e){e.stopPropagation();});
 					$("div.blocker").show().click(function() {
 						popup.remove(); //If clicked anywhere in the background, close the popup
 						$("div.blocker").hide();
 					});
-					$.ajax({ //Load detailed per-month-statistics
-						url : "?json=stats&user=" + id + "&month=" + select
-					}).done(function(json) {
-						var table = $("<table></table>").append($("<tr class='head'></tr>")
-							.append("<td style='width: 200px;'>Monat</td>")
-							.append("<td style='width: 100px;'>Ausstehend</td>")
-							.append("<td style='width: 100px;'>Tilgen</td>"));
-						popup.append(table); //Create table and headline
-						var arr = JSON.parse(json); //Array of all months and their saldos
-						for(var key in arr) { //Key is now the name of each month
-							(function(obj) { //Scope out
-								var betrag = obj.money;
-								if(betrag == null || betrag == undefined || betrag == "null") betrag = 0; //To ensure an integer
-								table.append($("<tr></tr>") //Add a new line to the table
-									.append("<td>" + key + "</td>") //Key is the name of the month
-									.append("<td>" + betrag.toFixed(2) + "€</td>") //Display the saldo properly formatted
-									.append($("<td></td>") //Another column for the button
-										.append($("<button>Tilgen</button>").click(function() {
-											$.ajax({ //Tell the API to delete saldo
-												url : "?json=pay&user=" + id + "&lower=" + obj.lower + "&upper=" + obj.upper
-											}).done(function(e) {
-												popup.remove(); //Remove the popup
-												/*
-												 * Refresh the table
-												 */
-												$("#tbl").html("");
-												init();
-												showPopup(id, select);
-												/*******/
-											});
-										}))
-									));
-							})(arr[key]);
-						}
+					var input = $('<input type="text" value="0.00" />').appendTo(
+						popup
+							.append("<h1>Einzahlen</h1>")
+							.append(
+								$("<div class='warn'><h1>Nicht möglich</h1><p>Der einzuzahlende Betrag ist niedriger als der ausstehende Betrag. Bitte mindestens die ausstehenden Schulden bezahlen um das Konto ins Positive zu rücken.</p></div>").hide()
+							)
+					);
+					var button = $('<button value="Okay"></button>').appendTo(popup);
+
+					button.click(function() {
+						$.ajax({ //Tell the API to delete saldo
+							url : "?json=pay&user=" + id + "&value=" + input.val()
+						}).done(function(ok) {
+							if(ok) {
+								popup.remove(); //Remove the popup
+								/*
+								 * Refresh the table
+								 */
+								$("#tbl").html("");
+								init();
+							}
+							else {
+								warn.show();
+							}
+						});
 					});
 				}
 				var sum = 0;
@@ -116,12 +107,6 @@
 					var obj = arr[key]; //arr was previously loaded from the API (look above) and contains each user as an object
 					(function(obj, index) {
 						if(obj.pending == null || obj.pending == undefined || obj.pending == "null") obj.pending = 0; //Ensure integer on null
-						var select = $("<select size=1></select>");//The select as a dropdown
-						for(var i = 1; i <= 12; i++) {
-							//Add options for 1 to 12 months to review
-							//Make 3 selected by default
-							select.append("<option value='" + i + "' " + (i == 3 ? "selected='true'" : "") + ">" + i + " Monate</option>")
-						}
 						var nudge = $("<button>E-Mail senden</button>").click(function() {
 							nudge.attr("disabled", "disabled");
 							nudge.html("Senden...");
@@ -140,8 +125,8 @@
 							.append("<td>" + obj.mail + "</td>")
 							.append("<td>" + obj.pending.toFixed(2) + "€</td>")
 							.append($("<td></td>")
-								.append(select).append($("<button>Abrechnen</button>").click(function() {
-									showPopup(obj.id, select.val()); //On click display corresponding popup
+								.append($("<button>Einzahlen</button>").click(function() {
+									showPopup(obj.id); //On click display corresponding popup
 								}))
 							)
 							.append($("<td></td>").append(nudge));
