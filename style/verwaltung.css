@@ -51,6 +51,28 @@ table tr.head a {
 	color: blue;
 }
 
+div.popup {
+	background-color: white;
+	border: 1px solid #DDD;
+	padding: 10px;
+	min-height: 0;
+	min-width: 0;
+}
+
+div.popup div.warn {
+	color: red;
+}
+
+div.popup div.warn p {
+	font-style: italic;
+}
+
+div.popup div.warn h1  {
+	font-size: 14pt;
+	font-style: normal;
+}
+
+
 table tr.head td, table tr.head td:first-child {
 	background-color: #DDD;
 	border:	none;

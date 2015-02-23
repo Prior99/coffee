@@ -47,7 +47,8 @@
 						$product = $this->coffee->getProduct($p->id);
 						$query = $this->coffee->db()->prepare("INSERT INTO Transactions(user, product, date, price) VALUES(?, ?, ?, ?)");
 						$time = time();
-						$query->bind_param("iii", $user, $p->id, $time, -$product->price);
+						$negprice = $product["price"] * -1.;
+						$query->bind_param("iiid", $user, $p->id, $time, $negprice);
 						$query->execute();
 						$query->close();
 						$amount++;

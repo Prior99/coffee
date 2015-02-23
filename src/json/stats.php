@@ -37,7 +37,7 @@
 								$order = "u.short ASC";
 								break;
 							case "sum":
-								$order = "SUM(p.price) DESC";
+								$order = "SUM(t.price) ASC";
 								break;
 						}
 					}

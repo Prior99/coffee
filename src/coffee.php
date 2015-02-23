@@ -97,14 +97,14 @@
 				/*
 				 * Backup Transactions
 				 */
-				$query = $this->db()->prepare("SELECT id, user, product, date FROM Transactions");
+				$query = $this->db()->prepare("SELECT id, user, product, date, price FROM Transactions");
 				$query->execute();
-				$query->bind_result($id, $user, $product, $date);
-				fwrite($file, "INSERT INTO Transactions(id, user, product, date) VALUES\n");
+				$query->bind_result($id, $user, $product, $date, $price);
+				fwrite($file, "INSERT INTO Transactions(id, user, product, date, price) VALUES\n");
 				if($query->fetch()) {
-					fwrite($file, "($id, $user, $product, $date)");
+					fwrite($file, "($id, $user, $product, $date, $price)");
 					while($query->fetch()) {
-						fwrite($file, ", \n($id, $user, $product, $date)");
+						fwrite($file, ", \n($id, $user, $product, $date, $price)");
 					}
 					fwrite($file, ";\n\n");
 				}

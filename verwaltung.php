@@ -5,8 +5,8 @@
 	 */
 	ob_start(); //Init outputbuffering
 	date_default_timezone_set("Europe/Berlin"); //Prevent any timezonebugs/misconfigurations on productionenvironement
-	require_once("./config.php"); //Load configuration for databaseaccess
-	require_once("./src/coffee.php");
+	require_once(__DIR__."/config.php"); //Load configuration for databaseaccess
+	require_once(__DIR__."/src/coffee.php");
 	$time = microtime(true); //Start of timemeasurement
 	$coffee = new Coffee(); //Also the Verwaltung needs an instance of the Pagegenerator
 	if(!isset($_GET["json"])) { //As well the Verwaltung has an API-Request-Option and should only print HTML when this is non API-request
@@ -60,7 +60,7 @@
 					.append($('<td style="width: 200px;">Nachname</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("lastname"); })))
 					.append($('<td style="width: 55px;">Krzl.</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("short"); })))
 					.append('<td style="width: 100px;">E-Mail</td>')
-					.append($('<td style="width: 100px;">Ausstehend</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("sum"); })))
+					.append($('<td style="width: 100px;">Kontostand</td>').append($("<a href='#'>▲</a>").click(function() { changeSorting("sum"); })))
 					.append('<td style="width: 200px;">Abrechnen</td>')
 					.append('<td style="width: 110px;">Erinnern</td>')
 				.appendTo($("#tbl")); //Head-line of the table
@@ -75,21 +75,21 @@
 						popup.remove(); //If clicked anywhere in the background, close the popup
 						$("div.blocker").hide();
 					});
+					var warn = $("<div class='warn'><h1>Nicht möglich</h1><p>Der einzuzahlende Betrag ist niedriger als der ausstehende Betrag. Bitte mindestens die ausstehenden Schulden bezahlen um das Konto ins Positive zu rücken.</p></div>").hide();
 					var input = $('<input type="text" value="0.00" />').appendTo(
 						popup
-							.append("<h1>Einzahlen</h1>")
-							.append(
-								$("<div class='warn'><h1>Nicht möglich</h1><p>Der einzuzahlende Betrag ist niedriger als der ausstehende Betrag. Bitte mindestens die ausstehenden Schulden bezahlen um das Konto ins Positive zu rücken.</p></div>").hide()
-							)
+							.append("<h1>Einzahlen</h1><p>Es muss mindestens der ausstehende Betrag eingezahlt werden.</p>")
+							.append(warn)
 					);
-					var button = $('<button value="Okay"></button>').appendTo(popup);
+					var button = $('<button>Okay</button>').appendTo(popup);
 
 					button.click(function() {
 						$.ajax({ //Tell the API to delete saldo
 							url : "?json=pay&user=" + id + "&value=" + input.val()
 						}).done(function(ok) {
-							if(ok) {
+							if(ok === "true") {
 								popup.remove(); //Remove the popup
+								$("div.blocker").hide();
 								/*
 								 * Refresh the table
 								 */
@@ -122,9 +122,17 @@
 							.append("<td>" + obj.firstname + "</td>") //This should be self-explanary
 							.append("<td>" + obj.lastname + "</td>")
 							.append("<td>" + obj.short + "</td>")
-							.append("<td>" + obj.mail + "</td>")
-							.append("<td>" + obj.pending.toFixed(2) + "€</td>")
-							.append($("<td></td>")
+							.append("<td>" + obj.mail + "</td>");
+						if(obj.pending > 0) {
+							row.append("<td style='font-weight: bold; color: green'>" + obj.pending.toFixed(2) + "€</td>");
+						}
+						else if(obj.pending < 0){
+							row.append("<td style='font-weight: bold; color: red'>" + obj.pending.toFixed(2) + "€</td>");
+						}
+						else {
+							row.append("<td style='font-weight: bold; color: blue'>" + obj.pending.toFixed(2) + "€</td>");
+						}
+						row.append($("<td></td>")
 								.append($("<button>Einzahlen</button>").click(function() {
 									showPopup(obj.id); //On click display corresponding popup
 								}))
@@ -133,7 +141,11 @@
 						$("#tbl").append(row);
 					})(obj, key);
 				}
-				$("#sum").html("Gesamter ausstehender Betrag: " + sum.toFixed(2) + "€<br />");
+				var color;
+				if(sum > 0) color = "green";
+				else if(sum < 0) color = "red";
+				else color = "blue";
+				$("#sum").html("Kontostand: <span style='font-weight: bold; color: " + color + ";'>" + sum.toFixed(2) + "€</span><br />");
 			});
 		}
 		init();
