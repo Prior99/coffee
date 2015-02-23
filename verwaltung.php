@@ -5,8 +5,8 @@
 	 */
 	ob_start(); //Init outputbuffering
 	date_default_timezone_set("Europe/Berlin"); //Prevent any timezonebugs/misconfigurations on productionenvironement
-	require_once("config.php"); //Load configuration for databaseaccess
-	require_once("src/coffee.php");
+	require_once("./config.php"); //Load configuration for databaseaccess
+	require_once("./src/coffee.php");
 	$time = microtime(true); //Start of timemeasurement
 	$coffee = new Coffee(); //Also the Verwaltung needs an instance of the Pagegenerator
 	if(!isset($_GET["json"])) { //As well the Verwaltung has an API-Request-Option and should only print HTML when this is non API-request
