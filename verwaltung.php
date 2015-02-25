@@ -106,7 +106,12 @@
 				for(var key in arr) { //Iterate over each and every user in the system
 					var obj = arr[key]; //arr was previously loaded from the API (look above) and contains each user as an object
 					(function(obj, index) {
-						if(obj.pending == null || obj.pending == undefined || obj.pending == "null") obj.pending = 0; //Ensure integer on null
+						if(obj.pending == null || obj.pending == undefined || obj.pending == "null") {
+							obj.pending = 0; //Ensure integer on null
+						}
+						else {
+							obj.pending = parseFloat(obj.pending);
+						}
 						var nudge = $("<button>E-Mail senden</button>").click(function() {
 							nudge.attr("disabled", "disabled");
 							nudge.html("Senden...");

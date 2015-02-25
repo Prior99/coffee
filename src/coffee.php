@@ -55,7 +55,7 @@
 				"CREATE TABLE IF NOT EXISTS Products(" .
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"name			TEXT,".
-					"price			FLOAT,".
+					"price			DECIMAL(7,4),".
 					"deleted		INT DEFAULT 0) CHARACTER SET utf8"
 			);
 			$this->db()->query(
@@ -63,7 +63,7 @@
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"user			INT," .
 					"product		INT," .
-					"price			FLOAT NOT NULL," .
+					"price			DECIMAL(7,4) NOT NULL," .
 					"date			INT) CHARACTER SET utf8"
 			);
 			$this->db()->query(
