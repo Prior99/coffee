@@ -38,6 +38,17 @@
 		if(getCookie("sorting")) {
 			sorting = getCookie("sorting");
 		}
+
+		function getColor(value) {
+			if (value > 0) {
+				return 'green';
+			} else if (value < 0) {
+				return 'red';
+			} else {
+				return 'blue';
+			}
+		}
+
 		function init() { //Called when page has fully loaded
 			$("#logout").click(function() { //If the logoutbutton is clicked,
 				deleteCookie("control"); //Delete the cookie (this is the action necessary to log a user out)
@@ -127,17 +138,9 @@
 							.append("<td>" + obj.firstname + "</td>") //This should be self-explanary
 							.append("<td>" + obj.lastname + "</td>")
 							.append("<td>" + obj.short + "</td>")
-							.append("<td>" + obj.mail + "</td>");
-						if(obj.pending > 0) {
-							row.append("<td style='font-weight: bold; color: green'>" + obj.pending.toFixed(2) + "€</td>");
-						}
-						else if(obj.pending < 0){
-							row.append("<td style='font-weight: bold; color: red'>" + obj.pending.toFixed(2) + "€</td>");
-						}
-						else {
-							row.append("<td style='font-weight: bold; color: blue'>" + obj.pending.toFixed(2) + "€</td>");
-						}
-						row.append($("<td></td>")
+							.append("<td>" + obj.mail + "</td>")
+							.append("<td style='font-weight: bold; color: " + getColor(obj.pending) + "'>" + obj.pending.toFixed(2) + "€</td>")
+							.append($("<td></td>")
 								.append($("<button>Einzahlen</button>").click(function() {
 									showPopup(obj.id); //On click display corresponding popup
 								}))
@@ -146,11 +149,7 @@
 						$("#tbl").append(row);
 					})(obj, key);
 				}
-				var color;
-				if(sum > 0) color = "green";
-				else if(sum < 0) color = "red";
-				else color = "blue";
-				$("#sum").html("Kontostand: <span style='font-weight: bold; color: " + color + ";'>" + sum.toFixed(2) + "€</span><br />");
+				$("#sum").html("Kontostand: <span style='font-weight: bold; color: " + getColor(sum) + ";'>" + sum.toFixed(2) + "€</span><br />");
 			});
 		}
 		init();
