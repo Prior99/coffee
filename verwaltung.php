@@ -95,8 +95,10 @@
 					var button = $('<button>Okay</button>').appendTo(popup);
 
 					button.click(function() {
+						var value = input.val().replace(",", ".");
+						value = parseInt(parseFloat(value) * 100);
 						$.ajax({ //Tell the API to delete saldo
-							url : "?json=pay&user=" + id + "&value=" + input.val()
+							url : "?json=pay&user=" + id + "&value=" + value
 						}).done(function(ok) {
 							if(ok === "true") {
 								popup.remove(); //Remove the popup
@@ -139,7 +141,7 @@
 							.append("<td>" + obj.lastname + "</td>")
 							.append("<td>" + obj.short + "</td>")
 							.append("<td>" + obj.mail + "</td>")
-							.append("<td style='font-weight: bold; color: " + getColor(obj.pending) + "'>" + obj.pending.toFixed(2) + "€</td>")
+							.append("<td style='font-weight: bold; color: " + getColor(obj.pending) + "'>" + (obj.pending / 100).toFixed(2) + "€</td>")
 							.append($("<td></td>")
 								.append($("<button>Einzahlen</button>").click(function() {
 									showPopup(obj.id); //On click display corresponding popup
@@ -149,7 +151,7 @@
 						$("#tbl").append(row);
 					})(obj, key);
 				}
-				$("#sum").html("Kontostand: <span style='font-weight: bold; color: " + getColor(sum) + ";'>" + sum.toFixed(2) + "€</span><br />");
+				$("#sum").html("Kontostand: <span style='font-weight: bold; color: " + getColor(sum) + ";'>" + (sum / 100).toFixed(2) + "€</span><br />");
 			});
 		}
 		init();

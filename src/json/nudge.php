@@ -21,9 +21,10 @@
 					// Sum is negative...
 					$sum = $sum * -1;
 					$query->close();
+					echo $sum;
 					$this->coffee->mail($mail, "Zahlungserinnerung Kaffee", "Hallo,\n\n".
 						"Wir müssen neuen Kaffee nachbestellen:\n".
-						"Bitte bezahlen Sie möglichst bald die ausstehende Summe von ".number_format($sum, 2)."€ an der Anmeldung.\n\n".
+						"Bitte bezahlen Sie möglichst bald die ausstehende Summe von ". number_format($sum / 100, 2) ."€ an der Anmeldung.\n\n".
 						"Vielen Dank,\n".
 						"Ihre Kaffeemaschine"
 					);

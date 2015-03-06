@@ -35,7 +35,7 @@
 		/*
 		 * Creates all necessary tables, if they are not created already
 		 *
-		 * Please note, this creates the overhead of 3 empty querys on each page-load
+		 * Please note, this creates the overhead of 4 empty querys on each page-load
 		 * But so does not need any installation-script to be run
 		 */
 		private function checkAndInstallDatabase() {
@@ -55,7 +55,7 @@
 				"CREATE TABLE IF NOT EXISTS Products(" .
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"name			TEXT,".
-					"price			DECIMAL(7,4),".
+					"price			INT,".
 					"deleted		INT DEFAULT 0) CHARACTER SET utf8"
 			);
 			$this->db()->query(
@@ -63,7 +63,7 @@
 					"id				INT NOT NULL AUTO_INCREMENT PRIMARY KEY," .
 					"user			INT," .
 					"product		INT," .
-					"price			DECIMAL(7,4) NOT NULL," .
+					"price			INT NOT NULL," .
 					"date			INT) CHARACTER SET utf8"
 			);
 			$this->db()->query(

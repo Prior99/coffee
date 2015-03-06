@@ -48,14 +48,14 @@
 					 * 			u.firstname,
 					 * 			u.lastname,
 					 * 			u.short,
-					 * 			SUM(p.price)
+					 * 			COALESCE(SUM(p.price), 0)
 					 * 		FROM Users u
 					 * 		LEFT JOIN Transactions t
 					 * 			ON t.user = u.id
 					 * 		GROUP BY(u.id)
 					 * 		ORDER BY u.lastname, u.firstname ASC
 					 */
-					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, u.mail, ROUND(COALESCE(SUM(t.price), 0.0),2) AS money FROM Users u LEFT JOIN Transactions t ON t.user = u.id GROUP BY(u.id) ORDER BY $order");
+					$query = $this->coffee->db()->prepare("SELECT u.id, u.firstname, u.lastname, u.short, u.mail, COALESCE(SUM(t.price), 0) AS money FROM Users u LEFT JOIN Transactions t ON t.user = u.id GROUP BY(u.id) ORDER BY $order");
 					$query->execute();
 					$query->bind_result($id, $first, $last, $short, $mail, $money);
 					$arr = array();

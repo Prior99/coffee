@@ -97,7 +97,7 @@
 								url: "?json=saldo" //Ask the API
 							}).done(function(res) {
 								var obj = JSON.parse(res);
-								$("#saldo").html("Konto:" + parseFloat(obj.sum).toFixed(2) + "€"); //Update the div
+								$("#saldo").html("Konto:" + (obj.sum / 100).toFixed(2) + "€"); //Update the div
 							});
 						}
 						refreshSaldo();//Initially refresh the saldo
@@ -178,7 +178,7 @@
 										//To prevent ugly selectmarks on iOS and Android
 										.attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false)
 										//Create the div and display the price
-										.appendTo(products).append(counter).append($("<div>" + parseFloat(product.price).toFixed(2) + "€ " + product.name + "</div>"))
+										.appendTo(products).append(counter).append($("<div>" + (product.price / 100).toFixed(2) + "€ " + product.name + "</div>"))
 										//For touch-enabled devices
 										.on("touchstart", function(e) {
 											down();
