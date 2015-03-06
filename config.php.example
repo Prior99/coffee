@@ -1,0 +1,23 @@
+<?php
+        $config = array();
+
+        /*
+         * Bitte geben Sie hier die Anmeldeinformationen am Datenbankserver an
+         * Eine entsprechende Datenbank muss bereits vorhanden sein, Tabellen werden 
+         * beim ersten öffnen der Webseite automatisch erzeugt.
+         */
+        $config["Host"]                          = "localhost";
+        $config["User"]                          = "root";
+        $config["Password"]                      = "my_super_secret_password";
+        $config["Database"]                      = "kaffee";
+        $config["Port"]                      	 = 3306;
+        
+        /*
+         * Geben Sie ein Passwort an, das den Zugang zum Admin-Interface ermöglicht.
+         */
+	$config["Masterpassword"]        = "my_super_secret_admin_password";
+        $config["Controlpassword"]       = "super_secret_password_for_control";
+        $config["Mastermail"]        = "webmaster@example.org";
+        $config["Backupfrequency"]   = 60 * 60 * 4; 		//4 Stunden
+        $config["Backuplifetime"]    = 60 * 60 * 24 * 31 * 6; 	//~6 Monate
+?>
