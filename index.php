@@ -17,6 +17,7 @@
 ?>
 <!DOCTYPE HTML>
 <head>
+	<link rel="icon" type="image/png" href="/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1, user-scalable=0" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="style/fantasque_sans_mono/stylesheet.css" />
