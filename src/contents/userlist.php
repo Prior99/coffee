@@ -47,13 +47,43 @@
 					value="Suchen"
 					style="margin-bottom: 10px; width: 100%;"
 				/>
+				<div class="keyboard">
+					<table id="keyboard" class="code"></table>
+				</div>
 				<div id="userlist">
 				</div>
 				<script type="text/javascript">
+					var search = $("input[name='search']");
+					var userlist = $("#userlist"); //HTML-Element to display list in
+					var keyboard = $("#keyboard");
+					var keyboarddiv = $("div.keyboard");
+					var kbinit = false;
+					var row;
+					for(var i = 0; i < 26; i++) {
+						if(i % 6 == 0) {
+							row = $("<tr></tr>").appendTo(keyboard);
+						}
+						(function(j) {
+							var c = String.fromCharCode(65 + j);
+							search.keyup();
+							row.append($("<td>" + c + "</td>").click(function() {
+								if(!kbinit) {
+									kbinit = true;
+									search.val("");
+								}
+								search.val(search.val() + c);
+								search.keyup();
+							}));
+						})(i);
+					}
+					row.append($("<th colspan='4'>&larr;</th>").click(function() {
+						search.val(search.val().substring(0, search.val().length - 1));
+						search.keyup();
+					}));
+					keyboarddiv.hide();
 					$.ajax({//retrieve an array with all users from the server
 						url : "?json=userlist",
 					}).done(function(res) {
-						var userlist = $("#userlist"); //HTML-Element to display list in
 						var response = JSON.parse(res);
 						/*
 						 * This method generates a beautiful list out of an array with all users
@@ -74,7 +104,6 @@
 							}
 						};
 						generateList(response); //Generate the initial list
-						var search = $("input[name='search']");
 						search.keyup(function() { //If the live-searchbox was used
 							var value = search.val().toLowerCase();//get the content of the box
 							var arr = []; //Create a new array
@@ -87,6 +116,10 @@
 							}
 							generateList(arr);//The array now contains only those elements that have the entered phrase in them. Display it now!
 						}).click(function() {
+							kbinit = true;
+							if(getCookie("osk")) {
+								keyboarddiv.show();
+							}
 							search.val(""); //If clicked, delete the contents (Because it initially contains "Suchen")
 						});
 					});

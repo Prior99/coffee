@@ -15,6 +15,32 @@ div.title {
 	position: fixed;
 	width: 100%;
 }
+/*div.keyboard {
+	position: absolute;
+	width: 40%;
+	right: 20px;
+	top: 55px;
+	padding: 10px;
+	background: rgba(77, 57, 42, .5);
+	display: block;
+	float: left;
+}*/
+
+div.keyboard {
+	width: 100%;
+	background: rgba(77, 57, 42, .5);
+	padding: 10px;
+	display: block;
+	bottom: 10px;
+}
+
+table#keyboard td{
+	height: 50px;
+}
+
+div#keyboard tbody {
+	width: 100%;
+}
 
 div.title a.button {
 	margin: 5px 10px 5px 10px;

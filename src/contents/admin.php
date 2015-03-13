@@ -157,32 +157,58 @@
 					});
 				</script>
 				<!-- Set if this device is public or not (autologout and stuff depends on this) -->
-				<a href="#" id="open_a"><h3>Öffentliches Gerät</h3></a>
-				<div id="open_div">
-					<p>In öffentlichen Geräten werden Benutzer automatisch nach kurzer Zeit der Inaktivität abgemeldet.
-					Auf privaten Geräten führt ein Aufrufen der Wurzelseite nicht zur Benutzerliste sondern direkt zum Kaufen.</p>
-					<p><input type="checkbox" id="open"/> Dies ist ein öffentliches Gerät</p>
-				</div>
-				<script type="text/javascript">
-					/*
-					 * Public device
-					 *
-					 * The whole thing works device-based.
-					 * Either the cookie is set and autologout occurs or it is not set and the user stays logged in
-					 */
-					var open = $("#open"); //The HTML-Element of the checkbox
-					if(getCookie("open")) { //Look if the devices is already public or not
-						open.prop({"checked" : true}); //And modify the value
-					}
-					open.click(function() {
-						if(open.prop("checked")) { //Set the cookie if the user checked it
-							setCookie("open", true, 365);
+				<a href="#" id="osk_a"><h3>On screen keyboard</h3></a>
+				<div id="osk_div">
+					<p>Aktiviert das onscreenkeyboard für Geräte ohne Tastatur oder eigene OSK.</p>
+						<p><input type="checkbox" id="osk"/> OSK aktivieren</p>
+					</div>
+					<script type="text/javascript">
+						/*
+						* Public device
+						*
+						* The whole thing works device-based.
+						* Either the cookie is set and autologout occurs or it is not set and the user stays logged in
+						*/
+						var osk = $("#osk"); //The HTML-Element of the checkbox
+						if(getCookie("osk")) { //Look if the devices is already public or not
+							osk.prop({"checked" : true}); //And modify the value
 						}
-						else {
-							deleteCookie("open"); //or delete it if he unchecked it
+						osk.click(function() {
+							if(osk.prop("checked")) { //Set the cookie if the user checked it
+								setCookie("osk", true, 365);
+							}
+							else {
+								deleteCookie("osk"); //or delete it if he unchecked it
+							}
+						});
+					</script>
+					<!-- Set if this device is public or not (autologout and stuff depends on this) -->
+					<a href="#" id="open_a"><h3>Öffentliches Gerät</h3></a>
+					<div id="open_div">
+						<p>In öffentlichen Geräten werden Benutzer automatisch nach kurzer Zeit der Inaktivität abgemeldet.
+							Auf privaten Geräten führt ein Aufrufen der Wurzelseite nicht zur Benutzerliste sondern direkt zum Kaufen.</p>
+							<p><input type="checkbox" id="open"/> Dies ist ein öffentliches Gerät</p>
+						</div>
+						<script type="text/javascript">
+						/*
+						* Public device
+						*
+						* The whole thing works device-based.
+						* Either the cookie is set and autologout occurs or it is not set and the user stays logged in
+						*/
+						var open = $("#open"); //The HTML-Element of the checkbox
+						if(getCookie("open")) { //Look if the devices is already public or not
+							open.prop({"checked" : true}); //And modify the value
 						}
-					});
-				</script>
+						open.click(function() {
+							if(open.prop("checked")) { //Set the cookie if the user checked it
+								setCookie("open", true, 365);
+							}
+							else {
+								deleteCookie("open"); //or delete it if he unchecked it
+							}
+						});
+						</script>
 				<!-- Delete user -->
 				<a href="#" id="delete_a"><h3>Benutzer löschen</h3></a>
 				<div id="delete_div">
@@ -439,6 +465,8 @@
 					$("#import_a").click(function() { $("#import_div").toggle(); });
 					$("#open_div").hide();
 					$("#open_a").click(function() { $("#open_div").toggle(); });
+					$("#osk_div").hide();
+					$("#osk_a").click(function() { $("#osk_div").toggle(); });
 					$("#delete_div").hide();
 					$("#delete_a").click(function() { $("#delete_div").toggle(); });
 					$("#code_div").hide();
