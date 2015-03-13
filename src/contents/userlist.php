@@ -53,18 +53,19 @@
 				<div id="userlist">
 				</div>
 				<script type="text/javascript">
+					var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß"
 					var search = $("input[name='search']");
 					var userlist = $("#userlist"); //HTML-Element to display list in
 					var keyboard = $("#keyboard");
 					var keyboarddiv = $("div.keyboard");
 					var kbinit = false;
 					var row;
-					for(var i = 0; i < 26; i++) {
-						if(i % 6 == 0) {
+					for(var i = 0; i < letters.length; i++) {
+						if(i % 8 == 0) {
 							row = $("<tr></tr>").appendTo(keyboard);
 						}
 						(function(j) {
-							var c = String.fromCharCode(65 + j);
+							var c = letters.charAt(j);
 							search.keyup();
 							row.append($("<td>" + c + "</td>").click(function() {
 								if(!kbinit) {
