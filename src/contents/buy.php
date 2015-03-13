@@ -71,25 +71,6 @@
 							location.href = "index.php"; //And redirect to startpage
 						}
 						/*
-						 * This timeout is for auto-logoff
-						 */
-						var _refreshTimeout;
-						/*
-						 * This method is called everytime the user did something
-						 * It resets the timeout. So when the user did nothing in 2 minutes
-						 * The autologoff will occure, else it will be reset until the page is reloaded
-						 * or the user once did nothing.
-						 */
-						function refreshTimeout() {
-							if(getCookie("open")) { //Only if this a public device, else the user will stay logged in
-								clearTimeout(_refreshTimeout); //Clear the timeout then
-								_refreshTimeout = setTimeout(function() {
-									doLogout();
-								}, 2 * 60* 1000);
-							}
-						}
-						refreshTimeout(); //Kick of the timeouting initially
-						/*
 						 * Refreshes the saldo displayd on top of the page
 						 */
 						function refreshSaldo() {
@@ -145,7 +126,6 @@
 									 * Will be called when the user lowers the finger/mouse on a product
 									 */
 									function down() {
-										refreshTimeout();//The user did something, so refresh the logout-timeout
 										pressTime = new Date().getTime();//Start measuring how long the button was pressed
 										timeout = setTimeout(function() { //Set a timeout to 0,7 sek.
 											//If the button was not released in the meantime, it was a longpress
@@ -160,7 +140,6 @@
 									 * Will be called when the user raises the finger/mouse on a product
 									 */
 									function up() {
-										refreshTimeout(); //The user did something
 										var time = new Date().getTime() - pressTime; //Measure how long the button was pressed
 										if(time < 700) { //If it was less than 0,7sek it was a shortpress
 											clearTimeout(timeout);//Clear the timeout that would be invoked at a longpress
@@ -212,7 +191,6 @@
 								var loading = displayPopup("Bitte warten", "Ihr Kaffee wird gebucht...");
 								//First of all, stop IE and FF Mobile from screwing up!
 								e.preventDefault();
-								refreshTimeout(); //The user did something
 								var objs = []; //Instance a new array to store all products in that were bought
 								for(var i in result) { //Remeber, result was the array of all products read from the API-Call all above :D
 									var product = result[i];//The product we are now viewing
@@ -241,6 +219,9 @@
 									var success = displayPopup("Kauf erfolgreich", "Vielen Dank! Bitte kaufen Sie bald wieder einen Kaffee.");
 									setTimeout(function() {
 										success.remove();
+										if (getCookie("open")) {
+											doLogout();
+										}
 									}, 3000);
 								});
 								//console.log(objs); //Nasty debugoutput

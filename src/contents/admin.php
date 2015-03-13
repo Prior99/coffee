@@ -199,7 +199,7 @@
 					<!-- Set if this device is public or not (autologout and stuff depends on this) -->
 					<a href="#" id="open_a"><h3>Öffentliches Gerät</h3></a>
 					<div id="open_div">
-						<p>In öffentlichen Geräten werden Benutzer automatisch nach kurzer Zeit der Inaktivität abgemeldet.
+						<p>In öffentlichen Geräten werden Benutzer automatisch nach einem Kauf abgemeldet.
 							Auf privaten Geräten führt ein Aufrufen der Wurzelseite nicht zur Benutzerliste sondern direkt zum Kaufen.</p>
 							<p><input type="checkbox" id="open"/> Dies ist ein öffentliches Gerät</p>
 						</div>
