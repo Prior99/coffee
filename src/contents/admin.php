@@ -489,6 +489,9 @@
 					<p>Bitte geben Sie zuerst das Masterpassword ein, um sich auf diesem Gerät in dieser Session als Administrator anzumelden. Bitte vermeiden Sie es, sich an einem öffentlich zugänglichen Gerät als Administrator anzumelden um Sicherheitsproblemen vorzubeugen.</p>
 					<input name="password" type="password" />
 					<button>Anmelden</button>
+					<br />
+					<br />
+					<a href="index.php">Zurück</a>
 					<script type="text/javascript">
 						function login(){
 							//Set the cookie. The value is not validated as the page will do this on the php-site on the next reload

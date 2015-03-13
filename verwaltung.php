@@ -123,7 +123,7 @@
 							obj.pending = 0; //Ensure integer on null
 						}
 						else {
-							obj.pending = parseFloat(obj.pending);
+							obj.pending = parseInt(obj.pending);
 						}
 						var nudge = $("<button>E-Mail senden</button>").click(function() {
 							nudge.attr("disabled", "disabled");
@@ -164,6 +164,9 @@
 	<p>Sie müssen angemeldet sein um auf diese Seite Zugriff zu erlangen.</p>
 	<input name="password" type="password" />
 	<button>Anmelden</button>
+	<br />
+	<br />
+	<a href="index.php">Zurück</a>
 	<script type="text/javascript">
 		function login() {
 			setCookie("control", $("input[name='password']").val()); //Just set the cookie,
