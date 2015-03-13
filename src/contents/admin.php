@@ -156,19 +156,33 @@
 						});
 					});
 				</script>
-				<!-- Set if this device is public or not (autologout and stuff depends on this) -->
+				<!-- hc -->
+				<a href="#" id="hc_a"><h3>High contrast</h3></a>
+				<div id="hc_div">
+					<p>Aktiviert das high-contrast theme für dieses Gerät.</p>
+					<p><input type="checkbox" id="hc"/> High contrast theme</p>
+				</div>
+				<script type="text/javascript">
+				var hc = $("#hc"); //The HTML-Element of the checkbox
+				if(getCookie("hc")) { //Look if the devices is already public or not
+					hc.prop({"checked" : true}); //And modify the value
+				}
+				hc.click(function() {
+					if(hc.prop("checked")) { //Set the cookie if the user checked it
+						setCookie("hc", true, 365);
+					}
+					else {
+						deleteCookie("hc"); //or delete it if he unchecked it
+					}
+				});
+				</script>
+				<!-- osk -->
 				<a href="#" id="osk_a"><h3>On screen keyboard</h3></a>
 				<div id="osk_div">
 					<p>Aktiviert das onscreenkeyboard für Geräte ohne Tastatur oder eigene OSK.</p>
 						<p><input type="checkbox" id="osk"/> OSK aktivieren</p>
 					</div>
 					<script type="text/javascript">
-						/*
-						* Public device
-						*
-						* The whole thing works device-based.
-						* Either the cookie is set and autologout occurs or it is not set and the user stays logged in
-						*/
 						var osk = $("#osk"); //The HTML-Element of the checkbox
 						if(getCookie("osk")) { //Look if the devices is already public or not
 							osk.prop({"checked" : true}); //And modify the value
@@ -467,6 +481,8 @@
 					$("#open_a").click(function() { $("#open_div").toggle(); });
 					$("#osk_div").hide();
 					$("#osk_a").click(function() { $("#osk_div").toggle(); });
+					$("#hc_div").hide();
+					$("#hc_a").click(function() { $("#hc_div").toggle(); });
 					$("#delete_div").hide();
 					$("#delete_a").click(function() { $("#delete_div").toggle(); });
 					$("#code_div").hide();

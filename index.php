@@ -22,6 +22,13 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="style/fantasque_sans_mono/stylesheet.css" />
 	<link rel="stylesheet" type="text/css" href="style/style.css" />
+	<?php
+		if(isset($_COOKIE["hc"])) {
+			?>
+				<link rel="stylesheet" type="text/css" href="style/highcontrast.css" />
+			<?php
+		}
+	?>
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/cookies.js"></script>
 	<script src="lib/popup.js"></script>

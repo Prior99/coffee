@@ -1,0 +1,114 @@
+div.title {
+	color: black;
+	background-color: white;
+}
+
+div.footer img {
+	background: black;
+	padding: 2px;
+	margin-top: -2px;
+}
+
+div.title a.button {
+	background-color: black;
+
+}
+
+div.popup {
+	background-color: white;
+	color: black;
+}
+
+div.popup p {
+	background-color: lightgrey;
+
+}
+
+div.popup h1{
+	color: black;
+}
+
+div.footer {
+	background-color: white;
+	color: black;
+}
+
+div.footer a{
+	color: black;
+}
+
+input[type="file"],  input[type="password"] {
+	background-color: white;
+	color: black;
+}
+
+input[type="text"] {
+	background-color: white;
+	color: black;
+}
+
+input[type="checkbox"] {
+	background-color: white;
+	border-bottom: 1px solid black;
+}
+
+a{
+	color: white;
+}
+
+a.username:active,
+a.product:active {
+	background-color: white;
+	color: black;
+}
+
+div.wrapper {
+	background: transparent;
+}
+
+body {
+	background:black;
+}
+
+table.code tr td,
+table.code tr th {
+	background-color: white;
+	color: black;
+}
+
+table.code tr td:active,
+table.code tr th:active,
+table.code tr td:hover,
+table.code tr th:hover {
+	background-color: grey;
+	color: black;
+}
+
+
+div#bar{
+	background-color: rgba(77, 57, 42, 0.9);
+	color: white;
+}
+
+div#progress {
+	background-color: rgb(159, 145, 132);
+
+}
+
+
+a.button {
+	background-color: white;
+	color: black;
+
+}
+
+a.button:hover,
+a.button:active {
+	background-color: black;
+	color: white;
+}
+
+div.codedisplay div.char{
+	background-color: white;
+	color: black;
+}
