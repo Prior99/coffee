@@ -38,6 +38,8 @@ Copy this file to ```config.php``` and edit it with an editor of your choice.
 
 You will need to set some fields in this file, there are instructions included in the file on how to do so and what the specific fields do.
 
+You will also need to edit the ```.htaccess``` file and add IPs to the range of IP adresses from where the software should be reachable. Delete the preconfigured adresses and add your own or make everything public.
+
 ### 4. Enjoy a hot cup of coffee
 
 Grab a cup and reward yourself with a nice hot cup of coffee as you are done with setting up the software and should be able to reach it.
